@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SPLITTER_PROPORTION" value="0.36548224" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="29958aed-e7d3-4491-975f-50e42ddbe9df" name="Changes" comment="i hate git">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/config/LoadDatabase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/config/SetupCake.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/control/logic/DatabaseController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/control/procake/InstanceController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/control/procake/RetrievalController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/error/NullArgumentAdvice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/model/DatabaseUploadResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/model/assembling/TraceModelAssembler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/service/DatabaseService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/service/ProCAKEService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/RESTfulAPIApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/Test.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/config/LoadDatabase.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/config/SetupCake.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/control/logic/DatabaseController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/control/procake/InstanceController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/control/procake/RetrievalController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/error/TraceNotFoundAdvice.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/error/TraceNotFoundException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/error/XESnotValidAdvice.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/error/XESnotValidException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/DatabaseUploadResponse$DatabaseFailedUploadResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/DatabaseUploadResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/FilterParameters.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/Method.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/MethodList.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/Retrieval.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/RetrievalParameters.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/Trace.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/assembling/TraceModelAssembler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/service/DatabaseService$1$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/service/DatabaseService$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/service/DatabaseService$XSD_SCHEMATA$XSD.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/service/DatabaseService$XSD_SCHEMATA.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/service/DatabaseService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/service/IDFactory.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/service/ProCAKEService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/restapi/service/TraceRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/schema/xes-ieee-1849-2016-April-15-2020.xsd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/RESTfulAPIApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/config/LoadDatabase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/config/SetupCake.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/control/logic/DatabaseController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/control/procake/InstanceController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/control/procake/RetrievalController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/error/TraceNotFoundAdvice.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/error/TraceNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/error/XESnotValidAdvice.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/error/XESnotValidException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/model/FilterParameters.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/model/Method.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/model/MethodList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/model/Retrieval.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/model/RetrievalParameters.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/model/Trace.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/model/assembling/TraceModelAssembler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/service/DatabaseService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/service/IDFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/service/ProCAKEService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/restapi/service/TraceRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/resources/schema/xes-ieee-1849-2016-April-15-2020.xsd" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Record" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/src" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="NamedScopeManager">
+    <scope name="restapi" pattern="src[restapi]:*..*" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2QevbLJRrtckMHvihP31VuGIQHz" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "jdk.selected.JAVA_MODULE": "openjdk-19",
+    "last_opened_file_path": "/Users/karimamri/Desktop/DFKI/OnkoCase/ProCAKE/restapi",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.18642116",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "vcs.Git"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/schema" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="restapi" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="restapi.config" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.RESTfulAPIApplication">
+    <configuration name="RESTfulAPIApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="restapi.RESTfulAPIApplication" />
+      <module name="restapi" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="restapi.error.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="restapi.Test" />
+      <module name="restapi" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="restapi.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProCAKEServiceTest.testCasebaseLoad" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="restapi" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="restapi.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="restapi" />
+      <option name="MAIN_CLASS_NAME" value="restapi.ProCAKEServiceTest" />
+      <option name="METHOD_NAME" value="testCasebaseLoad" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RESTfulAPIApplicationTests.simpleTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="restapi" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="restapi.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="restapi" />
+      <option name="MAIN_CLASS_NAME" value="restapi.RESTfulAPIApplicationTests" />
+      <option name="METHOD_NAME" value="simpleTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SMCollectionIsolatedMappingImplExtTest.test1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="procake-extension" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="similarity.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="similarity" />
+      <option name="MAIN_CLASS_NAME" value="similarity.SMCollectionIsolatedMappingImplExtTest" />
+      <option name="METHOD_NAME" value="test1" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="xestoworkflowconverter-secondConstructor" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="xestoworkflowconverter-secondConstructor" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.RESTfulAPIApplication" />
+        <item itemvalue="Application.Test" />
+        <item itemvalue="JUnit.SMCollectionIsolatedMappingImplExtTest.test1" />
+        <item itemvalue="JUnit.RESTfulAPIApplicationTests.simpleTest" />
+        <item itemvalue="JUnit.ProCAKEServiceTest.testCasebaseLoad" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="29958aed-e7d3-4491-975f-50e42ddbe9df" name="Changes" comment="" />
+      <created>1685726931429</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1685726931429</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Initial commit">
+      <created>1685728167073</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1685728167073</updated>
+    </task>
+    <task id="LOCAL-00002" summary="The database objects we have to handle are XES-Traces.&#10;Right now, a Trace (main/java/restapi/Trace.java) has an ID and an XES representation, each of type String.&#10;main/java/restapi/TraceRepository.java and the Trace.java are only placeholders. The actual implementation of the database and how a Trace is represented in java will be created/changed later.">
+      <created>1685728397254</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1685728397254</updated>
+    </task>
+    <task id="LOCAL-00003" summary="If a client wants to interact with only the casebase (and not ProCAKE), the CasebaseController is used for standart GET, PUT, REMOVE queries.&#10;&#10;TraceModelAssembler: JSON responses&#10;TraceNotFoundException: selfexplainatory&#10;TraceNotFoundAdvice: HTTP status">
+      <created>1685728627681</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1685728627681</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Placeholder for initialization of the database.">
+      <created>1685728703255</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1685728703255</updated>
+    </task>
+    <task id="LOCAL-00005" summary="restructuring">
+      <created>1685735033702</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1685735033702</updated>
+    </task>
+    <task id="LOCAL-00006" summary="restructuring">
+      <created>1685735061250</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1685735061250</updated>
+    </task>
+    <task id="LOCAL-00007" summary="procake specific controllers&#10;NO IMPLEMENTATION - ONLY PLACEHOLDERS">
+      <created>1685735095019</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1685735095019</updated>
+    </task>
+    <task id="LOCAL-00008" summary="All the ProCAKE Controllers use a new Class ProCAKEService (business logic)">
+      <created>1685742645027</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1685742645027</updated>
+    </task>
+    <task id="LOCAL-00009" summary="refinement...">
+      <created>1686000261156</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1686000261156</updated>
+    </task>
+    <task id="LOCAL-00010" summary="DatabaseController.java:&#10;- implemented &quot;/database/putall&quot; method which allows a client to insert a whole log into the database&#10;&#10;XESnotValidException.java:&#10;- exception that is thrown, if a log given to the DatabaseController is not valid against the schema that is set&#10;- right now, the whole functionality of checking the validity of a document against a schema is commented out because there still is need for a fitting schema (xsd), the only schema present right now is &quot;xes-ieee-1849-2016-April-15-2020.xsd&quot; in the resources folder which, for example, does not allow log tags to have an &quot;openxes.version&quot; attribute&#10;&#10;XESnotValidAdvice.java&#10;- Advice belonging to the XESnotValidException&#10;&#10;DatabaseService.java:&#10;- fitted to allow DatabaseController to insert in repository&#10;- automatically gives new traces a new id, with help of an IDFactory&#10;&#10;IDFactory.java:&#10;- see above&#10;&#10;SetupCake.java:&#10;- new Configuration class&#10;- automatic setup of ProCAKE when RESTfulAPIApplication is started&#10;&#10;RetrievalController.java:&#10;- retrieve(String id, RetrievalParameters retrievalParameters) throws a TraceNotFoundException now, if the given id does not correspond to an existing trace in the database&#10;- accepts an additional argument &quot;number_of_results&quot; now (in the RequestParameter object)&#10;&#10;ProCAKEService.java:&#10;- some restructurization&#10;- set up of data- and similarity- models still have to be implemented...&#10;&#10;Minor changes for fitting classes or comments etc.:&#10;- InstanceController.java&#10;- LoadDatabase.java&#10;- TraceNotFoundAdvice.java&#10;- TraceNotFoundException.java&#10;- TraceRepository.java">
+      <created>1686053661065</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1686053661065</updated>
+    </task>
+    <task id="LOCAL-00011" summary="except for the pom.xml I have no idea what the other files do...">
+      <created>1686053831158</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1686053831158</updated>
+    </task>
+    <task id="LOCAL-00012" summary="i hate git">
+      <created>1686062947327</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1686062947327</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial commit" />
+    <MESSAGE value="The database objects we have to handle are XES-Traces.&#10;Right now, a Trace (main/java/restapi/Trace.java) has an ID and an XES representation, each of type String.&#10;main/java/restapi/TraceRepository.java and the Trace.java are only placeholders. The actual implementation of the database and how a Trace is represented in java will be created/changed later." />
+    <MESSAGE value="If a client wants to interact with only the casebase (and not ProCAKE), the CasebaseController is used for standart GET, PUT, REMOVE queries.&#10;&#10;TraceModelAssembler: JSON responses&#10;TraceNotFoundException: selfexplainatory&#10;TraceNotFoundAdvice: HTTP status" />
+    <MESSAGE value="Placeholder for initialization of the database." />
+    <MESSAGE value="restructuring" />
+    <MESSAGE value="procake specific controllers&#10;NO IMPLEMENTATION - ONLY PLACEHOLDERS" />
+    <MESSAGE value="All the ProCAKE Controllers use a new Class ProCAKEService (business logic)" />
+    <MESSAGE value="refinement..." />
+    <MESSAGE value="DatabaseController.java:&#10;- implemented &quot;/database/putall&quot; method which allows a client to insert a whole log into the database&#10;&#10;XESnotValidException.java:&#10;- exception that is thrown, if a log given to the DatabaseController is not valid against the schema that is set&#10;- right now, the whole functionality of checking the validity of a document against a schema is commented out because there still is need for a fitting schema (xsd), the only schema present right now is &quot;xes-ieee-1849-2016-April-15-2020.xsd&quot; in the resources folder which, for example, does not allow log tags to have an &quot;openxes.version&quot; attribute&#10;&#10;XESnotValidAdvice.java&#10;- Advice belonging to the XESnotValidException&#10;&#10;DatabaseService.java:&#10;- fitted to allow DatabaseController to insert in repository&#10;- automatically gives new traces a new id, with help of an IDFactory&#10;&#10;IDFactory.java:&#10;- see above&#10;&#10;SetupCake.java:&#10;- new Configuration class&#10;- automatic setup of ProCAKE when RESTfulAPIApplication is started&#10;&#10;RetrievalController.java:&#10;- retrieve(String id, RetrievalParameters retrievalParameters) throws a TraceNotFoundException now, if the given id does not correspond to an existing trace in the database&#10;- accepts an additional argument &quot;number_of_results&quot; now (in the RequestParameter object)&#10;&#10;ProCAKEService.java:&#10;- some restructurization&#10;- set up of data- and similarity- models still have to be implemented...&#10;&#10;Minor changes for fitting classes or comments etc.:&#10;- InstanceController.java&#10;- LoadDatabase.java&#10;- TraceNotFoundAdvice.java&#10;- TraceNotFoundException.java&#10;- TraceRepository.java" />
+    <MESSAGE value="except for the pom.xml I have no idea what the other files do..." />
+    <MESSAGE value="i hate git" />
+    <option name="LAST_COMMIT_MESSAGE" value="i hate git" />
+  </component>
+</project>

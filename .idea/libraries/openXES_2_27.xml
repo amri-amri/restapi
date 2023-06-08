@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="openXES-2.27">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../xestoworkflowconverter-secondConstructor/local-maven-repo/org/deckfour/openXES/2.27/openXES-2.27.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
