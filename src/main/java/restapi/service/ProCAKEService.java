@@ -73,7 +73,7 @@ public class ProCAKEService {
      *
      * @return status message
      */
-    public static String setupCake(){
+    public static String setupCake() {
         CakeInstance.start();
         setupDataModel();
         setupSimilarityModel();
@@ -361,6 +361,7 @@ public class ProCAKEService {
      */
     private static ArrayList<MethodInvoker> convertGlobalMethodInvokers(MethodList globalMethodInvokers) {
         ArrayList<MethodInvoker> globalMethodInvokerList = new ArrayList<>();
+        if (globalMethodInvokers == null) return globalMethodInvokerList;
         for (Method m : globalMethodInvokers.methods()) {
             Class<?> clazz;
             Object object;
