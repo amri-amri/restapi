@@ -1,158 +1,160 @@
 package restapi.control.logic;
 
-import org.apache.commons.lang.NullArgumentException;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import restapi.error.TraceNotFoundException;
-import restapi.error.XESnotValidException;
-import restapi.model.DatabaseUploadResponse;
-import restapi.model.FilterParameters;
-import restapi.model.Trace;
-import restapi.model.assembling.TraceModelAssembler;
+import org.springframework.web.server.ResponseStatusException;
+import org.xml.sax.SAXException;
 import restapi.service.DatabaseService;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
- * REST controller responsible for access to the database.
+ * REST controller responsible for database access.
  */
 @RestController
 public class DatabaseController {
 
-    private final TraceModelAssembler assembler;
+	DatabaseController() {
+	}
 
-    DatabaseController(TraceModelAssembler assembler){
-        this.assembler = assembler;
-    }
+	@GetMapping("/log")
+	@ResponseBody
+	public List<Map<String, Object>> getLog() throws SQLException {
+		List<Map<String, Object>> logs = new ArrayList<>();
+		for (String logID : DatabaseService.getLogIDs(true)) {
+			logs.add(getLog(logID));
+		}
+		return logs;
+	}
 
-    /**
-     * Returns the trace with the given id, if it exists.
-     *
-     * @param id the id of the trace
-     * @return  a JSON containing the id, the XES String, a link to the trace and a link to all traces
-     */
-    @NotNull
-    @GetMapping("/database/{id}")
-    public EntityModel<Trace> one(@PathVariable @NotNull String id){
-        Trace t = DatabaseService.getTraceByID(id);
-        if (t == null) throw new TraceNotFoundException(id);
+	@GetMapping("/log/{logID}")
+	@ResponseBody
+	public Map<String, Object> getLog(@PathVariable @NotNull String logID) throws SQLException {
+		// log id and links
+		Map<String, Object> log;
+		try{
+			log = DatabaseService.getLog(logID);
+		} catch (SQLException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		}
+		log.put(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__logID, logID);
+		log.put("links", new Link[]{
+				linkTo(methodOn(DatabaseController.class).getLog(logID)).withSelfRel(),
+				linkTo(methodOn(DatabaseController.class).getLog()).withRel("all")
+		});
 
-        return assembler.toModel(t);
-    }
+		// traces that belong to log
+		String[] traceIDs = DatabaseService.getTraceIDs(logID);
 
-    /**
-     * Returns all traces in the database.
-     *
-     * @return JSON containing:<ul>
-     *     <li>a list of traces (id, XES & link)</li>
-     *     <li>a link to all traces</li>
-     * </ul>
-     */
-    @NotNull
-    @GetMapping("/database")
-    public CollectionModel<EntityModel<Trace>> all(){
-        List<EntityModel<Trace>> traces = DatabaseService.getAllTraces().stream() //
-                .map(assembler::toModel) //
-                .toList();
+		List<Map<String, Object>> traces = new ArrayList<>();
+		Map<String, Object> trace;
+		for (String traceID : traceIDs) {
+			trace = new HashMap<>();
+			trace.put(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID, traceID);
+			trace.put("link", linkTo(methodOn(DatabaseController.class).getTrace(traceID)).withSelfRel());
+			traces.add(trace);
+		}
 
-        return CollectionModel.of(traces, linkTo(methodOn(DatabaseController.class).all()).withSelfRel());
-    }
+		log.put("traces", traces);
 
-    /**
-     * Returns a filtered version of the current casebase.
-     *
-     * @param filterParameters  parameters used to define the filtering process
-     * @return  filtered casebase
-     */
-    @NotNull
-    @GetMapping("/database/filter")
-    public CollectionModel<EntityModel<Trace>> filtered(@RequestBody @Nullable FilterParameters filterParameters){
-        //todo
-        return all();
-    }
+		//metadata
+		log.put(DatabaseService.DATABASE_NAMES.TABLENAME__metadata, DatabaseService.getLogMetadata(logID));
 
-    /**
-     * <p>Expects a String being a valid XES document containing a (perhaps empty) log of traces.</p>
-     * <p>For every trace element the following happens:
-     * <ol>
-     *     <li>the trace is validated against an XSD schema</li>
-     *     <li>if the trace is valid, it is put in the database and a list of 'successful' traces,
-     *     if it is not valid, it is put in a list of 'failed' traces along with a message</li>
-     * </ol></p>
-     * <p>
-     * The {@link DatabaseUploadResponse} contains:
-     * <ol>
-     *     <li>the successful traces along with their new id's and http links</li>
-     *     <li>the failed traces along with a message</li>
-     * </ol>
-     * </p>
-     *
-     * @param log the XES document containing the log
-     * @return a JSON representation of above-mentioned DatabaseUploadResponse
-     */
-    @NotNull
-    @PutMapping("/database")
-    public EntityModel<DatabaseUploadResponse> put(@RequestBody @Nullable String log){
-        List<EntityModel<Trace>> traceList = new ArrayList<>();
-        List<DatabaseUploadResponse.DatabaseFailedUploadResponse> failed = new ArrayList<>();
+		return log;
+	}
 
-        if (log != null) {
-            // Split traces
-            String[] traces = log.split("<trace");
-            for (int i = 0; i < traces.length; i++) traces[i] = "<trace" + traces[i].split("</trace>")[0] + "</trace>";
+	@GetMapping("/trace/{traceID}")
+	@ResponseBody
+	public Map<String, Object> getTrace(@PathVariable @NotNull String traceID) throws SQLException {
+		Map<String, Object> trace;
+		try {
+			trace = DatabaseService.getTrace(traceID);
+		} catch(SQLException e){
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		}
+
+		Map<String, Object> logInfo = new HashMap<>();
+		String logID = (String) trace.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__logID);
+		logInfo.put(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__logID, logID);
+		logInfo.put("href", linkTo(methodOn(DatabaseController.class).getLog(logID)).withSelfRel());
+
+		Map<String, Object> response = new HashMap<>();
+		response.put(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID, traceID);
+		response.put(DatabaseService.DATABASE_NAMES.TABLENAME__log, logInfo);
+		response.put(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__xes, trace.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__xes));
+		response.put(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__removed, trace.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__removed));
+		response.put("href", linkTo(methodOn(DatabaseController.class).getTrace(traceID)).withSelfRel());
+
+		//metadata
+		response.put(DatabaseService.DATABASE_NAMES.TABLENAME__metadata, DatabaseService.getTraceMetadata(traceID));
+
+		return response;
+	}
+
+	@PostMapping("/log")
+	@ResponseBody
+	public Map<String, Object> postLog(@RequestBody @NotNull String xes) throws SQLException, IOException, SAXException {
+		DatabaseService.startTransaction();
+		DatabaseService.savepoint("putLog");
+		try {
+
+			// split log and put header and traces in database
+			String[] ids = DatabaseService.putLog(xes);
+
+			// assign metadata (date)
+			String date = Instant.now().toString();
+			String logID = ids[0];
+			DatabaseService.putLogMetadata(logID, METADATATYPE_NAMES.DATE_OF_UPLOAD, date);
+
+			for (int i = 1; i < ids.length; i++) {
+				DatabaseService.putTraceMetadata(ids[i], METADATATYPE_NAMES.DATE_OF_UPLOAD, date);
+			}
+
+			DatabaseService.commit();
+
+			// return log information
+			return getLog(ids[0]);
+
+		} catch (Exception e) {
+			DatabaseService.rollbackTo("putLog");
+			DatabaseService.commit();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+	}
+
+	@DeleteMapping("/log/{logID}")
+	@ResponseBody
+	public Map<String, Object> deleteLog(@PathVariable @NotNull String logID) throws SQLException {
+		DatabaseService.startTransaction();
+		DatabaseService.savepoint("putLog");
+		try {
+
+			DatabaseService.removeLog(logID);
+			return getLog(logID);
+
+		} catch (Exception e) {
+			DatabaseService.rollbackTo("putLog");
+			DatabaseService.commit();
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		}
+	}
 
 
-            // Put traces in database
-            String id;
-            for (String trace : traces) {
-                if (trace.contains("<?xml")) continue;
-                try {
-                    id = DatabaseService.put(trace, DatabaseService.XSD_SCHEMATA.IEEE_APRIL_15_2020);
-                    traceList.add(assembler.toModel(new Trace(id, trace)));
-                } catch (XESnotValidException e) {
-                    failed.add(new DatabaseUploadResponse.DatabaseFailedUploadResponse(trace, e.getMessage()));
-                }
-            }
-        }
+	private final class METADATATYPE_NAMES {
+		private static final String DATE_OF_UPLOAD = "dateOfUpload";
+		private METADATATYPE_NAMES() {
+		}
+	}
 
-
-        return EntityModel.of(new DatabaseUploadResponse(traceList, failed));
-    }
-
-    /**
-     * <p>Instead of a valid XES document containing a whole log, only the String representation
-     * of a trace element in an XES file is required. The String should start with "&lt;trace" and
-     * end with "&lt;/trace&gt;". If it was part of an otherwise valid XES document, the document should
-     * still be valid.</p>
-     * <p>If the given id exists in the database, the corresponding XES String is overridden.
-     * If the id does not exist, a new trace with given id is created.</p>
-     * <p>The first thing this method does is to check if the given trace is valid (see above).
-     * If the trace is not valid, an {@link XESnotValidException} is thrown and the method returns, so
-     * no changes will have been made to the database.</p>
-     *
-     * @param id the id of the trace
-     * @param trace the XES element representing the trace
-     * @return a JSON representation of the new Trace
-     * @throws NullArgumentException if trace is null
-     * @throws XESnotValidException if the trace is not valid
-     */
-    @NotNull
-    @PutMapping("/database/{id}")
-    public EntityModel<Trace> put(@PathVariable @NotNull String id, @RequestBody @Nullable String trace) throws NullArgumentException, XESnotValidException{
-        if (trace == null) throw new NullArgumentException("trace");
-
-        DatabaseService.XSD_SCHEMATA.XSD xsd = DatabaseService.XSD_TO_BE_USED;
-        if (!DatabaseService.validateTraceAgainstSchema(trace, xsd)) throw new XESnotValidException(xsd.PREFIX + trace + xsd.SUFFIX, xsd);
-
-        DatabaseService.put(id, trace, xsd);
-
-        return assembler.toModel(DatabaseService.getTraceByID(id));
-    }
 }
