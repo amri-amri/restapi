@@ -240,25 +240,21 @@ public class ProCAKEService {
         // everytime a conversion function is called, they all just use one, which is deleted when it
         // is no longer needed.
 
-        File file = new File("file.xes");
-
-        NESTSequentialWorkflowObject trace = convertQuery(file, xes, DatabaseService.XSD_TO_BE_USED);
+        NESTSequentialWorkflowObject trace = convertQuery(xes);
 
         ArrayList<MethodInvoker> globalMethodInvokers = convertGlobalMethodInvokers(globalMethodInvokerList);
 
-        SimilarityMeasureFunc localSimilarityMeasureFunc = convertLocalSimilarityMeasureFunc(file, similarityMeasureFunc);
+        SimilarityMeasureFunc localSimilarityMeasureFunc = XMLtoSimilarityMeasureFuncConverter.getSimilarityMeasureFunc(similarityMeasureFunc);
 
-        MethodInvokersFunc localMethodInvokersFunc = convertLocalMethodInvokersFunc(file, methodInvokersFunc);
+        MethodInvokersFunc localMethodInvokersFunc = XMLtoMethodInvokersFuncConverter.getMethodInvokersFunc(methodInvokersFunc);
 
-        WeightFunc localWeightFunc = convertLocalWeightFunc(file, weightFunc);
-
-        file.delete();
-
+        WeightFunc localWeightFunc = XMLtoWeightFuncConverter.getWeightFunc(weightFunc);
 
 
         // - retrieval - //
 
         LinearRetrieverImplExt linearRetrieverImplExt = new LinearRetrieverImplExt();
+        linearRetrieverImplExt.setSimilarityModel(similarityModel);
         linearRetrieverImplExt.setObjectPool(getFilteredCasebase(filterParameters));
         linearRetrieverImplExt.setAddQueryToResults(false);
 
@@ -278,7 +274,7 @@ public class ProCAKEService {
 
         List<Retrieval> results = new ArrayList<>();
         RetrievalResult retrievalResult;
-        while (retrievalResultIterator.hasNext()){
+        while (retrievalResultIterator.hasNext()) {
             retrievalResult = retrievalResultIterator.next();
             results.add(new Retrieval(
                     retrievalResult.getObjectId(),
