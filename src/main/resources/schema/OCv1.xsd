@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+<xs:schema
+	targetNamespace="https://www.w3schools.com"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified"
+	xmlns="https://www.w3schools.com">
+	
+	<!-- Root element: log -->
 	<xs:element name="log" type="LogType"/>
+	
 	<!-- Attributables -->
 	<xs:group name="AttributableGroup">
 		<xs:sequence>
@@ -12,12 +19,15 @@
 				<xs:element name="boolean" type="AttributeBooleanType"/>
 				<xs:element name="id" type="AttributeIDType"/>
 				<xs:element name="list" type="AttributeListType"/>
+				<xs:element name="container" type="AttributeContainerType"/>
 			</xs:choice>
 		</xs:sequence>
 	</xs:group>
+	
 	<xs:complexType name="AttributableType">
 		<xs:group ref="AttributableGroup"/>
 	</xs:complexType>
+	
 	<!-- String attribute -->
 	<xs:complexType name="AttributeStringType">
 		<xs:complexContent>
@@ -70,12 +80,17 @@
 	<xs:complexType name="AttributeListType">
 		<xs:complexContent>
 			<xs:extension base="AttributeType">
-				<xs:sequence>
-					<xs:element name="values" type="AttributeType"/>
-				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<!-- Container attribute -->
+	<xs:complexType name="AttributeContainerType">
+		<xs:complexContent>
+			<xs:extension base="AttributeType">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
 	<!-- Extension definition -->
 	<xs:complexType name="ExtensionType">
 		<xs:attribute name="name" type="xs:NCName" use="required"/>
@@ -85,14 +100,23 @@
 	<!-- Globals definition -->
 	<xs:complexType name="GlobalsType">
 		<xs:group ref="AttributableGroup"/>
-		<xs:attribute name="scope" type="xs:NCName"/>
+		<xs:attribute name="scope" type="ScopeType" use="required"/>
 	</xs:complexType>
 	<!-- Classifier definition -->
 	<xs:complexType name="ClassifierType">
-		<xs:attribute name="name" type="xs:NCName" use="required"/>
+		<xs:attribute name="name" type="xs:string" use="required"/>
 		<xs:attribute name="scope" type="xs:NCName"/>
 		<xs:attribute name="keys" type="xs:token" use="required"/>
 	</xs:complexType>
+	
+	<!-- Scopes -->
+	<xs:simpleType name="ScopeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="trace"/>
+			<xs:enumeration value="event"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
 	<!-- Attribute -->
 	<xs:complexType name="AttributeType">
 		<xs:complexContent>
@@ -101,26 +125,29 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	
 	<!-- Logs are elements that may contain traces -->
 	<xs:complexType name="LogType">
-		<xs:sequence>
-			<xs:element name="extension" type="ExtensionType" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element name="global" type="GlobalsType" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element name="classifier" type="ClassifierType" minOccurs="0" maxOccurs="unbounded"/>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="extension" type="ExtensionType"/>
+			<xs:element name="global" type="GlobalsType"/>
+			<xs:element name="classifier" type="ClassifierType"/>
 			<xs:group ref="AttributableGroup"/>
-			<xs:element name="trace" type="TraceType" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element name="event" type="EventType" minOccurs="0" maxOccurs="unbounded"/>
-		</xs:sequence>
-		<xs:attribute name="xes.version" type="xs:decimal" use="required"/>
+			<xs:element name="trace" type="TraceType"/>
+		</xs:choice>
+		<xs:attribute name="xes.version" type="xs:decimal"/>
 		<xs:attribute name="xes.features" type="xs:token"/>
+		<xs:anyAttribute processContents="skip"/>
 	</xs:complexType>
+	
 	<!-- Traces are elements that may contain events -->
 	<xs:complexType name="TraceType">
-		<xs:sequence>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
 			<xs:group ref="AttributableGroup"/>
 			<xs:element name="event" type="EventType" minOccurs="0" maxOccurs="unbounded"/>
-		</xs:sequence>
+		</xs:choice>
 	</xs:complexType>
+	
 	<!-- Events are elements -->
 	<xs:complexType name="EventType">
 		<xs:group ref="AttributableGroup"/>
