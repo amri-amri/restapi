@@ -1,73 +1,70 @@
 package restapi.control.procake;
 
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import org.xml.sax.SAXException;
-import restapi.control.logic.DatabaseController;
-import restapi.error.TraceNotFoundException;
-import restapi.model.Retrieval;
 import restapi.model.RetrievalParameters;
-import restapi.model.Trace;
 import restapi.service.DatabaseService;
 import restapi.service.ProCAKEService;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.List;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * REST controller responsible for retrieval related acces on the ProCAKE instance.
  */
 @RestController
-public class RetrievalController{
+public class RetrievalController {
 
 
-    RetrievalController(){}
+    RetrievalController() {
+    }
 
     /**
-     * <p>Performs retrieval with the trace with the given id as query.</p>
-     * <p>The xes in the request body is ignored, instead, the xes belonging to the given id is taken.</p>
+     * <p>Performs retrieval with the trace with the given traceID as query.</p>
+     * <p>The xes in the request body is ignored, instead, the xes belonging to the given traceID is taken.</p>
      * <p>The retrieval will be performed on the filtered casebase and a JSON containing the
-     * results of the retrieval is returned. Only id's and similarity values are returned.</p>
+     * results of the retrieval is returned. Only traceID's and similarity values are returned.</p>
      *
-     * @param id id of the query trace
+     * @param traceID    traceID of the query trace
      * @param parameters parameters necessary for the retrieval
      * @return JSON representation of retrieval results
-     * @throws IOException todo
+     * @throws IOException                  todo
      * @throws ParserConfigurationException todo
-     * @throws SAXException todo
+     * @throws SAXException                 todo
      */
-    @GetMapping("/procake/retrieval/retrieve/{id}")
-    CollectionModel<EntityModel<Retrieval>> retrieve(@PathVariable String id, @RequestBody RetrievalParameters parameters) throws IOException, ParserConfigurationException, SAXException {
-        Trace t = DatabaseService.getTraceByID(id);
-        if (t == null) throw new TraceNotFoundException(id);
-        List<EntityModel<Retrieval>> traces = ProCAKEService.retrieve(
-                t.xes(), // xes of RetrievalParameters parameters is ignored
+    @PutMapping("/retrieval/{traceID}")
+    Map<String, Object>[] retrieve(@PathVariable String traceID, @RequestBody RetrievalParameters parameters) throws Exception {
+        Map<String, Object> t;
+        try {
+            t = DatabaseService.getTrace(traceID);
+        } catch (SQLException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cause description here");
+        }
+        Map<String, Object> l = DatabaseService.getLog((String) t.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__logID));
+        String[] header = ((String) l.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__header)).split("</log>");
+        assert (header.length > 0);
+        String xes = header[0] + t.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__xes) + "</log>";
+
+        RetrievalParameters parameters1 = new RetrievalParameters(
+                xes,
                 parameters.globalSimilarityMeasure(),
                 parameters.globalMethodInvokers(),
                 parameters.localSimilarityMeasureFunc(),
                 parameters.localMethodInvokersFunc(),
                 parameters.localWeightFunc(),
                 parameters.filterParameters(),
-                parameters.numberOfResults())
+                parameters.numberOfResults()
+        );
 
-                .stream().map(retrieval -> EntityModel.of(
-                        retrieval,        // The result of the retrieval: trace ID & similarity value
-                        linkTo(methodOn(DatabaseController.class).one(retrieval.id())).withSelfRel() // a link to the trace
-                ))
-                .toList();
-
-        return CollectionModel.of(
-                traces,
-                linkTo(methodOn(DatabaseController.class).all()).withRel("traces") // a link to all traces
-                );
+        return retrieve(parameters1);
     }
 
     /**
@@ -77,32 +74,35 @@ public class RetrievalController{
      *
      * @param parameters parameters necessary for the retrieval
      * @return JSON representation of retrieval results
-     * @throws IOException todo
+     * @throws IOException                  todo
      * @throws ParserConfigurationException todo
-     * @throws SAXException todo
+     * @throws SAXException                 todo
      */
-    @GetMapping("/procake/retrieval/retrieve")
-    CollectionModel<EntityModel<Retrieval>> retrieve(@RequestBody RetrievalParameters parameters) throws Exception {
-        List<EntityModel<Retrieval>> traces = ProCAKEService.retrieve(
-                parameters.xes(),
-                parameters.globalSimilarityMeasure(),
-                parameters.globalMethodInvokers(),
-                parameters.localSimilarityMeasureFunc(),
-                parameters.localMethodInvokersFunc(),
-                parameters.localWeightFunc(),
-                parameters.filterParameters(),
-                parameters.numberOfResults())
+    @PutMapping("/retrieval")
+    Map<String, Object>[] retrieve(@RequestBody RetrievalParameters parameters) throws Exception {
+        Map[] traces;
+        try {
+            traces = ProCAKEService.retrieve(
+                            parameters.xes(), // xes of RetrievalParameters is ignored
+                            parameters.globalSimilarityMeasure(),
+                            parameters.globalMethodInvokers(),
+                            parameters.localSimilarityMeasureFunc(),
+                            parameters.localMethodInvokersFunc(),
+                            parameters.localWeightFunc(),
+                            parameters.filterParameters(),
+                            parameters.numberOfResults())
 
-                .stream().map(retrieval -> EntityModel.of(
-                        retrieval,        // The result of the retrieval: trace ID & similarity value
-                        linkTo(methodOn(DatabaseController.class).one(retrieval.id())).withSelfRel() // a link to the trace
-                ))
-                .toList();
+                    .stream().map(retrieval -> {
+                        Map<String, Object> out = new HashMap();
+                        out.put(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID, retrieval.id());
+                        out.put("similarity", retrieval.similarityValue());//todo: magic String = bad!
+                        return out;
+                    }).toArray(Map[]::new);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
 
-        return CollectionModel.of(
-                traces,
-                linkTo(methodOn(DatabaseController.class).all()).withRel("traces") // a link to all traces
-        );
+        return (Map<String, Object>[]) traces;
     }
 
 }
