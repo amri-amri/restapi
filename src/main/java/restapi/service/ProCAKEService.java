@@ -156,56 +156,53 @@ public class ProCAKEService {
             XESGraphToWorkflowConverter converter = new XESGraphToWorkflowConverter(model);
 
 
-            // We have to create a .xes file for the converter to read and parse.
-            File file = new File("file.xes"); //todo: is there a better way?
-
-            // The PrintWriter deletes the previous content of the file everytime it prints.
-            // This is good because we only want to convert one trace at a time, so we
-            // can give it its respective ID.
-            PrintWriter pw;
-
             // The traces are Strings starting with "<trace>" and ending with "</trace>",
             // so they are actually no valid xml documents.
             // The converter however requires for the files content not only to be a valid xml document,
             // but also to be a valid xes document, the root element of which is a log tag ("<log ...>").
             // Additionally, the files name has to end with ".xes" (see above).
-            String prefix = DatabaseService.XSD_TO_BE_USED.PREFIX;
-            String suffix = DatabaseService.XSD_TO_BE_USED.SUFFIX;
+
+            Map<String, Object> log;
+            String header, prefix, suffix;
+            suffix = "</log>";
+
+            Map<String, Object> trace;
+            String xes;
+
+            // We will go through every Trace one by one, so we can set the NESTWorkflow's id's separately
+            for (String logID : DatabaseService.getLogIDs(false)) {
+                log = DatabaseService.getLog(logID);
+                header = (String) log.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__header);
+                prefix = header.split("</log>")[0];
+
+                for (String traceID : DatabaseService.getTraceIDs(logID)) {
+                    trace = DatabaseService.getTrace(traceID);
+                    xes = (String) trace.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__xes);
 
 
-            // We will go through every Trace.
-            // The record class Trace contains two String objects: An ID and the xes.
-            for (Trace t : DatabaseService.getAllTraces()) {
-                // We have to close the PrintWriter everytime we print something or else
-                // the file will be empty. And because we close it everytime, we have to
-                // re-instantiate it.
-                pw = new PrintWriter(file);
-                pw.print(prefix + t.xes() + suffix);
-                pw.close();
+                    // Convert the log containing one trace and get said trace.
+                    XESTraceGraph graph = (XESTraceGraph) new FileToXESGraphConverter().convert(prefix + xes + suffix).toArray()[0];
 
-                // Convert the log containing one trace and get said trace.
-                XESTraceGraph graph = (XESTraceGraph) new FileToXESGraphConverter().convert(file).toArray()[0];
+                    // The converter is designed to convert to NESTWorkflowObjects on general, which
+                    // can have arbitrary edges between their TaskNodes. Because of that we
+                    // have to tell the graph to have its edges set in the document order.
+                    graph.addEdgesByDocumentOrder();
 
-                // The converter is designed to convert to NESTWorkflowObjects on general, which
-                // can have arbitrary edges between their TaskNodes. Because of that we
-                // have to tell the graph to have its edges set in the document order.
-                graph.addEdgesByDocumentOrder();
+                    // Now we have to convert and cast to a NESTSequentialWorkflowObject.
+                    NESTSequentialWorkflowObject workflow = (NESTSequentialWorkflowObject) model.getNESTSequentialWorkflowClass().newObject();
+                    workflow.transformNESTGraphToNESTSequentialWorkflow(converter.convert(graph));
 
-                // Now we have to convert and cast to a NESTSequentialWorkflowObject.
-                NESTSequentialWorkflowObject workflow = (NESTSequentialWorkflowObject) ModelFactory.getDefaultModel().getNESTSequentialWorkflowClass().newObject();
-                workflow.transformNESTGraphToNESTSequentialWorkflow(converter.convert(graph));
-
-                workflow.setId(t.id());
-                casebase.store(workflow);
+                    workflow.setId(traceID);
+                    casebase.store(workflow);
+                }
             }
 
-            // Delete the no longer needed file
-            file.delete();
+            //converter.printCreatedClasses(true);
+            //for (SimilarityMeasure sm : similarityModel.getSimilarityMeasures()) System.out.println(sm.getDataClass() + ": " + sm.getSystemName() + "\n");
 
+            return "Casebase loaded successfully!";
 
-            return "Casebase loaded successfully!"; //Todo: Return HTML status maybe?
-
-        } catch (IOException e) {
+        } catch (SQLException e) {
             return "Failed to load casebase!" + e.getMessage();
         }
     }
