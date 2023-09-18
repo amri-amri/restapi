@@ -20,7 +20,7 @@ public class InstanceController {
      *
      * @return status message
      */
-    @GetMapping("/procake/instance/restart")
+    @GetMapping("/procake/restart")
     public String restart(){
         return ProCAKEService.setupCake();
     }
@@ -30,7 +30,7 @@ public class InstanceController {
      * <p>The traces in the database are converted into NESTSequentialWorkflows.</p>
      * @return status message
      */
-    @GetMapping("/procake/casebase/reload")
+    @GetMapping("/procake/reload")
     String reload() {
         return ProCAKEService.loadCasebase();
     }
