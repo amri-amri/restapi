@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<log logAttribute="extra">
+    <extension name="e1" prefix="e1" uri="uri"/>
+    <trace>
+        <string value="v1" key="s1">
+            <boolean value="true" key="b1"></boolean>
+        </string>
+        <event>
+            <list key="l1">
+                <container key="c1">
+                    <string value="lol" key="s2"></string>
+                    <float value="3.5" key="f1"></float>
+                </container>
+            </list>
+        </event>
+        <boolean value="false" key="b2"></boolean>
+    </trace>
+    <global scope="log">
+        <id value="none" key="id1"></id>
+    </global>
+    <trace>
+        <event></event>
+        <event></event>
+    </trace>
+    <classifier name="class1" keys="c1"/>
+    <global scope="trace">
+        <list key="list0"><list key="list1"><list key="list1"></list></list></list>
+    </global>
+    <string value="string" key="s4"></string>
+    <float value="42" key="f2"></float>
+</log>

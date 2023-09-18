@@ -1,0 +1,19 @@
+<trace>
+        <string value="v1" key="s1">
+            <boolean value="true" key="b1"></boolean>
+        </string>
+        <event>
+            <list key="l1">
+                <container key="c1">
+                    <string value="lol" key="s2"></string>
+                    <float value="3.5" key="f1"></float>
+                </container>
+            </list>
+        </event>
+        <event>
+            <container key="c2">
+                <boolean key="b" value="false"/>
+            </container>
+        </event>
+        <boolean value="false" key="b2"></boolean>
+    </trace>
