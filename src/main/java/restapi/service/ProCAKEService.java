@@ -69,6 +69,11 @@ public class ProCAKEService {
     static Model model;
 
     /**
+     * Maps the name of a DataClass to a List of SimilarityMeasures that should be applicable to that DataClass.
+     */
+    static Map<String, List<SimilarityMeasureImpl>> dataClassToSimilarityMeasureMap;
+
+    /**
      * Sets up ProCAKE instance.
      *
      * @return status message
@@ -90,48 +95,25 @@ public class ProCAKEService {
     /**
      * Sets up similarity model.
      */
-    private static void setupSimilarityModel(){
-        similarityModel = SimilarityModelFactory.getDefaultSimilarityModel();
-        /*
-            similarity measures:
+    private static void setupSimilarityModel() {
+        similarityModel = new SimilarityModelImpl();
 
-            Name                                        |   DataClass(es)
-            --------------------------------------------|-------------------------------------------
-            · ObjectEqual                               |   Data
-                                                        |
-            · StringEqual                               |   String
-            · Levenshtein                               |   String
-                                                        |
-            · NumericLinear                             |   Integer
-                                                        |
-            · Isolated Mapping  (original & extended)   |   Collection, NESTSequentialWorkflow
-            · Mapping  (original & extended)            |   Collection, NESTSequentialWorkflow
-            · List Mapping  (original & extended)       |   List, NESTSequentialWorkflow
-            · SWA  (original & extended)                |   List, NESTSequentialWorkflow
-            · DTW  (original & extended)                |   List, NESTSequentialWorkflow
-            · List Correctness  (original & extended)   |   List, NESTSequentialWorkflow
-         */
+		dataClassToSimilarityMeasureMap = new HashMap<>();
 
         addSimilarityMeasureToSimilarityModel(new SMObjectEqualImpl(),                  model.getDataSystemClass());
 
-        addSimilarityMeasureToSimilarityModel(new SMStringEqualImpl(),                  model.getStringSystemClass());
-        addSimilarityMeasureToSimilarityModel(new SMStringLevenshteinImpl(),            model.getStringSystemClass());
-
-        addSimilarityMeasureToSimilarityModel(new SMNumericLinearImpl(),                model.getIntegerSystemClass());
-
-        addSimilarityMeasureToSimilarityModel(new SMCollectionIsolatedMappingImpl(),    model.getDataSystemClass());
-        addSimilarityMeasureToSimilarityModel(new SMCollectionMappingImpl(),            model.getDataSystemClass());
-        addSimilarityMeasureToSimilarityModel(new SMListMappingImpl(),                  model.getDataSystemClass());
-        addSimilarityMeasureToSimilarityModel(new SMListSWAImpl(),                      model.getDataSystemClass());
-        addSimilarityMeasureToSimilarityModel(new SMListDTWImpl(),                      model.getDataSystemClass());
-        addSimilarityMeasureToSimilarityModel(new SMListCorrectnessImpl(),              model.getDataSystemClass());
-
         addSimilarityMeasureToSimilarityModel(new SMCollectionIsolatedMappingImplExt(), model.getDataSystemClass());
         addSimilarityMeasureToSimilarityModel(new SMCollectionMappingImplExt(),         model.getDataSystemClass());
+
+        addSimilarityMeasureToSimilarityModel(new SMListCorrectnessImplExt(),           model.getDataSystemClass());
+        addSimilarityMeasureToSimilarityModel(new SMListDTWImplExt(),                   model.getDataSystemClass());
         addSimilarityMeasureToSimilarityModel(new SMListMappingImplExt(),               model.getDataSystemClass());
         addSimilarityMeasureToSimilarityModel(new SMListSWAImplExt(),                   model.getDataSystemClass());
-        addSimilarityMeasureToSimilarityModel(new SMListDTWImplExt(),                   model.getDataSystemClass());
-        addSimilarityMeasureToSimilarityModel(new SMListCorrectnessImplExt(),           model.getDataSystemClass());
+
+        addSimilarityMeasureToSimilarityModel(new SMStringLevenshteinImplExt(),         model.getDataSystemClass());
+        addSimilarityMeasureToSimilarityModel(new SMBooleanXORImpl(),                   model.getDataSystemClass());
+
+        similarityModel.setDefaultSimilarityMeasure(model.getDataSystemClass(), SMObjectEqual.NAME);
     }
 
     /**
@@ -145,8 +127,7 @@ public class ProCAKEService {
         // puts name and SimilarityMeasure-Object in cache (should be called only once per SM)
         try {
             similarityModel.registerSimilarityMeasureTemplate(sm);
-        } catch (NameAlreadyExistsException e) {
-            System.out.print(e.getMessage());
+        } catch (NameAlreadyExistsException ignored) {
         }
 
         // sets the DataClass the SM can be applied to
