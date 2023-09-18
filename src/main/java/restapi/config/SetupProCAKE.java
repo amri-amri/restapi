@@ -11,12 +11,15 @@ import restapi.service.ProCAKEService;
  * Configuration class to automatically setup ProCAKE when the {@link restapi.RESTfulAPIApplication} is started.
  */
 @Configuration
-class SetupCake {
+class SetupProCAKE {
 
-    private static final Logger log = LoggerFactory.getLogger(SetupCake.class);
+    private static final Logger log = LoggerFactory.getLogger(SetupProCAKE.class);
 
     @Bean
-    CommandLineRunner setupProCAKE() {
-        return args -> log.info(ProCAKEService.setupCake());
+    CommandLineRunner setupInstance() {
+        return args -> {
+            log.info(ProCAKEService.setupCake());
+            log.info(ProCAKEService.loadCasebase());
+        };
     }
 }

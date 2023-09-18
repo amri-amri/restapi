@@ -77,7 +77,6 @@ public class ProCAKEService {
         CakeInstance.start();
         setupDataModel();
         setupSimilarityModel();
-        loadCasebase();
         return "ProCAKE instance set up";
     }
 
