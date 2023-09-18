@@ -288,30 +288,14 @@ public class ProCAKEService {
     /**
      * Converts a trace to a {@link NESTSequentialWorkflowObject}.
      *
-     * @param file file used for parsing
-     * @param xes the XES of the trace
-     * @param xsd the {@link restapi.service.DatabaseService.XSD_SCHEMATA.XSD} that was used when importing the trace into the database
+     * @param xes XES log containing (at least) one trace
      * @return trace in form of a NESTGraph
      * @throws IOException todo
      */
-    private static NESTSequentialWorkflowObject convertQuery(File file, String xes, DatabaseService.XSD_SCHEMATA.XSD xsd) throws IOException {
-        // The traces are Strings starting with "<trace>" and ending with "</trace>",
-        // so they are actually no valid xml documents.
-        // The converter however requires for the files content not only to be a valid xml document,
-        // but also to be a valid xes document, the root element of which is a log tag ("<log ...>").
-        // Additionally, the files name has to end with ".xes" (see above).
-        String prefix = xsd.PREFIX;
-        String suffix = xsd.SUFFIX;
-
-        // We have to close the PrintWriter everytime we print something or else
-        // the file will be empty. And because we close it everytime, we have to
-        // re-instantiate it.
-        PrintWriter pw = new PrintWriter(file);
-        pw.print(prefix + xes + suffix);
-        pw.close();
+    private static NESTSequentialWorkflowObject convertQuery(String xes) throws IOException {
 
         // Convert the log containing one trace and get said trace.
-        XESTraceGraph graph = (XESTraceGraph) new FileToXESGraphConverter().convert(file).toArray()[0];
+        XESTraceGraph graph = (XESTraceGraph) new FileToXESGraphConverter().convert(xes).toArray()[0];
 
         // The converter is designed to convert to NESTWorkflowObjects on general, which
         // can have arbitrary edges between their TaskNodes. Because of that we
