@@ -17,38 +17,38 @@ import de.uni_trier.wi2.procake.data.objectpool.WriteableObjectPool;
 import de.uni_trier.wi2.procake.retrieval.Query;
 import de.uni_trier.wi2.procake.retrieval.RetrievalResult;
 import de.uni_trier.wi2.procake.retrieval.RetrievalResultList;
+import de.uni_trier.wi2.procake.similarity.SimilarityMeasure;
 import de.uni_trier.wi2.procake.similarity.SimilarityModel;
-import de.uni_trier.wi2.procake.similarity.SimilarityModelFactory;
-import de.uni_trier.wi2.procake.similarity.base.collection.impl.*;
+import de.uni_trier.wi2.procake.similarity.base.SMObjectEqual;
 import de.uni_trier.wi2.procake.similarity.base.impl.SMObjectEqualImpl;
-import de.uni_trier.wi2.procake.similarity.base.numeric.impl.SMNumericLinearImpl;
-import de.uni_trier.wi2.procake.similarity.base.string.impl.SMStringEqualImpl;
-import de.uni_trier.wi2.procake.similarity.base.string.impl.SMStringLevenshteinImpl;
 import de.uni_trier.wi2.procake.similarity.impl.SimilarityMeasureImpl;
+import de.uni_trier.wi2.procake.similarity.impl.SimilarityModelImpl;
 import de.uni_trier.wi2.procake.utils.exception.NameAlreadyExistsException;
 import extension.retrieval.LinearRetrieverImplExt;
-import extension.similarity.measure.*;
+import extension.similarity.measure.SMBooleanXORImpl;
+import extension.similarity.measure.SMStringLevenshteinImplExt;
+import extension.similarity.measure.collection.*;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 import parsing.XMLtoMethodInvokersFuncConverter;
 import parsing.XMLtoSimilarityMeasureFuncConverter;
 import parsing.XMLtoWeightFuncConverter;
-import restapi.model.*;
+import restapi.model.FilterParameters;
+import restapi.model.Method;
+import restapi.model.MethodList;
+import restapi.model.Retrieval;
 import utils.MethodInvoker;
 import utils.MethodInvokersFunc;
 import utils.SimilarityMeasureFunc;
 import utils.WeightFunc;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.sql.SQLException;
+import java.util.*;
 
 /**
- * The service implementing all the business logic for interacting with the ProCAKE instance.
+ * The service implementing all business logic for interacting with the ProCAKE instance.
  */
 @Service
 public class ProCAKEService {
@@ -57,10 +57,12 @@ public class ProCAKEService {
      * The casebase used for retrieval.
      */
     static WriteableObjectPool<DataObject> casebase;
+
     /**
      * The similarity model the ProCAKE instance uses.
      */
     static SimilarityModel similarityModel;
+
     /**
      * The data model the ProCAKE instance uses.
      */
@@ -68,6 +70,7 @@ public class ProCAKEService {
 
     /**
      * Sets up ProCAKE instance.
+     *
      * @return status message
      */
     public static String setupCake(){
@@ -81,7 +84,7 @@ public class ProCAKEService {
     /**
      * Sets up data model.
      */
-    private static void setupDataModel(){
+    private static void setupDataModel() {
         model = ModelFactory.getDefaultModel();
     }
 
@@ -134,10 +137,11 @@ public class ProCAKEService {
 
     /**
      * Adds a similarity measure to the similarity model.
-     * @param sm a {@link SimilarityMeasureImpl}ementation
+     *
+     * @param sm        a {@link SimilarityMeasureImpl}ementation
      * @param dataClass the data class for which the similarity measure will be available
      */
-    private static void addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl sm, DataClass dataClass){
+    private static void addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl sm, DataClass dataClass) {
 
         // puts name and SimilarityMeasure-Object in cache (should be called only once per SM)
         try {
@@ -149,16 +153,18 @@ public class ProCAKEService {
         // sets the DataClass the SM can be applied to
         sm.setDataClass(dataClass);
 
-        //adds 'sm' to the SMs that can be applied to 'dataClass'
+        //adds sm to the SMs that can be applied to 'dataClass'
         similarityModel.addSimilarityMeasure(sm, sm.getSystemName());
 
     }
 
     /**
      * Reloads the traces from the database into the casebase after converting them to {@link NESTSequentialWorkflowObject}s.
+     *
      * @return status message
      */
     public static String loadCasebase() {
+
         try {
 
             // Re-instantiate the case base
@@ -224,24 +230,23 @@ public class ProCAKEService {
         }
     }
 
-
     /**
      * Performs retrieval.
      *
-     * @param xes the XES trace
+     * @param xes                     XES log containing (at least) one trace
      * @param globalSimilarityMeasure similarity measure used on the global level
      * @param globalMethodInvokerList list of methods to be invoked on the global similarity measure
-     * @param similarityMeasureFunc XML representation of {@link SimilarityMeasureFunc}
-     * @param methodInvokersFunc XML representation of {@link MethodInvokersFunc}
-     * @param weightFunc XML representation of {@link WeightFunc}
-     * @param filterParameters parameters used to filter the casebase
-     * @param numberOfResults number of retrieval results to be returned
+     * @param similarityMeasureFunc   XML representation of {@link SimilarityMeasureFunc}
+     * @param methodInvokersFunc      XML representation of {@link MethodInvokersFunc}
+     * @param weightFunc              XML representation of {@link WeightFunc}
+     * @param filterParameters        parameters used to filter the casebase
+     * @param numberOfResults         number of retrieval results to be returned
      * @return list of retrieval results
      * @throws ParserConfigurationException todo
-     * @throws IOException todo
-     * @throws SAXException todo
+     * @throws IOException                  todo
+     * @throws SAXException                 todo
      */
-    public static List<Retrieval> retrieve (
+    public static List<Retrieval> retrieve(
             String xes,
             String globalSimilarityMeasure,
             MethodList globalMethodInvokerList,
@@ -354,7 +359,7 @@ public class ProCAKEService {
      * @param globalMethodInvokers the method list
      * @return list of MethodInvokers
      */
-    private static ArrayList<MethodInvoker> convertGlobalMethodInvokers(MethodList globalMethodInvokers){
+    private static ArrayList<MethodInvoker> convertGlobalMethodInvokers(MethodList globalMethodInvokers) {
         ArrayList<MethodInvoker> globalMethodInvokerList = new ArrayList<>();
         for (Method m : globalMethodInvokers.methods()) {
             Class<?> clazz;
@@ -415,14 +420,14 @@ public class ProCAKEService {
         return XMLtoWeightFuncConverter.getWeightFunc(file);
     }
 
-    private static ReadableObjectPool<DataObject> getFilteredCasebase(FilterParameters parameters){
+    private static ReadableObjectPool<DataObject> getFilteredCasebase(FilterParameters parameters) {
         return casebase; //todo
     }
 
 
-
-    @Deprecated // for testing purposes only //ProCAKE service/controller should not provide method to get any cases from the casebase
-    public static List<String[]> getCasebase(){
+    @Deprecated
+    // for testing purposes only //ProCAKE service/controller should not provide method to get any cases from the casebase
+    public static List<String[]> getCasebase() {
         List<String[]> cases = new ArrayList<>();
         for (DataObject trace : casebase.getCollection()) {
             cases.add(new String[]{
