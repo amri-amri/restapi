@@ -53,6 +53,10 @@ import java.util.*;
 @Service
 public class ProCAKEService {
 
+    static final String TYPE_NAME_STRING = "string";
+    static final String TYPE_NAME_DOUBLE = "double";
+    static final String TYPE_NAME_BOOLEAN = "boolean";
+
     /**
      * The casebase used for retrieval.
      */
@@ -349,33 +353,6 @@ public class ProCAKEService {
             ));
         }
         return globalMethodInvokerList;
-    }
-    static final String TYPE_NAME_STRING = "string";
-    static final String TYPE_NAME_DOUBLE = "double";
-    static final String TYPE_NAME_BOOLEAN = "boolean";
-
-    private static SimilarityMeasureFunc convertLocalSimilarityMeasureFunc(File file, String similarity_measure_func) throws ParserConfigurationException, IOException, SAXException {
-        PrintWriter fw = new PrintWriter(file);
-        fw.write(similarity_measure_func);
-        fw.close();
-
-        return XMLtoSimilarityMeasureFuncConverter.getSimilarityMeasureFunc(file);
-    }
-
-    private static MethodInvokersFunc convertLocalMethodInvokersFunc(File file, String method_invokers_func) throws ParserConfigurationException, IOException, SAXException {
-        PrintWriter fw = new PrintWriter(file);
-        fw.write(method_invokers_func);
-        fw.close();
-
-        return XMLtoMethodInvokersFuncConverter.getMethodInvokersFunc(file);
-    }
-
-    private static WeightFunc convertLocalWeightFunc(File file, String weight_func) throws ParserConfigurationException, IOException, SAXException {
-        PrintWriter fw = new PrintWriter(file);
-        fw.write(weight_func);
-        fw.close();
-
-        return XMLtoWeightFuncConverter.getWeightFunc(file);
     }
 
     private static ReadableObjectPool<DataObject> getFilteredCasebase(FilterParameters parameters) {
