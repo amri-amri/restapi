@@ -7,69 +7,77 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29958aed-e7d3-4491-975f-50e42ddbe9df" name="Changes" comment="i hate git">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/config/LoadDatabase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/config/SetupCake.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/control/logic/DatabaseController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/control/procake/InstanceController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/control/procake/RetrievalController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/error/NullArgumentAdvice.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/model/DatabaseUploadResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/model/assembling/TraceModelAssembler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/service/DatabaseService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/restapi/service/ProCAKEService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/RESTfulAPIApplication.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/Test.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/config/LoadDatabase.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/config/SetupCake.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/control/logic/DatabaseController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/control/procake/InstanceController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/control/procake/RetrievalController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/error/TraceNotFoundAdvice.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/error/TraceNotFoundException.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/error/XESnotValidAdvice.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/error/XESnotValidException.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/DatabaseUploadResponse$DatabaseFailedUploadResponse.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/DatabaseUploadResponse.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/FilterParameters.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/Method.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/MethodList.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/Retrieval.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/RetrievalParameters.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/Trace.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/model/assembling/TraceModelAssembler.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/service/DatabaseService$1$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/service/DatabaseService$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/service/DatabaseService$XSD_SCHEMATA$XSD.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/service/DatabaseService$XSD_SCHEMATA.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/service/DatabaseService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/service/IDFactory.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/service/ProCAKEService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/restapi/service/TraceRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/schema/xes-ieee-1849-2016-April-15-2020.xsd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/RESTfulAPIApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/config/LoadDatabase.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/config/SetupCake.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/control/logic/DatabaseController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/control/procake/InstanceController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/control/procake/RetrievalController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/error/TraceNotFoundAdvice.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/error/TraceNotFoundException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/error/XESnotValidAdvice.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/error/XESnotValidException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/model/FilterParameters.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/model/Method.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/model/MethodList.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/model/Retrieval.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/model/RetrievalParameters.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/model/Trace.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/model/assembling/TraceModelAssembler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/service/DatabaseService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/service/IDFactory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/service/ProCAKEService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/java/restapi/service/TraceRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/resources/schema/xes-ieee-1849-2016-April-15-2020.xsd" beforeDir="false" />
+    <list default="true" id="29958aed-e7d3-4491-975f-50e42ddbe9df" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../procake-extension/.idea/procake-extension.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../procake-extension/src/main/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../procake-extension/src/main/extension diagram.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/SMBooleanXOR.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/SMBooleanXORImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/sql/deleteAll.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/error/DatabaseNotEmptyException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/integration/ControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/restapi/DatabaseServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/restapi/ValidationTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/invalid_log0.xes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/invalid_log1.xes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/invalid_log2.xes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/invalid_log3.xes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/invalid_log4.xes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/invalid_log5.xes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/invalid_log6.xes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/valid_log.xes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/valid_trace.xes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/xesSuffix.xes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/xmlSuffix.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/abstraction/INESTtoList.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/abstraction/INESTtoList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/abstraction/RetrieverExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/abstraction/RetrieverExt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/abstraction/XESBaseToSystemClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/abstraction/XESBaseToSystemClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/retrieval/LinearRetrieverImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/retrieval/LinearRetrieverImplExt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/SMStringLevenshteinImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/SMStringLevenshteinImplExt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMCollectionIsolatedMappingImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMCollectionIsolatedMappingImplExt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMCollectionMappingImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMCollectionMappingImplExt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListCorrectnessImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListCorrectnessImplExt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListDTWImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListDTWImplExt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListMappingImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListMappingImplExt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListSWAImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListSWAImplExt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/valuator/SimilarityValuatorImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/valuator/SimilarityValuatorImplExt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/parsing/XMLtoFunctionConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/parsing/XMLtoFunctionConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/parsing/XMLtoMethodInvokersFuncConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/parsing/XMLtoMethodInvokersFuncConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/resources/schema/methodinvokers-function.dtd" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/resources/schema/methodinvokers-function.dtd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/resources/schema/similaritymeasure-function.dtd" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/resources/schema/similaritymeasure-function.dtd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/resources/schema/weight-function.dtd" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/resources/schema/weight-function.dtd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/test/java/similarity/SimilarityModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/test/java/similarity/SimilarityModelTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/config/LoadDatabase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/config/SetupCake.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restapi/config/SetupProCAKE.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/control/logic/DatabaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restapi/control/logic/DatabaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/control/procake/InstanceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restapi/control/procake/InstanceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/control/procake/RetrievalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restapi/control/procake/RetrievalController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/error/XESnotValidException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restapi/error/XESnotValidException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/model/DatabaseUploadResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/model/RetrievalParameters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restapi/model/RetrievalParameters.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/model/Trace.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/model/assembling/TraceModelAssembler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/service/DatabaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restapi/service/DatabaseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/service/IDFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/service/ProCAKEService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restapi/service/ProCAKEService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/service/TraceRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/schema/xes-ieee-1849-2016-April-15-2020.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/schema/OCv1.xsd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/restapi/RESTfulAPIApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/RESTfulAPIApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/XESGraphToWorkflowConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/XESGraphToWorkflowConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/XEStoWorkflowConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/XEStoWorkflowConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/classFactories/UnnaturallyNestedClassFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/classFactories/UnnaturallyNestedClassFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/test/java/demo/ConversionAndNESTWorkflowEditorDemo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/test/java/demo/ConversionAndNESTWorkflowEditorNewDemo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/test/resources/output/casebase.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/test/resources/output/casebase.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,8 +87,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Record" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -91,8 +99,14 @@
         <entry key="$PROJECT_DIR$/src" value="master" />
       </map>
     </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../xestoworkflowconverter" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$MAVEN_REPOSITORY$/mysql/mysql-connector-java/8.0.28/mysql-connector-java-8.0.28.jar!/com/mysql/cj/jdbc/ConnectionImpl.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/6.0.9/spring-web-6.0.9.jar!/org/springframework/web/method/support/InvocableHandlerMethod.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-webmvc/6.0.9/spring-webmvc-6.0.9.jar!/org/springframework/web/servlet/DispatcherServlet.class" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../procake-extension/src/main/README.md" root0="FORCE_HIGHLIGHTING" root1="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -101,7 +115,6 @@
     <option name="generalSettings">
       <MavenGeneralSettings>
         <option name="mavenHome" value="Use Maven wrapper" />
-        <option name="useMavenConfig" value="true" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -115,43 +128,50 @@
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "jdk.selected.JAVA_MODULE": "openjdk-19",
-    "last_opened_file_path": "/Users/karimamri/Desktop/DFKI/OnkoCase/ProCAKE/restapi",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "small__changes",
+    "last_opened_file_path": "/Users/karimamri/Desktop/DFKI/OnkoCase/ProCAKE/xestoworkflowconverter",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.18642116",
+    "project.structure.side.proportion": "0.2",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "vcs.Git"
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/../xestoworkflowconverter" />
+      <recent name="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java" />
+      <recent name="$PROJECT_DIR$/../OpenXES" />
+      <recent name="$PROJECT_DIR$/src/main/resources/sql" />
+      <recent name="$PROJECT_DIR$/src/test/resources" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/../procake-extension/src/main" />
+      <recent name="$PROJECT_DIR$/../procake-extension/src" />
+      <recent name="$PROJECT_DIR$/../OpenXES" />
       <recent name="$PROJECT_DIR$/src/main/resources/schema" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
       <recent name="restapi" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="restapi.config" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.RESTfulAPIApplication">
+  <component name="RunManager" selected="Application.test">
     <configuration name="RESTfulAPIApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="restapi.RESTfulAPIApplication" />
       <module name="restapi" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="restapi.error.*" />
+          <option name="PATTERN" value=".*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -159,62 +179,55 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="restapi.Test" />
-      <module name="restapi" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="restapi.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ProCAKEServiceTest.testCasebaseLoad" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="restapi" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="restapi.model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="restapi" />
-      <option name="MAIN_CLASS_NAME" value="restapi.ProCAKEServiceTest" />
-      <option name="METHOD_NAME" value="testCasebaseLoad" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="RESTfulAPIApplicationTests.simpleTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="restapi" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="restapi.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="restapi" />
-      <option name="MAIN_CLASS_NAME" value="restapi.RESTfulAPIApplicationTests" />
-      <option name="METHOD_NAME" value="simpleTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SMCollectionIsolatedMappingImplExtTest.test1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test" />
       <module name="procake-extension" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="restapi" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="similarity.*" />
+          <option name="PATTERN" value="integration.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="similarity" />
-      <option name="MAIN_CLASS_NAME" value="similarity.SMCollectionIsolatedMappingImplExtTest" />
-      <option name="METHOD_NAME" value="test1" />
+      <option name="PACKAGE_NAME" value="integration" />
+      <option name="MAIN_CLASS_NAME" value="integration.ControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ControllerTest.database_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="restapi" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="integration.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="integration" />
+      <option name="MAIN_CLASS_NAME" value="integration.ControllerTest" />
+      <option name="METHOD_NAME" value="database_test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ControllerTest.procake_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="restapi" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="integration.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="integration" />
+      <option name="MAIN_CLASS_NAME" value="integration.ControllerTest" />
+      <option name="METHOD_NAME" value="procake_test" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -235,11 +248,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.test" />
+        <item itemvalue="JUnit.ControllerTest.procake_test" />
         <item itemvalue="Application.RESTfulAPIApplication" />
-        <item itemvalue="Application.Test" />
-        <item itemvalue="JUnit.SMCollectionIsolatedMappingImplExtTest.test1" />
-        <item itemvalue="JUnit.RESTfulAPIApplicationTests.simpleTest" />
-        <item itemvalue="JUnit.ProCAKEServiceTest.testCasebaseLoad" />
+        <item itemvalue="JUnit.ControllerTest" />
+        <item itemvalue="JUnit.ControllerTest.database_test" />
       </list>
     </recent_temporary>
   </component>
@@ -350,7 +363,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="master" />
+                        <option value="restful_api" />
                       </list>
                     </value>
                   </entry>
@@ -375,5 +388,53 @@
     <MESSAGE value="except for the pom.xml I have no idea what the other files do..." />
     <MESSAGE value="i hate git" />
     <option name="LAST_COMMIT_MESSAGE" value="i hate git" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.util.NoSuchElementException" package="java.util" />
+          <option name="timeStamp" value="6" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="20" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="de.uni_trier.wi2.procake.utils.exception.ApplicationError" package="de.uni_trier.wi2.procake.utils.exception" />
+          <option name="timeStamp" value="25" />
+        </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/restapi/service/ProCAKEService.java</url>
+          <line>88</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/de/uni-trier/wi2/procake-framework/4.0.0/procake-framework-4.0.0.jar!/de/uni_trier/wi2/procake/data/model/impl/AbstractDataClassImpl.class</url>
+          <line>83</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListCorrectnessImplExt.java</url>
+          <line>134</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/valuator/SimilarityValuatorImplExt.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="de.uni_trier.wi2.procake.similarity.impl.SimilarityModelImpl" memberName="classDefaultMeasure" />
+        <PinnedItemInfo parentTag="de.uni_trier.wi2.procake.data.object.base.impl.SetObjectImpl" memberName="nativeValues" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
