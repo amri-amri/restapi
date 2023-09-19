@@ -240,19 +240,22 @@ public class ProCAKEService {
 
         // - preparation of retrieval - //
 
-        // All the converters require a file as input, so instead of creating and deleting a new file
-        // everytime a conversion function is called, they all just use one, which is deleted when it
-        // is no longer needed.
-
         NESTSequentialWorkflowObject trace = convertQuery(xes);
 
         ArrayList<MethodInvoker> globalMethodInvokers = convertGlobalMethodInvokers(globalMethodInvokerList);
 
-        SimilarityMeasureFunc localSimilarityMeasureFunc = XMLtoSimilarityMeasureFuncConverter.getSimilarityMeasureFunc(similarityMeasureFunc);
+        SimilarityMeasureFunc localSimilarityMeasureFunc = SimilarityMeasureFunc.getDefault();
+        MethodInvokersFunc localMethodInvokersFunc = MethodInvokersFunc.getDefault();
+        WeightFunc localWeightFunc = WeightFunc.getDefault();
 
-        MethodInvokersFunc localMethodInvokersFunc = XMLtoMethodInvokersFuncConverter.getMethodInvokersFunc(methodInvokersFunc);
+        if (similarityMeasureFunc != null)
+            localSimilarityMeasureFunc = XMLtoSimilarityMeasureFuncConverter.getSimilarityMeasureFunc(similarityMeasureFunc);
 
-        WeightFunc localWeightFunc = XMLtoWeightFuncConverter.getWeightFunc(weightFunc);
+        if (methodInvokersFunc != null)
+            localMethodInvokersFunc = XMLtoMethodInvokersFuncConverter.getMethodInvokersFunc(methodInvokersFunc);
+
+        if (weightFunc != null)
+            localWeightFunc = XMLtoWeightFuncConverter.getWeightFunc(weightFunc);
 
 
         // - retrieval - //
