@@ -7,76 +7,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29958aed-e7d3-4491-975f-50e42ddbe9df" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../procake-extension/.idea/procake-extension.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../procake-extension/src/main/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../procake-extension/src/main/extension diagram.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/SMBooleanXOR.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/SMBooleanXORImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/sql/deleteAll.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/error/DatabaseNotEmptyException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/integration/ControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/restapi/DatabaseServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/restapi/ValidationTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/invalid_log0.xes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/invalid_log1.xes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/invalid_log2.xes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/invalid_log3.xes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/invalid_log4.xes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/invalid_log5.xes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/invalid_log6.xes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/valid_log.xes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/valid_trace.xes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/xesSuffix.xes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/xmlSuffix.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/abstraction/INESTtoList.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/abstraction/INESTtoList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/abstraction/RetrieverExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/abstraction/RetrieverExt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/abstraction/XESBaseToSystemClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/abstraction/XESBaseToSystemClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/retrieval/LinearRetrieverImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/retrieval/LinearRetrieverImplExt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/SMStringLevenshteinImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/SMStringLevenshteinImplExt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMCollectionIsolatedMappingImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMCollectionIsolatedMappingImplExt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMCollectionMappingImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMCollectionMappingImplExt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListCorrectnessImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListCorrectnessImplExt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListDTWImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListDTWImplExt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListMappingImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListMappingImplExt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListSWAImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListSWAImplExt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/valuator/SimilarityValuatorImplExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/valuator/SimilarityValuatorImplExt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/parsing/XMLtoFunctionConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/parsing/XMLtoFunctionConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/java/parsing/XMLtoMethodInvokersFuncConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/java/parsing/XMLtoMethodInvokersFuncConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/resources/schema/methodinvokers-function.dtd" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/resources/schema/methodinvokers-function.dtd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/resources/schema/similaritymeasure-function.dtd" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/resources/schema/similaritymeasure-function.dtd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/resources/schema/weight-function.dtd" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/resources/schema/weight-function.dtd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../procake-extension/src/test/java/similarity/SimilarityModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/test/java/similarity/SimilarityModelTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/config/LoadDatabase.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/config/SetupCake.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restapi/config/SetupProCAKE.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/control/logic/DatabaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restapi/control/logic/DatabaseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/control/procake/InstanceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restapi/control/procake/InstanceController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/control/procake/RetrievalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restapi/control/procake/RetrievalController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/error/XESnotValidException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restapi/error/XESnotValidException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/model/DatabaseUploadResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/model/RetrievalParameters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restapi/model/RetrievalParameters.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/model/Trace.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/model/assembling/TraceModelAssembler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/service/DatabaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restapi/service/DatabaseService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/service/IDFactory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/service/ProCAKEService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restapi/service/ProCAKEService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/service/TraceRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/schema/xes-ieee-1849-2016-April-15-2020.xsd" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/schema/OCv1.xsd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/restapi/RESTfulAPIApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/RESTfulAPIApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/XESGraphToWorkflowConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/XESGraphToWorkflowConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/XEStoWorkflowConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/XEStoWorkflowConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/classFactories/UnnaturallyNestedClassFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/classFactories/UnnaturallyNestedClassFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/test/java/demo/ConversionAndNESTWorkflowEditorDemo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/test/java/demo/ConversionAndNESTWorkflowEditorNewDemo.java" beforeDir="false" />
+    <list default="true" id="29958aed-e7d3-4491-975f-50e42ddbe9df" name="Changes" comment="Documentation of ProCAKE Extension.">
       <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/test/resources/output/casebase.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/test/resources/output/casebase.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -99,7 +30,7 @@
         <entry key="$PROJECT_DIR$/src" value="master" />
       </map>
     </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../xestoworkflowconverter" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -134,7 +65,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "small__changes",
+    "git-widget-placeholder": "master",
     "last_opened_file_path": "/Users/karimamri/Desktop/DFKI/OnkoCase/ProCAKE/xestoworkflowconverter",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
@@ -349,7 +280,259 @@
       <option name="project" value="LOCAL" />
       <updated>1686062947327</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Fixed error in XMLtoFunctionConverter.evaluate&#10;java.util.regex.Matcher.matches() should be called instead of java.util.regex.Matcher.find().&#10;The latter only looks for matching substrings, but we want to test the whole string on the regular expression.">
+      <created>1695040333438</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1695040333438</updated>
+    </task>
+    <task id="LOCAL-00014" summary="- default value of similarityMeasureFunc is (a,b) -&gt; null&#10;- Conversion from XESBaseClass to ListClass is only possible for objects of subclass of XESListClass&#10;- Adjusting Layout for better readability.&#10;- SMListCorrectnessImplExt: setDiscordantParameter has to be reimplemented since the variable double discordantParameter is private and would otherwise use the variable from the superclass, which would always have the default value.">
+      <created>1695041195833</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1695041195833</updated>
+    </task>
+    <task id="LOCAL-00015" summary="- Only one schema will be used for validation of XES logs. This schema allows more than the one from IEEE.">
+      <created>1695041588199</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1695041588199</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Removal of unnecessary components">
+      <created>1695041741301</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1695041741301</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Now, in the functional interface DTDs, both children of a &lt;regex&gt; element can be &lt;method-return-value&gt; elements.">
+      <created>1695041809022</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1695041809022</updated>
+    </task>
+    <task id="LOCAL-00018" summary="- XESGraphToWorkflowConverter.getCreatedClasses returns a Map&lt;String, List&lt;String&gt;&gt; instead of just a List&lt;String&gt;.&#10;A List&lt;String&gt; is mapped to a Classname (String).&#10;- Removal of TODO comment">
+      <created>1695042106106</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1695042106106</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Slight changes/refactorization, see for yourself.">
+      <created>1695042409516</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1695042409516</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Removal of unnecessary components">
+      <created>1695042428608</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1695042428608</updated>
+    </task>
+    <task id="LOCAL-00021" summary="- Changed DatabaseService.java to connect to an actual MySQL database.&#10;- Tests">
+      <created>1695042733235</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1695042733235</updated>
+    </task>
+    <task id="LOCAL-00022" summary="- New SimilarityMeasure: SMBooleanXORImpl&#10;- SMStringLevenshteinImplExt Refinement of Conversion from XESBaseClass to LiteralClass">
+      <created>1695042804184</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1695042804184</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Caught an Exception that can be ignored">
+      <created>1695042841677</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1695042841677</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Tests for Validation of XES logs which is implemented in DatabaseService.">
+      <created>1695042911897</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1695042911897</updated>
+    </task>
+    <task id="LOCAL-00025" summary="- Default values for functional interfaces&#10;- In the retrieval, the globalMethodInvokersFunc's return value (List) gets three further elements (MethodInvoker) which set the functional interfaces for the similarity measure.">
+      <created>1695043247853</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1695043247853</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Automatic IDE and Git related stuff i know almost nothing about.">
+      <created>1695043527363</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1695043527363</updated>
+    </task>
+    <task id="LOCAL-00027" summary="An input of null results in an Exception being thrown (sooner or later).">
+      <created>1695043603272</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1695043603272</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Refactorization">
+      <created>1695043647702</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1695043647702</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Refactorization, Layout &amp; Commenting/Documenting">
+      <created>1695043878015</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1695043878015</updated>
+    </task>
+    <task id="LOCAL-00030" summary="ProCAKEService.convertGlobalMethodInvokers returns empty ArrayList if input is null">
+      <created>1695043958310</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1695043958310</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Refactorization, Layout &amp; Commenting/Documenting">
+      <created>1695043978826</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1695043978826</updated>
+    </task>
+    <task id="LOCAL-00032" summary="- ProCAKEService.loadCasebase is not included in ProCAKEService.setupCake anymore. It has to be called separately&#10;- Configuration class SetupCake.java renamed to SetupProCAKE.java">
+      <created>1695044115103</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1695044115103</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Instead of the default similarity model, now a purely custom one is used in the ProCAKEService.">
+      <created>1695044240768</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1695044240768</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Instead of the default similarity model, now a purely custom one is used in the ProCAKEService.">
+      <created>1695044258638</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1695044258638</updated>
+    </task>
+    <task id="LOCAL-00035" summary="It is not necessary anymore to create a File with the contents of the database in order to convert them to Workflows.">
+      <created>1695044409852</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1695044409852</updated>
+    </task>
+    <task id="LOCAL-00036" summary="- It is not necessary anymore to create a File for conversion in the &quot;retrieve&quot; method.&#10;- similarity model of the retriever is now set in that method">
+      <created>1695044486135</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1695044486135</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Converting the query is simpler now, as well.">
+      <created>1695044551150</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1695044551150</updated>
+    </task>
+    <task id="LOCAL-00038" summary="&quot;convertLocal...&quot; are not necessary anymore">
+      <created>1695044583035</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1695044583035</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Renaming of controller paths">
+      <created>1695044620137</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1695044620137</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Added test on similarity model.">
+      <created>1695044638145</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1695044638145</updated>
+    </task>
+    <task id="LOCAL-00041" summary="- Refactorization, Commenting &amp; Layout&#10;- Renaming of controller paths&#10;- No TraceModelAssembler is needed anymore.">
+      <created>1695045445146</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1695045445146</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Integration Tests of Controllers">
+      <created>1695045593292</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1695045593292</updated>
+    </task>
+    <task id="LOCAL-00043" summary="- RetrievalController:&#10;  - Renaming of controller paths&#10;  - adjustment of implementation according to changed data model&#10;&#10;- Integration Tests of Controllers">
+      <created>1695045674260</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1695045674260</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Automatic IDE and Git related stuff i know almost nothing about.">
+      <created>1695045802621</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1695045802621</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Configuration class to automatically connect to the database when the RESTfulAPIApplication is started.">
+      <created>1695045845779</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1695045845779</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Automatic IDE and Git related stuff i know almost nothing about.">
+      <created>1695045863076</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1695045863076</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Tests for Validation of XES logs which is implemented in DatabaseService.">
+      <created>1695046063599</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1695046063599</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Documentation of ProCAKE Extension.">
+      <created>1695046316214</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1695046316214</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -363,7 +546,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="restful_api" />
+                        <option value="HEAD" />
                       </list>
                     </value>
                   </entry>
@@ -376,18 +559,32 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Initial commit" />
-    <MESSAGE value="The database objects we have to handle are XES-Traces.&#10;Right now, a Trace (main/java/restapi/Trace.java) has an ID and an XES representation, each of type String.&#10;main/java/restapi/TraceRepository.java and the Trace.java are only placeholders. The actual implementation of the database and how a Trace is represented in java will be created/changed later." />
-    <MESSAGE value="If a client wants to interact with only the casebase (and not ProCAKE), the CasebaseController is used for standart GET, PUT, REMOVE queries.&#10;&#10;TraceModelAssembler: JSON responses&#10;TraceNotFoundException: selfexplainatory&#10;TraceNotFoundAdvice: HTTP status" />
-    <MESSAGE value="Placeholder for initialization of the database." />
-    <MESSAGE value="restructuring" />
-    <MESSAGE value="procake specific controllers&#10;NO IMPLEMENTATION - ONLY PLACEHOLDERS" />
-    <MESSAGE value="All the ProCAKE Controllers use a new Class ProCAKEService (business logic)" />
-    <MESSAGE value="refinement..." />
-    <MESSAGE value="DatabaseController.java:&#10;- implemented &quot;/database/putall&quot; method which allows a client to insert a whole log into the database&#10;&#10;XESnotValidException.java:&#10;- exception that is thrown, if a log given to the DatabaseController is not valid against the schema that is set&#10;- right now, the whole functionality of checking the validity of a document against a schema is commented out because there still is need for a fitting schema (xsd), the only schema present right now is &quot;xes-ieee-1849-2016-April-15-2020.xsd&quot; in the resources folder which, for example, does not allow log tags to have an &quot;openxes.version&quot; attribute&#10;&#10;XESnotValidAdvice.java&#10;- Advice belonging to the XESnotValidException&#10;&#10;DatabaseService.java:&#10;- fitted to allow DatabaseController to insert in repository&#10;- automatically gives new traces a new id, with help of an IDFactory&#10;&#10;IDFactory.java:&#10;- see above&#10;&#10;SetupCake.java:&#10;- new Configuration class&#10;- automatic setup of ProCAKE when RESTfulAPIApplication is started&#10;&#10;RetrievalController.java:&#10;- retrieve(String id, RetrievalParameters retrievalParameters) throws a TraceNotFoundException now, if the given id does not correspond to an existing trace in the database&#10;- accepts an additional argument &quot;number_of_results&quot; now (in the RequestParameter object)&#10;&#10;ProCAKEService.java:&#10;- some restructurization&#10;- set up of data- and similarity- models still have to be implemented...&#10;&#10;Minor changes for fitting classes or comments etc.:&#10;- InstanceController.java&#10;- LoadDatabase.java&#10;- TraceNotFoundAdvice.java&#10;- TraceNotFoundException.java&#10;- TraceRepository.java" />
-    <MESSAGE value="except for the pom.xml I have no idea what the other files do..." />
-    <MESSAGE value="i hate git" />
-    <option name="LAST_COMMIT_MESSAGE" value="i hate git" />
+    <MESSAGE value="Slight changes/refactorization, see for yourself." />
+    <MESSAGE value="Removal of unnecessary components" />
+    <MESSAGE value="- Changed DatabaseService.java to connect to an actual MySQL database.&#10;- Tests&#10;- Transactional security to maintain consistency of database is added" />
+    <MESSAGE value="- New SimilarityMeasure: SMBooleanXORImpl&#10;- SMStringLevenshteinImplExt Refinement of Conversion from XESBaseClass to LiteralClass" />
+    <MESSAGE value="Caught an Exception that can be ignored" />
+    <MESSAGE value="- Default values for functional interfaces&#10;- In the retrieval, the globalMethodInvokersFunc's return value (List) gets three further elements (MethodInvoker) which set the functional interfaces for the similarity measure." />
+    <MESSAGE value="An input of null results in an Exception being thrown (sooner or later)." />
+    <MESSAGE value="Refactorization" />
+    <MESSAGE value="ProCAKEService.convertGlobalMethodInvokers returns empty ArrayList if input is null" />
+    <MESSAGE value="Refactorization, Layout &amp; Commenting/Documenting" />
+    <MESSAGE value="- ProCAKEService.loadCasebase is not included in ProCAKEService.setupCake anymore. It has to be called separately&#10;- Configuration class SetupCake.java renamed to SetupProCAKE.java" />
+    <MESSAGE value="Instead of the default similarity model, now a purely custom one is used in the ProCAKEService." />
+    <MESSAGE value="It is not necessary anymore to create a File with the contents of the database in order to convert them to Workflows." />
+    <MESSAGE value="- It is not necessary anymore to create a File for conversion in the &quot;retrieve&quot; method.&#10;- similarity model of the retriever is now set in that method" />
+    <MESSAGE value="Converting the query is simpler now, as well." />
+    <MESSAGE value="&quot;convertLocal...&quot; are not necessary anymore" />
+    <MESSAGE value="Renaming of controller paths" />
+    <MESSAGE value="Added test on similarity model." />
+    <MESSAGE value="- Refactorization, Commenting &amp; Layout&#10;- Renaming of controller paths&#10;- No TraceModelAssembler is needed anymore." />
+    <MESSAGE value="Integration Tests of Controllers" />
+    <MESSAGE value="- RetrievalController:&#10;  - Renaming of controller paths&#10;  - adjustment of implementation according to changed data model&#10;&#10;- Integration Tests of Controllers" />
+    <MESSAGE value="Configuration class to automatically connect to the database when the RESTfulAPIApplication is started." />
+    <MESSAGE value="Automatic IDE and Git related stuff i know almost nothing about.&#10;&#10;Additional Test of similarity model." />
+    <MESSAGE value="Configuration class to automatically connect to the database when the RESTfulAPIApplication is started&#10;&#10;Files for tests for Validation of XES logs which is implemented in DatabaseService." />
+    <MESSAGE value="Documentation of ProCAKE Extension." />
+    <option name="LAST_COMMIT_MESSAGE" value="Documentation of ProCAKE Extension." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -416,7 +613,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/../procake-extension/src/main/java/extension/similarity/measure/collection/SMListCorrectnessImplExt.java</url>
-          <line>134</line>
+          <line>132</line>
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
