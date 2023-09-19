@@ -1,20 +1,14 @@
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
+import restapi.RESTfulAPIApplication;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-@SpringBootTest
+@SpringBootTest(classes = RESTfulAPIApplication.class)
 class RESTfulAPIApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+    @Test
+    void contextLoads() {
+        throw new RuntimeException("Something should probably be tested here...");//todo
+    }
 
 
 }

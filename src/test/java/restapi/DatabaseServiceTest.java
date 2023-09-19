@@ -3,11 +3,9 @@ package restapi;
 import error.DatabaseNotEmptyException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.xml.sax.SAXException;
 import restapi.service.DatabaseService;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -15,12 +13,12 @@ import java.util.Map;
 
 public class DatabaseServiceTest {
 
+    static String connectionStatus;
+
     @BeforeAll
     private static void connect() {
         connectionStatus = DatabaseService.connectToDatabase("onkocase_test");
     }
-
-    static String connectionStatus;
 
     @Test
     public void testConnection() {
@@ -31,7 +29,7 @@ public class DatabaseServiceTest {
     public void testAccess() throws SQLException, IOException, SAXException, DatabaseNotEmptyException {
 
 
-        String savepoint = "s";
+        final String savepoint = "s";
 
         DatabaseService.startTransaction();
         DatabaseService.savepoint(savepoint);
@@ -79,7 +77,7 @@ public class DatabaseServiceTest {
 
             Map<String, Object> log = DatabaseService.getLog(logID);
             assert (log.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__logID).equals(logID));
-            assert (log.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__header).equals((header + footer).replace("\n","")));
+            assert (log.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__header).equals((header + footer).replace("\n", "")));
             assert (log.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__removed).equals(false));
 
             String[] traceIDs = DatabaseService.getTraceIDs(logID);
@@ -98,7 +96,7 @@ public class DatabaseServiceTest {
                 trace = DatabaseService.getTrace(traceID);
                 assert (trace.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID).equals(traceID));
                 assert (trace.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__logID).equals(logID));
-                t = (String) trace.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__xes) + "\n";
+                t = trace.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__xes) + "\n";
                 assert (Arrays.stream(traces).toList().contains(t));
                 assert (trace.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__removed).equals(false));
 
@@ -121,13 +119,15 @@ public class DatabaseServiceTest {
                 assert ((boolean) DatabaseService.getTrace(traceIDs[0]).get("removed"));
             }
 
+            DatabaseService.rollbackTo(savepoint);
+            DatabaseService.commit();
+
         } catch (Exception e) {
             DatabaseService.rollbackTo(savepoint);
             DatabaseService.commit();
             throw e;
         }
 
-        DatabaseService.rollbackTo(savepoint);
-        DatabaseService.commit();
+
     }
 }

@@ -44,6 +44,8 @@ public class ControllerTest {
 
     @Before
     public void before() throws SQLException, IOException {
+        DatabaseService.startTransaction();
+
         DatabaseService.connectToDatabase("onkocase_test");
         DatabaseService.deleteAll();
         ProCAKEService.setupCake();
@@ -53,6 +55,8 @@ public class ControllerTest {
     @After
     public void after() throws SQLException, IOException {
         DatabaseService.deleteAll();
+
+        DatabaseService.commit();
     }
 
     @Test
@@ -182,8 +186,6 @@ public class ControllerTest {
         json = new ObjectMapper().readValue(result.getResponse().getContentAsString(), HashMap.class);
 
         assert ((Boolean) json.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__removed));
-
-
     }
 
     @Test
@@ -299,7 +301,7 @@ public class ControllerTest {
                 new ObjectMapper().readValue(result.getResponse().getContentAsString(), HashMap.class);
 
         String logID = (String) json.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__logID);
-        String traceID = (String) ((ArrayList<Map<String, Object>>)json.get("traces")).stream().map(e -> e.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID)).toList().get(0);
+        String traceID = (String) ((ArrayList<Map<String, Object>>) json.get("traces")).stream().map(e -> e.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID)).toList().get(0);
 
 
         // GET /procake/restart 200
@@ -325,6 +327,7 @@ public class ControllerTest {
         ids = performRetrieval(traceID);
 
         assert ids.length == 0;
+        DatabaseService.commit();
     }
 
     private String[] performRetrieval(String traceID) throws Exception {
@@ -332,7 +335,135 @@ public class ControllerTest {
         String globalSimilarityMeasure = SMCollectionIsolatedMappingExt.NAME;
         MethodList globalMethodInvokers = null;
         String localSimilarityMeasureFunc = """
-                <?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE similarity-measure-function SYSTEM \"../procake-extension/src/main/resources/schema/similaritymeasure-function.dtd\">\n<similarity-measure-function>\n    <if>\n        <and>\n            \n            <equals>\n                <method-return-value>\n                    <method-return-value>\n                        <q/>\n                        <method name=\"getDataClass\"></method>\n                    </method-return-value>\n                    <method name=\"getName\"></method>\n                </method-return-value>\n                <string value=\"XESEventClass\"/>\n            </equals>\n            \n            <equals>\n                <method-return-value>\n                    <method-return-value>\n                        <c/>\n                        <method name=\"getDataClass\"></method>\n                    </method-return-value>\n                    <method name=\"getName\"></method>\n                </method-return-value>\n                <string value=\"XESEventClass\"/>\n            </equals>\n            \n        </and>\n        <string value=\"CollectionIsolatedMappingExt\"/>\n    </if>\n    \n    <if>\n        <and>\n            <equals>\n                <method-return-value>\n                    <method-return-value>\n                        <method-return-value>\n                            <method-return-value>\n                                <q/>\n                                <method name=\"getDataClass\"></method>\n                            </method-return-value>\n                            <method name=\"getSuperClass\"></method>\n                        </method-return-value>\n                        <method name=\"getSuperClass\"></method>\n                    </method-return-value>\n                    <method name=\"getName\"></method>\n                </method-return-value>\n                <string value=\"XESNaturallyNestedClass\"/>\n            </equals>\n            <equals>\n                <method-return-value>\n                    <method-return-value>\n                        <method-return-value>\n                            <method-return-value>\n                                <c/>\n                                <method name=\"getDataClass\"></method>\n                            </method-return-value>\n                            <method name=\"getSuperClass\"></method>\n                        </method-return-value>\n                        <method name=\"getSuperClass\"></method>\n                    </method-return-value>\n                    <method name=\"getName\"></method>\n                </method-return-value>\n                <string value=\"XESNaturallyNestedClass\"/>\n            </equals>\n        </and>\n        <string value=\"CollectionIsolatedMappingExt\"/>\n    </if>\n    \n    <if>\n        <and>\n            <equals>\n                <method-return-value>\n                    <method-return-value>\n                        <method-return-value>\n                            <q/>\n                            <method name=\"getDataClass\"></method>\n                        </method-return-value>\n                        <method name=\"getSuperClass\"></method>\n                    </method-return-value>\n                    <method name=\"getName\"></method>\n                </method-return-value>\n                <string value=\"XESLiteralClass\"/>\n            </equals>\n            <equals>\n                <method-return-value>\n                    <method-return-value>\n                        <method-return-value>\n                            <c/>\n                            <method name=\"getDataClass\"></method>\n                        </method-return-value>\n                        <method name=\"getSuperClass\"></method>\n                    </method-return-value>\n                    <method name=\"getName\"></method>\n                </method-return-value>\n                <string value=\"XESLiteralClass\"/>\n            </equals>\n        </and>\n        <string value=\"StringLevenshteinExt\"/>\n    </if>\n    \n    <if>\n        <and>\n            <equals>\n                <method-return-value>\n                    <method-return-value>\n                        <method-return-value>\n                            <q/>\n                            <method name=\"getDataClass\"></method>\n                        </method-return-value>\n                        <method name=\"getSuperClass\"></method>\n                    </method-return-value>\n                    <method name=\"getName\"></method>\n                </method-return-value>\n                <string value=\"XESBooleanClass\"/>\n            </equals>\n            <equals>\n                <method-return-value>\n                    <method-return-value>\n                        <method-return-value>\n                            <c/>\n                            <method name=\"getDataClass\"></method>\n                        </method-return-value>\n                        <method name=\"getSuperClass\"></method>\n                    </method-return-value>\n                    <method name=\"getName\"></method>\n                </method-return-value>\n                <string value=\"XESBooleanClass\"/>\n            </equals>\n        </and>\n        <string value=\"BooleanXOR\"/>\n    </if>\n\n</similarity-measure-function>""";
+                <?xml version="1.0" encoding="UTF-8"?>
+                <!DOCTYPE similarity-measure-function SYSTEM "../procake-extension/src/main/resources/schema/similaritymeasure-function.dtd">
+                <similarity-measure-function>
+                    <if>
+                        <and>
+                            \n            <equals>
+                                <method-return-value>
+                                    <method-return-value>
+                                        <q/>
+                                        <method name="getDataClass"></method>
+                                    </method-return-value>
+                                    <method name="getName"></method>
+                                </method-return-value>
+                                <string value="XESEventClass"/>
+                            </equals>
+                            \n            <equals>
+                                <method-return-value>
+                                    <method-return-value>
+                                        <c/>
+                                        <method name="getDataClass"></method>
+                                    </method-return-value>
+                                    <method name="getName"></method>
+                                </method-return-value>
+                                <string value="XESEventClass"/>
+                            </equals>
+                            \n        </and>
+                        <string value="CollectionIsolatedMappingExt"/>
+                    </if>
+                    \n    <if>
+                        <and>
+                            <equals>
+                                <method-return-value>
+                                    <method-return-value>
+                                        <method-return-value>
+                                            <method-return-value>
+                                                <q/>
+                                                <method name="getDataClass"></method>
+                                            </method-return-value>
+                                            <method name="getSuperClass"></method>
+                                        </method-return-value>
+                                        <method name="getSuperClass"></method>
+                                    </method-return-value>
+                                    <method name="getName"></method>
+                                </method-return-value>
+                                <string value="XESNaturallyNestedClass"/>
+                            </equals>
+                            <equals>
+                                <method-return-value>
+                                    <method-return-value>
+                                        <method-return-value>
+                                            <method-return-value>
+                                                <c/>
+                                                <method name="getDataClass"></method>
+                                            </method-return-value>
+                                            <method name="getSuperClass"></method>
+                                        </method-return-value>
+                                        <method name="getSuperClass"></method>
+                                    </method-return-value>
+                                    <method name="getName"></method>
+                                </method-return-value>
+                                <string value="XESNaturallyNestedClass"/>
+                            </equals>
+                        </and>
+                        <string value="CollectionIsolatedMappingExt"/>
+                    </if>
+                    \n    <if>
+                        <and>
+                            <equals>
+                                <method-return-value>
+                                    <method-return-value>
+                                        <method-return-value>
+                                            <q/>
+                                            <method name="getDataClass"></method>
+                                        </method-return-value>
+                                        <method name="getSuperClass"></method>
+                                    </method-return-value>
+                                    <method name="getName"></method>
+                                </method-return-value>
+                                <string value="XESLiteralClass"/>
+                            </equals>
+                            <equals>
+                                <method-return-value>
+                                    <method-return-value>
+                                        <method-return-value>
+                                            <c/>
+                                            <method name="getDataClass"></method>
+                                        </method-return-value>
+                                        <method name="getSuperClass"></method>
+                                    </method-return-value>
+                                    <method name="getName"></method>
+                                </method-return-value>
+                                <string value="XESLiteralClass"/>
+                            </equals>
+                        </and>
+                        <string value="StringLevenshteinExt"/>
+                    </if>
+                    \n    <if>
+                        <and>
+                            <equals>
+                                <method-return-value>
+                                    <method-return-value>
+                                        <method-return-value>
+                                            <q/>
+                                            <method name="getDataClass"></method>
+                                        </method-return-value>
+                                        <method name="getSuperClass"></method>
+                                    </method-return-value>
+                                    <method name="getName"></method>
+                                </method-return-value>
+                                <string value="XESBooleanClass"/>
+                            </equals>
+                            <equals>
+                                <method-return-value>
+                                    <method-return-value>
+                                        <method-return-value>
+                                            <c/>
+                                            <method name="getDataClass"></method>
+                                        </method-return-value>
+                                        <method name="getSuperClass"></method>
+                                    </method-return-value>
+                                    <method name="getName"></method>
+                                </method-return-value>
+                                <string value="XESBooleanClass"/>
+                            </equals>
+                        </and>
+                        <string value="BooleanXOR"/>
+                    </if>
+                                
+                </similarity-measure-function>""";
         String localMethodInvokersFunc = null;
         String localWeightFunc = null;
         FilterParameters filterParameters = null;
