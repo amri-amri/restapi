@@ -2,7 +2,7 @@
 ----
 HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 561
+Content-Length: 440
 
-{"traceID":"dd525add-c6ee-4768-aa68-b2f822676cc9","metadata":{"dateOfUpload":"2023-10-06T06:50:02.356611Z"},"removed":false,"log":{"logID":"18e82885-39ad-4d00-a9ff-eef8bf02f3ac","href":{"rel":"self","href":"http://localhost:8080/log/18e82885-39ad-4d00-a9ff-eef8bf02f3ac"}},"xes":"<trace>\n    <container key=\"attribute\">\n        <string key=\"attributeName\" value=\"id\"/>\n        <string key=\"attributeValue\" value=\"trace3\"/>\n    </container>\n</trace>","href":{"rel":"self","href":"http://localhost:8080/trace/dd525add-c6ee-4768-aa68-b2f822676cc9"}}
+{"traceID":"f5159a69-46dc-4afa-9b65-4ea9c87588bf","metadata":{"dateOfUpload":"2023-10-06T08:53:01.388581Z"},"removed":false,"log":{"logID":"1c5c3c9a-3dcd-4cea-aae3-376f64c36171","href":{"rel":"self","href":"http://localhost:8080/log/1c5c3c9a-3dcd-4cea-aae3-376f64c36171"}},"xes":"<trace>\n    <string key=\"name\" value=\"trace1\"/>\n</trace>","href":{"rel":"self","href":"http://localhost:8080/trace/f5159a69-46dc-4afa-9b65-4ea9c87588bf"}}
 ----

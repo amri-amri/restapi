@@ -9,6 +9,6 @@ $ echo '{
   "localWeightFunc" : null,
   "filterParameters" : null,
   "numberOfResults" : 4
-}' | http PUT 'http://localhost:8080/retrieval/03259c64-f383-42d3-ac77-09698139cac7' \
+}' | http PUT 'http://localhost:8080/retrieval/6b3ef3dc-c46d-435e-b62c-f64ac652aa25' \
     'Content-Type:application/json;charset=UTF-8'
 ----

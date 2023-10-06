@@ -1,4 +1,4 @@
 [source,bash]
 ----
-$ http DELETE 'http://localhost:8080/log/18e82885-39ad-4d00-a9ff-eef8bf02f3ac'
+$ http DELETE 'http://localhost:8080/log/1c5c3c9a-3dcd-4cea-aae3-376f64c36171'
 ----

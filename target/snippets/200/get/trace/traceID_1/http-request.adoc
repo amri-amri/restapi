@@ -1,6 +1,6 @@
 [source,http,options="nowrap"]
 ----
-GET /trace/cafa4a3f-8027-49e7-af5a-4c3f9d150543 HTTP/1.1
+GET /trace/8fd05a46-b33c-4783-b94e-2e85794fe8ef HTTP/1.1
 Host: localhost:8080
 
 ----

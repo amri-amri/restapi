@@ -1,4 +1,4 @@
 [source,bash]
 ----
-$ curl 'http://localhost:8080/trace/80e4b4d0-7fc8-400c-8b6b-60b8323510ce' -i -X GET
+$ curl 'http://localhost:8080/trace/769176fd-9988-4b9b-bddb-31798b762b0b' -i -X GET
 ----

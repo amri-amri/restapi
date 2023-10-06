@@ -4,5 +4,5 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 Content-Length: 441
 
-{"traceID":"cafa4a3f-8027-49e7-af5a-4c3f9d150543","metadata":{"dateOfUpload":"2023-10-06T06:50:02.356611Z"},"removed":false,"log":{"logID":"18e82885-39ad-4d00-a9ff-eef8bf02f3ac","href":{"rel":"self","href":"http://localhost:8080/log/18e82885-39ad-4d00-a9ff-eef8bf02f3ac"}},"xes":"<trace>\n    <boolean key=\"trace2\" value=\"true\"/>\n</trace>","href":{"rel":"self","href":"http://localhost:8080/trace/cafa4a3f-8027-49e7-af5a-4c3f9d150543"}}
+{"traceID":"8fd05a46-b33c-4783-b94e-2e85794fe8ef","metadata":{"dateOfUpload":"2023-10-06T08:53:01.388581Z"},"removed":false,"log":{"logID":"1c5c3c9a-3dcd-4cea-aae3-376f64c36171","href":{"rel":"self","href":"http://localhost:8080/log/1c5c3c9a-3dcd-4cea-aae3-376f64c36171"}},"xes":"<trace>\n    <boolean key=\"trace2\" value=\"true\"/>\n</trace>","href":{"rel":"self","href":"http://localhost:8080/trace/8fd05a46-b33c-4783-b94e-2e85794fe8ef"}}
 ----
