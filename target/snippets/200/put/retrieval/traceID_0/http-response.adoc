@@ -1,0 +1,8 @@
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 334
+
+[{"traceID":"03259c64-f383-42d3-ac77-09698139cac7","similarity":0.6666666666666666},{"traceID":"8feca4ce-17ef-4e9d-bbc3-8f74a3c4e406","similarity":0.5208333333333333},{"traceID":"4cb670a4-d6b8-4218-ac37-2a6d8892443f","similarity":0.5208333333333333},{"traceID":"1d74a9f9-e4f6-4d09-9096-220179e7fe3b","similarity":0.39999999999999997}]
+----

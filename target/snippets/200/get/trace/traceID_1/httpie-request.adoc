@@ -1,0 +1,4 @@
+[source,bash]
+----
+$ http GET 'http://localhost:8080/trace/cafa4a3f-8027-49e7-af5a-4c3f9d150543'
+----

@@ -1,0 +1,6 @@
+[source,http,options="nowrap"]
+----
+DELETE /log/18e82885-39ad-4d00-a9ff-eef8bf02f3ac HTTP/1.1
+Host: localhost:8080
+
+----

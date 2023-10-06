@@ -1,0 +1,4 @@
+[source,json,options="nowrap"]
+----
+{"traceID":"80e4b4d0-7fc8-400c-8b6b-60b8323510ce","metadata":{"dateOfUpload":"2023-10-06T06:50:02.356611Z"},"removed":false,"log":{"logID":"18e82885-39ad-4d00-a9ff-eef8bf02f3ac","href":{"rel":"self","href":"http://localhost:8080/log/18e82885-39ad-4d00-a9ff-eef8bf02f3ac"}},"xes":"<trace>\n    <string key=\"name\" value=\"trace1\"/>\n</trace>","href":{"rel":"self","href":"http://localhost:8080/trace/80e4b4d0-7fc8-400c-8b6b-60b8323510ce"}}
+----

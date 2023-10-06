@@ -1,0 +1,21 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/log' -i -X POST \
+    -d '<?xml version="1.0" encoding="utf-8"?>
+<log name="testLog">
+<string key="name" value="testLog"/>
+<trace>
+    <string key="name" value="trace1"/>
+</trace>
+<trace>
+    <boolean key="trace2" value="true"/>
+</trace>
+<trace>
+    <container key="attribute">
+        <string key="attributeName" value="id"/>
+        <string key="attributeValue" value="trace3"/>
+    </container>
+</trace>
+</log>
+'
+----

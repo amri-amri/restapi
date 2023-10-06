@@ -1,0 +1,8 @@
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 844
+
+[{"metadata":{"dateOfUpload":"2023-10-06T06:50:02.356611Z"},"removed":false,"traces":[{"traceID":"80e4b4d0-7fc8-400c-8b6b-60b8323510ce","link":{"rel":"self","href":"http://localhost:8080/trace/80e4b4d0-7fc8-400c-8b6b-60b8323510ce"}},{"traceID":"cafa4a3f-8027-49e7-af5a-4c3f9d150543","link":{"rel":"self","href":"http://localhost:8080/trace/cafa4a3f-8027-49e7-af5a-4c3f9d150543"}},{"traceID":"dd525add-c6ee-4768-aa68-b2f822676cc9","link":{"rel":"self","href":"http://localhost:8080/trace/dd525add-c6ee-4768-aa68-b2f822676cc9"}}],"header":"<?xml version=\"1.0\" encoding=\"utf-8\"?><log name=\"testLog\"><string key=\"name\" value=\"testLog\"/></log>","logID":"18e82885-39ad-4d00-a9ff-eef8bf02f3ac","links":[{"rel":"self","href":"http://localhost:8080/log/18e82885-39ad-4d00-a9ff-eef8bf02f3ac"},{"rel":"all","href":"http://localhost:8080/log"}]}]
+----

@@ -1,0 +1,6 @@
+[source,http,options="nowrap"]
+----
+GET /trace/dd525add-c6ee-4768-aa68-b2f822676cc9 HTTP/1.1
+Host: localhost:8080
+
+----
