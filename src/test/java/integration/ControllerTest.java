@@ -7,9 +7,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -36,6 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         webEnvironment = SpringBootTest.WebEnvironment.MOCK,
         classes = RESTfulAPIApplication.class)
 @AutoConfigureMockMvc
+@AutoConfigureRestDocs(outputDir = "target/snippets")
 public class ControllerTest {
 
     final String savepoint = "spt";
@@ -50,6 +53,8 @@ public class ControllerTest {
         DatabaseService.deleteAll();
         ProCAKEService.setupCake();
         ProCAKEService.loadCasebase();
+
+        retrievalCounter = 0;
     }
 
     @After
@@ -69,11 +74,13 @@ public class ControllerTest {
 
         // GET /log/x   404
         mvc.perform(get("/log/x").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andDo(MockMvcRestDocumentation.document("404/get/log/logID"));
 
         // GET /trace/x 404
         mvc.perform(get("/trace/x").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andDo(MockMvcRestDocumentation.document("404/get/trace/traceID"));
 
         String header = """
                 <?xml version="1.0" encoding="utf-8"?>
@@ -106,12 +113,21 @@ public class ControllerTest {
 
         // POST /log    400
         mvc.perform(post("/log").content(""))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andDo(MockMvcRestDocumentation.document("400/post/log"));
 
         // POST /log    200
-        MvcResult result = mvc.perform(post("/log").content(header + traces[0] + traces[1] + traces[2] + footer))
+        MvcResult result = mvc.perform(post("/log")
+                        .content(header + traces[0] + traces[1] + traces[2] + footer))
                 .andExpect(status().isOk())
+                .andDo(MockMvcRestDocumentation.document("200/post/log"))
                 .andReturn();
+
+        // GET /log     200
+        mvc.perform(get("/log").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcRestDocumentation.document("200/get/log"));
 
         Map<String, Object> json =
                 new ObjectMapper().readValue(result.getResponse().getContentAsString(), HashMap.class);
@@ -147,6 +163,7 @@ public class ControllerTest {
                     new ObjectMapper().readValue(
                             mvc.perform(get("/trace/" + traceIDs[i]))
                                     .andExpect(status().isOk())
+                                    .andDo(MockMvcRestDocumentation.document("200/get/trace/traceID_" + i))
                                     .andReturn()
                                     .getResponse()
                                     .getContentAsString(),
@@ -165,6 +182,7 @@ public class ControllerTest {
         // GET /log/x   200
         result = mvc.perform(get("/log/" + logID))
                 .andExpect(status().isOk())
+                .andDo(MockMvcRestDocumentation.document("200/get/log/logID"))
                 .andReturn();
 
         json = new ObjectMapper().readValue(result.getResponse().getContentAsString(), HashMap.class);
@@ -176,11 +194,13 @@ public class ControllerTest {
 
         // DELETE /log/x    404
         mvc.perform(delete("/log/x"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andDo(MockMvcRestDocumentation.document("404/delete/log/logID"));
 
         // DELETE /log/x    200
         result = mvc.perform(delete("/log/" + logID))
                 .andExpect(status().isOk())
+                .andDo(MockMvcRestDocumentation.document("200/delete/log/logID"))
                 .andReturn();
 
         json = new ObjectMapper().readValue(result.getResponse().getContentAsString(), HashMap.class);
@@ -306,11 +326,13 @@ public class ControllerTest {
 
         // GET /procake/restart 200
         mvc.perform(get("/procake/restart"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andDo(MockMvcRestDocumentation.document("200/get/procake/restart"));
 
         // GET /procake/reload 200
         mvc.perform(get("/procake/reload"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andDo(MockMvcRestDocumentation.document("200/get/procake/reload"));
 
         String[] ids = performRetrieval(traceID);
 
@@ -480,10 +502,12 @@ public class ControllerTest {
                 numberOfResults
         );
 
+        // PUT /retrieval/x 200
         String result = mvc.perform(put("/retrieval/" + traceID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content((new ObjectMapper()).writer().withDefaultPrettyPrinter().writeValueAsString(parameters)))
                 .andExpect(status().isOk())
+                .andDo(MockMvcRestDocumentation.document("200/put/retrieval/traceID_" + retrievalCounter++))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
@@ -494,6 +518,8 @@ public class ControllerTest {
 
         return retrieval.stream().map(e -> e.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID)).toList().toArray(String[]::new);
     }
+
+    private int retrievalCounter;
 
 
 }

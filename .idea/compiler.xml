@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="restapi" />
         <module name="procake-extension" />
+        <module name="XEStoWorkflowConverter" />
       </profile>
     </annotationProcessing>
   </component>

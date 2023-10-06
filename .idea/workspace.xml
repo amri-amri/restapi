@@ -7,7 +7,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29958aed-e7d3-4491-975f-50e42ddbe9df" name="Changes" comment="Documentation of ProCAKE Extension.">
+    <list default="true" id="29958aed-e7d3-4491-975f-50e42ddbe9df" name="Changes" comment="SQL document to (re-)initialize the MySQL database now contained in restapi/src/main/resources/sql">
+      <change afterPath="$PROJECT_DIR$/DATABASE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/asciidoc/database.adoc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/sql/entity-relationship-model.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/sql/entity-relationship-model.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../procake-extension/src/main/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../procake-extension/src/main/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HELP.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/restapi/service/ProCAKEService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/restapi/service/ProCAKEService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/integration/ControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/integration/ControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/FileToXESGraphConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/conversion/FileToXESGraphConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/Filter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/conversion/Filter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/XESFileToGraphConversionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/error/XESFileToGraphConversionException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/XESGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/conversion/XESGraph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/XESGraphToWorkflowConversionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/error/XESGraphToWorkflowConversionException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/XESGraphToWorkflowConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/conversion/XESGraphToWorkflowConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/XESTraceGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/conversion/XESTraceGraph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/namingUtils/GraphPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java/de/uni_trier/wi2/namingUtils/GraphPrinter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/test/java/demo/ConversionAndToXMLNewImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/test/java/demo/ConversionAndToXMLNewImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/test/java/demo/retrieval/ConversionAndRetrievalNewImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/test/java/demo/retrieval/ConversionAndRetrievalNewImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../xestoworkflowconverter/src/test/resources/output/casebase.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../xestoworkflowconverter/src/test/resources/output/casebase.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,7 +53,7 @@
         <entry key="$PROJECT_DIR$/src" value="master" />
       </map>
     </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../procake-extension" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -65,28 +88,29 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/Users/karimamri/Desktop/DFKI/OnkoCase/ProCAKE/xestoworkflowconverter",
+    "git-widget-placeholder": "restful__api",
+    "last_opened_file_path": "/Users/karimamri/Desktop/DFKI/OnkoCase/ProCAKE/restapi/src/main/resources/sql",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+    "settings.editor.selected.configurable": "preferences.editor"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/sql" />
       <recent name="$PROJECT_DIR$/../xestoworkflowconverter" />
       <recent name="$PROJECT_DIR$/../xestoworkflowconverter/src/main/java" />
       <recent name="$PROJECT_DIR$/../OpenXES" />
-      <recent name="$PROJECT_DIR$/src/main/resources/sql" />
       <recent name="$PROJECT_DIR$/src/test/resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/../procake-extension/src/main" />
+      <recent name="$PROJECT_DIR$/src/main/resources/sql" />
+      <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/../procake-extension/src" />
-      <recent name="$PROJECT_DIR$/../OpenXES" />
-      <recent name="$PROJECT_DIR$/src/main/resources/schema" />
+      <recent name="$PROJECT_DIR$/../procake-extension" />
+      <recent name="$PROJECT_DIR$/../procake-extension/src/main" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
@@ -96,7 +120,7 @@
       <recent name="restapi.config" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.test">
+  <component name="RunManager" selected="JUnit.ControllerTest">
     <configuration name="RESTfulAPIApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="restapi.RESTfulAPIApplication" />
       <module name="restapi" />
@@ -179,11 +203,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.test" />
-        <item itemvalue="JUnit.ControllerTest.procake_test" />
-        <item itemvalue="Application.RESTfulAPIApplication" />
         <item itemvalue="JUnit.ControllerTest" />
+        <item itemvalue="JUnit.ControllerTest.procake_test" />
         <item itemvalue="JUnit.ControllerTest.database_test" />
+        <item itemvalue="Application.RESTfulAPIApplication" />
+        <item itemvalue="Application.test" />
       </list>
     </recent_temporary>
   </component>
@@ -532,7 +556,14 @@
       <option name="project" value="LOCAL" />
       <updated>1695046316214</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="SQL document to (re-)initialize the MySQL database now contained in restapi/src/main/resources/sql">
+      <created>1696415677029</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1696415677029</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -559,7 +590,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Slight changes/refactorization, see for yourself." />
     <MESSAGE value="Removal of unnecessary components" />
     <MESSAGE value="- Changed DatabaseService.java to connect to an actual MySQL database.&#10;- Tests&#10;- Transactional security to maintain consistency of database is added" />
     <MESSAGE value="- New SimilarityMeasure: SMBooleanXORImpl&#10;- SMStringLevenshteinImplExt Refinement of Conversion from XESBaseClass to LiteralClass" />
@@ -584,7 +614,8 @@
     <MESSAGE value="Automatic IDE and Git related stuff i know almost nothing about.&#10;&#10;Additional Test of similarity model." />
     <MESSAGE value="Configuration class to automatically connect to the database when the RESTfulAPIApplication is started&#10;&#10;Files for tests for Validation of XES logs which is implemented in DatabaseService." />
     <MESSAGE value="Documentation of ProCAKE Extension." />
-    <option name="LAST_COMMIT_MESSAGE" value="Documentation of ProCAKE Extension." />
+    <MESSAGE value="SQL document to (re-)initialize the MySQL database now contained in restapi/src/main/resources/sql" />
+    <option name="LAST_COMMIT_MESSAGE" value="SQL document to (re-)initialize the MySQL database now contained in restapi/src/main/resources/sql" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -603,7 +634,7 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/restapi/service/ProCAKEService.java</url>
-          <line>88</line>
+          <line>87</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
