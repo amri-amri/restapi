@@ -1,9 +1,9 @@
 package restapi.service;
 
 
-import de.uni_trier.wi2.FileToXESGraphConverter;
-import de.uni_trier.wi2.XESGraphToWorkflowConverter;
-import de.uni_trier.wi2.XESTraceGraph;
+import de.uni_trier.wi2.conversion.FileToXESGraphConverter;
+import de.uni_trier.wi2.conversion.XESGraphToWorkflowConverter;
+import de.uni_trier.wi2.conversion.XESTraceGraph;
 import de.uni_trier.wi2.procake.CakeInstance;
 import de.uni_trier.wi2.procake.data.model.DataClass;
 import de.uni_trier.wi2.procake.data.model.Model;
@@ -17,7 +17,6 @@ import de.uni_trier.wi2.procake.data.objectpool.WriteableObjectPool;
 import de.uni_trier.wi2.procake.retrieval.Query;
 import de.uni_trier.wi2.procake.retrieval.RetrievalResult;
 import de.uni_trier.wi2.procake.retrieval.RetrievalResultList;
-import de.uni_trier.wi2.procake.similarity.SimilarityMeasure;
 import de.uni_trier.wi2.procake.similarity.SimilarityModel;
 import de.uni_trier.wi2.procake.similarity.base.SMObjectEqual;
 import de.uni_trier.wi2.procake.similarity.base.impl.SMObjectEqualImpl;
@@ -160,11 +159,10 @@ public class ProCAKEService {
             XESGraphToWorkflowConverter converter = new XESGraphToWorkflowConverter(model);
 
 
-            // The traces are Strings starting with "<trace>" and ending with "</trace>",
+            // The traces are Strings starting with "<trace" and ending with "</trace>",
             // so they are actually no valid xml documents.
             // The converter however requires for the files content not only to be a valid xml document,
             // but also to be a valid xes document, the root element of which is a log tag ("<log ...>").
-            // Additionally, the files name has to end with ".xes" (see above).
 
             Map<String, Object> log;
             String header, prefix, suffix;
@@ -187,7 +185,7 @@ public class ProCAKEService {
                     // Convert the log containing one trace and get said trace.
                     XESTraceGraph graph = (XESTraceGraph) new FileToXESGraphConverter().convert(prefix + xes + suffix).toArray()[0];
 
-                    // The converter is designed to convert to NESTWorkflowObjects on general, which
+                    // The converter is designed to convert to NESTWorkflowObjects in general, which
                     // can have arbitrary edges between their TaskNodes. Because of that we
                     // have to tell the graph to have its edges set in the document order.
                     graph.addEdgesByDocumentOrder();
@@ -196,13 +194,11 @@ public class ProCAKEService {
                     NESTSequentialWorkflowObject workflow = (NESTSequentialWorkflowObject) model.getNESTSequentialWorkflowClass().newObject();
                     workflow.transformNESTGraphToNESTSequentialWorkflow(converter.convert(graph));
 
+                    // We set the ID and store it in the casebase.
                     workflow.setId(traceID);
                     casebase.store(workflow);
                 }
             }
-
-            //converter.printCreatedClasses(true);
-            //for (SimilarityMeasure sm : similarityModel.getSimilarityMeasures()) System.out.println(sm.getDataClass() + ": " + sm.getSystemName() + "\n");
 
             return "Casebase loaded successfully!";
 
@@ -351,8 +347,8 @@ public class ProCAKEService {
 
             globalMethodInvokerList.add(new MethodInvoker(
                     m.name(),
-                    new Class[]{clazz},
-                    new Object[]{object}
+                    clazz == null ? new Class[0] : new Class[]{clazz},
+                    clazz == null ? new Object[0] : new Object[]{object}
             ));
         }
         return globalMethodInvokerList;
