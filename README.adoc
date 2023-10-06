@@ -1,0 +1,243 @@
+= REST API - Documentation
+Karim Amri <info@karim-amri.de>
+:toc:
+
+Make sure to check out http://localhost:8080/swagger-ui/index.html#/
+in order to use the API per a GUI.
+The *RESTfulAPIApplication* has to be running for that, of course.
+And make sure that the *MySQL Server* is running, as well.
+
+== Database Controller
+This controller can be used to interact with the MySQL database.
+It provides GET, POST & DELETE endpoints.
+
+=== GET
+Available endpoints are :
+
+* `get/log`
+* `get/log/{logID}`
+* `get/trace/{traceID}`
+
+To get a *list of all logs* present in the database, a simple GET
+request `get/log` can be performed.
+
+.HTTP
+include::{snippets}/../target/snippets/200/get/log/http-request.adoc[]
+.HTTPIE
+include::{snippets}/../target/snippets/200/get/log/httpie-request.adoc[]
+.CURL
+include::{snippets}/../target/snippets/200/get/log/curl-request.adoc[]
+.HTTP Response
+include::{snippets}/../target/snippets/200/get/log/http-response.adoc[]
+
+---
+To get **a certain log** the GET request `get/log/{logID}` can
+be performed, where `{logID}` is the UUID of the log.
+The response from the GET request above contains all logIDs.
+
+.HTTP
+include::{snippets}/../target/snippets/200/get/log/logID/http-request.adoc[]
+.HTTPIE
+include::{snippets}/../target/snippets/200/get/log/logID/httpie-request.adoc[]
+.CURL
+include::{snippets}/../target/snippets/200/get/log/logID/curl-request.adoc[]
+.HTTP Response
+include::{snippets}/../target/snippets/200/get/log/logID/http-response.adoc[]
+
+
+---
+==== trace
+
+To get **a certain trace** the GET request `get/trace/{traceID}` can
+be performed, where `{traceID}` is the UUID of the trace.
+
+.HTTP
+include::{snippets}/../target/snippets/200/get/trace/traceID_0/http-request.adoc[]
+.HTTPIE
+include::{snippets}/../target/snippets/200/get/trace/traceID_0/httpie-request.adoc[]
+.CURL
+include::{snippets}/../target/snippets/200/get/trace/traceID_0/curl-request.adoc[]
+.HTTP Response
+include::{snippets}/../target/snippets/200/get/trace/traceID_0/http-response.adoc[]
+
+The `get/log/{logID}` and `get/trace/{traceID}` requests fail if the
+respective ID is not present in the database.
+
+.HTTP Response
+include::{snippets}/../target/snippets/404/get/log/logID/http-response.adoc[]
+
+---
+=== POST
+
+To insert a log and its traces into the database, a POST request
+`post/log` should be performed. The request body should contain
+a String which contains the XES of the log.
+
+.HTTP
+include::{snippets}/../target/snippets/200/post/log/http-request.adoc[]
+.HTTPIE
+include::{snippets}/../target/snippets/200/post/log/httpie-request.adoc[]
+.CURL
+include::{snippets}/../target/snippets/200/post/log/curl-request.adoc[]
+.HTTP Response
+include::{snippets}/../target/snippets/200/post/log/http-response.adoc[]
+
+The request fails if the XES document is not valid.
+
+.HTTP Response
+include::{snippets}/../target/snippets/400/post/log/http-response.adoc[]
+
+If the XES is valid however, every substring with prefix __"<trace"__ and suffix
+__"</trace>"__ is extracted from the document and inserted in the database as
+a trace entry. All that will be left from the original document is an empty
+log which will be inserted in the database as a log entry. The trace entries
+all reference the logs' ID.
+
+---
+=== DELETE
+
+To *set the "removed"-flag of a log to "true"*, a simple DELETE
+request `delete/log/{logID}` has to be performed, where `{logID}`
+represents the log's UUID.
+
+.HTTP
+include::{snippets}/../target/snippets/200/delete/log/logID/http-request.adoc[]
+.HTTPIE
+include::{snippets}/../target/snippets/200/delete/log/logID/httpie-request.adoc[]
+.CURL
+include::{snippets}/../target/snippets/200/delete/log/logID/curl-request.adoc[]
+.HTTP Response
+include::{snippets}/../target/snippets/200/delete/log/logID/http-response.adoc[]
+
+The request fails if the logID is not present in the database.
+
+.HTTP Response
+include::{snippets}/../target/snippets/404/delete/log/logID/http-response.adoc[]
+
+== ProCAKE Instance Controller
+
+This controller provides the following endpoints:
+
+* `get/procake/restart`: Restarts the ProCAKE instance.
+* `get/procake/reload`: Reloads the traces from the database
+into the instances' casebase after converting them to valid
+`NESTSequentialWorkflow`-objects.
+
+If the first request is performed, the instances' casebase
+will be empty until it has been reloaded.
+
+The responses are Strings containing status messages.
+
+.Restart
+include::{snippets}/../target/snippets/200/get/procake/restart/http-request.adoc[]
+include::{snippets}/../target/snippets/200/get/procake/restart/http-response.adoc[]
+
+.Reload
+include::{snippets}/../target/snippets/200/get/procake/reload/http-request.adoc[]
+include::{snippets}/../target/snippets/200/get/procake/reload/http-response.adoc[]
+
+== Retrieval Controller
+
+Retrieval on the casebase can be performed by either chosing
+a trace from the database as query object, or providing an XES
+in the request body:
+
+* `put/retrieval/{traceID}`
+* `put/retrieval`
+
+#The XES has to be a valid log containing
+at least one trace. The first trace in that log will then be
+the query trace.# Also, the request will fail if the
+traceID given per the first method is not present in the database.
+The controller will not check if the trace is removed, however.
+
+Please also note, that the #filtering of the casebase has yet to
+be implemented#. So all retrieval will be performed on the whole
+casebase.
+
+The request body is a JSON of the following structure:
+
+ {
+    "xes": "string",
+    "globalSimilarityMeasure": "string",
+    "globalMethodInvokers": {
+        "methods": [
+            {
+                "name": "string",
+                "valueType": "string",
+                "value": "string"
+            }
+        ]
+    },
+    "localSimilarityMeasureFunc": "string",
+    "localMethodInvokersFunc": "string",
+    "localWeightFunc": "string",
+    "filterParameters": {},
+    "numberOfResults": 0
+ }
+
+===== xes
+This field denotes the query object's XES as a String.
+See above for information on the XES document.
+The value of this field is irrelevant if a `traceID` is given
+in the PUT request.
+
+These fields' value can be `null` (without quotation marks,
+see snippets below).
+
+===== globalSimilarityMeasure
+A String containing the name of the similarity measure
+that is to be used on the global scale, meaning from query to
+case object.
+
+These fields' value can be `null`.
+
+===== globalMethodInvokers
+This fields' value is another field _"methods"_, which represents
+a list of objects that each have a
+
+* _"name"_, a
+* _"valueType"_, and a
+* _"value"_ field.
+
+The value of _"name"_ is the name of a method that is implemented
+by the similarity measure denoted by _"globalSimilarityMeasure"_
+*without any modifiers or parameter types*. _"valueType"_ denotes
+the class of the parameter which can only be `"string"`,
+`"double"`, or `"boolean"`. Other data types have not been
+implemented yet. If the data type is none of the above,
+that `method` object corresponds to a method without any parameters.
+Methods that accept more than one argument are not implemented (yet).
+The _"value"_ field denotes the value of the passed argument.
+
+This fields' value can be `null`.
+
+===== localSimilarityMeasureFunc, localMethodInvokersFunc & localWeightFunc
+These fields should contain XML-representations of the respective
+functional interface (`SimilarityMeasureFunc`,
+`MethodInvokersFunc` & `WeightFunc`). For more information on
+these interfaces and their XML-representations, please read the
+documentation of the `procake-extension` module.
+
+These fields' values can be `null`.
+
+===== filterParameters
+-- Not implemented yet --
+
+===== numberOfResults
+This field's value should be an integer denoting the number of
+retrieval results.
+
+---
+
+The response body is a list of `traceID`-`similarity value` pairs.
+
+=== Snippets
+.HTTP
+include::{snippets}/../target/snippets/200/put/retrieval/traceID_0/http-request.adoc[]
+.HTTPIE
+include::{snippets}/../target/snippets/200/put/retrieval/traceID_0/httpie-request.adoc[]
+.CURL
+include::{snippets}/../target/snippets/200/put/retrieval/traceID_0/curl-request.adoc[]
+.HTTP Response
+include::{snippets}/../target/snippets/200/put/retrieval/traceID_0/http-response.adoc[]
