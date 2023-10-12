@@ -2,10 +2,37 @@
 Karim Amri <info@karim-amri.de>
 :toc:
 
+== Important Notes
+
 Make sure to check out http://localhost:8080/swagger-ui/index.html#/
-in order to use the API per a GUI.
+in order to use the API per a GUI (8080 is the default port, if you
+use another port you should change this link, as well).
 The *RESTfulAPIApplication* has to be running for that, of course.
-And make sure that the *MySQL Server* is running, as well.
+And make sure that the *MySQL Server* is running, as well (See
+database documentation for that:
+https://gitlab.rlp.net/wi2/onkocase/onkocasebackend).
+
+You can find a runnable JAR in the
+https://gitlab.rlp.net/wi2/onkocase/restapi/-/packages[package registry]
+of the GitLab repository.
+In order to run the JAR on your machine, type
+`java -jar restapi.jar dbUrl dbUsername dbPassword`, where
+`restapi.jar` is the name of the JAR you want to run, `dbUrl` is
+the URL of the database connection you want to use, and `dbUsername`
+and `dbPassword` are the username and password with which you want
+to access the database.
+
+Additionally, you can add the argument `--server.port=xxxx` where
+`xxxx` is the port ID you want to use.
+
+In order to run the tests in your IDE, an additional database called
+`onkocase_test` should be created on your MySQL Server. Use the same
+SQL commands you used to create the `onkocase` database. Also,
+the URL, username, and password have to be provided in the file
+`src/test/resources/de/uni_trier/wi2/databaseTestInfo.txt`.
+##Write the URL in the first, the username in the second and
+the password in the third line! **Do not use whitespace in these
+lines!**## Everything beyond those first three lines will be ignored.
 
 == Database Controller
 This controller can be used to interact with the MySQL database.
