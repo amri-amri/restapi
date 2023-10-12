@@ -1,8 +1,8 @@
-package restapi.control.procake;
+package de.uni_trier.wi2.control.procake;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import restapi.service.ProCAKEService;
+import de.uni_trier.wi2.service.ProCAKEService;
 
 /**
  * REST controller responsible for non-retrieval access to the ProCAKE instance.
