@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>restapi</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>RESTful API</name>
-	<description>RESTful API for ProCAKE and Logic module</description>
-	<properties>
-		<java.version>17</java.version>
-	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-			<version>2.5.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.restdocs</groupId>
-			<artifactId>spring-restdocs-mockmvc</artifactId>
-			<scope>test</scope>
-			<version>3.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.hateoas</groupId>
-			<artifactId>spring-hateoas</artifactId>
-		</dependency>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.1.4</version>
+        <relativePath/>
+    </parent>
+    <groupId>de.uni_trier.wi2</groupId>
+    <artifactId>restapi</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>RESTful API</name>
+    <description>RESTful API for ProCAKE and Logic module</description>
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 
         <dependency>
-            <groupId>org.example</groupId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <version>2.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.restdocs</groupId>
+            <artifactId>spring-restdocs-mockmvc</artifactId>
+            <scope>test</scope>
+            <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.hateoas</groupId>
+            <artifactId>spring-hateoas</artifactId>
+        </dependency>
+        <!-- ProCAKE -->
+        <dependency>
+            <groupId>de.uni_trier.wi2</groupId>
             <artifactId>procake-extension</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
@@ -50,58 +50,123 @@
 
 
 
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.1.0</version>
-		</dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.1.0</version>
+        </dependency>
 
 
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>3.0.0</version>
-		</dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <!-- CONVERTER -->
+        <dependency>
+            <groupId>de.uni-trier.wi2</groupId>
+            <artifactId>XEStoWorkflowConverter</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>        <!-- MySQL -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-		<dependency>
-			<groupId>de.uni-trier.wi2</groupId>
-			<artifactId>XEStoWorkflowConverter</artifactId>
-			<version>1.0-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.28</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.hamcrest</groupId>
-					<artifactId>hamcrest-core</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-	</dependencies>
+    </dependencies>
 
 
+    <!-- build configuration -->
+    <build>
+        <plugins>
+            <!--plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.1.2</version>
+                <configuration>
+                    <skipTests>false</skipTests>
+                </configuration>
+            </plugin-->
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!--plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>
+                                        de.uni_trier.wi2.RESTfulAPIApplication
+                                    </mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin-->
+        </plugins>
+    </build>
+
+    <!-- remote repos for dependencies-->
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2</url>
+        </repository>
+
+        <repository>
+            <id>procake-extension</id>
+            <url>https://gitlab.rlp.net/api/v4/projects/35164/packages/maven</url>
+        </repository>
+
+        <repository>
+            <id>xestoworkflowconverter</id>
+            <url>https://gitlab.rlp.net/api/v4/projects/32964/packages/maven</url>
+        </repository>
+    </repositories>
+
+    <!-- remote repos for publishing -->
+    <distributionManagement>
+        <repository>
+            <id>onkocasebackend</id>
+            <url>https://gitlab.rlp.net/api/v4/projects/36008/packages/maven</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>restapi</id>
+            <url>https://gitlab.rlp.net/api/v4/projects/35701/packages/maven</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>
