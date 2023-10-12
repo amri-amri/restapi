@@ -14,6 +14,14 @@ public class RESTfulAPIApplication {
 				"The second argument should the username for database access like \"root\"\n" +
 				"The third argument should be the password for database access.");
 
+		int portID = 8080;
+		if (args.length > 3) {
+			String arg = args[3];
+			if (arg.substring(0,14).equals("--server.port=")) {
+				portID = Integer.parseInt(arg.substring(14));
+			}
+		}
+
 		String databaseUrl = args[0];
 		String databaseUsername = args[1];
 		String databasePassword = args[2];
@@ -21,7 +29,7 @@ public class RESTfulAPIApplication {
 		DatabaseService.setUrlUsernamePassword(databaseUrl, databaseUsername, databasePassword);
 
 		SpringApplication.run(RESTfulAPIApplication.class, args);
-		LoggerFactory.getLogger(RESTfulAPIApplication.class).info("Development server UI: http://localhost:8080/swagger-ui/index.html");
+		LoggerFactory.getLogger(RESTfulAPIApplication.class).info("API UI: http://localhost:" + portID + "/swagger-ui/index.html");
 	}
 
 }
