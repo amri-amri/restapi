@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="restapi" />
-        <module name="procake-extension" />
-        <module name="XEStoWorkflowConverter" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="procake-extension" target="11" />
+      <module name="XEStoWorkflowConverter" target="11" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

@@ -7,8 +7,6 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/../DFKI/OnkoCase/procake-extension/pom.xml" />
         <option value="$PROJECT_DIR$/../xestoworkflowconverter-main/pom.xml" />
-        <option value="$PROJECT_DIR$/../procake-extension/pom.xml" />
-        <option value="$PROJECT_DIR$/../xestoworkflowconverter/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
@@ -17,5 +15,5 @@
       </set>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_16" project-jdk-name="openjdk-19" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK" />
 </project>
