@@ -26,8 +26,20 @@ public class ValidationTest {
     }
 
     @Test
-    public void testValidLog() throws IOException, SAXException {
-        String xml = getResourceAsString("valid_log.xes");
+    public void testValidLog_0() throws IOException, SAXException {
+        String xml = getResourceAsString("valid_log_0.xes");
+        assert (DatabaseService.logIsValid(xml));
+    }
+
+    @Test
+    public void testValidLog_1() throws IOException, SAXException {
+        String xml = getResourceAsString("valid_log_1.xes");
+        assert (DatabaseService.logIsValid(xml));
+    }
+
+    @Test
+    public void testValidLog_2() throws IOException, SAXException {
+        String xml = getResourceAsString("valid_log_2.xes");
         assert (DatabaseService.logIsValid(xml));
     }
 

@@ -121,10 +121,13 @@ public class DatabaseController {
 				DatabaseService.putTraceMetadata(ids[i], METADATATYPE_NAMES.DATE_OF_UPLOAD, date);
 			}
 
+			// get log information
+			Map<String, Object> logInfo = getLog(ids[0]);
+
 			DatabaseService.commit();
 
 			// return log information
-			return getLog(ids[0]);
+			return logInfo;
 
 		} catch (Exception e) {
 			DatabaseService.rollbackTo("putLog");

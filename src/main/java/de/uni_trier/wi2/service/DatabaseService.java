@@ -236,14 +236,14 @@ public class DatabaseService {
      *
      * @param logID UUID of log
      * @return {@link String} array of trace id's
-     * @throws SQLException if the log does not exist in the database or if there was a problem with the sql query
+     * @throws SQLException if the log does not exist in the database
      */
     public static String[] getTraceIDs(String logID) throws SQLException {
         ResultSet resultSet = selectFrom(
                 DATABASE_NAMES.TABLENAME__trace,
                 new String[]{DATABASE_NAMES.COLUMNNAME__trace__traceID},
                 DATABASE_NAMES.COLUMNNAME__trace__logID + " = '" + logID + "'");
-        if (!resultSet.next()) throw new SQLException("No traces were found belonging to that log");
+        if (!resultSet.next()) return new String[0];
         List<String> traceIDs = new ArrayList<>();
         String traceID = resultSet.getString(1);
         traceIDs.add(traceID);
