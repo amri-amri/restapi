@@ -48,7 +48,6 @@ public class DatabaseController {
 		} catch (SQLException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
-		log.put(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__logID, logID);//todo is this necessary?
 		log.put("links", new Link[]{
 				linkTo(methodOn(DatabaseController.class).getLog(logID)).withSelfRel(),
 				linkTo(methodOn(DatabaseController.class).getLog()).withRel("all")
