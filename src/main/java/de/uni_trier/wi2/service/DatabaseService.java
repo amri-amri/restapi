@@ -108,7 +108,7 @@ public class DatabaseService {
                 },
                 new Object[]{
                         logID,
-                        header.toString().replace("\n", ""),
+                        header.toString().replace(System.lineSeparator(), ""),
                         false});
 
         // array for memorizing id's to be returned

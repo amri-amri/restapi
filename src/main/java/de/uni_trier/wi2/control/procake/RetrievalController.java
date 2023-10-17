@@ -49,6 +49,8 @@ public class RetrievalController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cause description here");
         }
         Map<String, Object> l = DatabaseService.getLog((String) t.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__logID));
+        // Since the trace belongs to a log that means the log is not empty and thus the root element (log) is not
+        //  self-closing which means there is a String "</log>" somewhere in the header
         String[] header = ((String) l.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__header)).split("</log>");
         assert (header.length > 0);
         String xes = header[0] + t.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__xes) + "</log>";
