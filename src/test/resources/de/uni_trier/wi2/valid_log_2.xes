@@ -11,6 +11,7 @@
     <extension name="Semantic" prefix="semantic" uri="http://www.xes-standard.org/semantic.xesext">
     </extension>
     <extension name="Concept" prefix="concept" uri="http://www.xes-standard.org/concept.xesext">
+
     </extension>
     <global scope="trace">
         <string key="concept:name" value="__INVALID__"></string>
@@ -20,13 +21,17 @@
         <string key="concept:name" value="__INVALID__"></string>
         <string
                 key="lifecycle:transition" value="complete"></string>
+
+
+        ggg
     </global>
     <classifier keys="concept:name lifecycle:transition" name="MXML Legacy Classifier"></classifier>
     <classifier
             keys="concept:name" name="Event Name"></classifier>
-    <classifier keys="org:resource" name="Resource">
+    <classifier keys="org:resource" name="Resource"></classifier>
+    <classifier keys="lifecycle:transition" name="Lifecycle transition">
+
     </classifier>
-    <classifier keys="lifecycle:transition" name="Lifecycle transition"></classifier>
     <string
             key="concept:name" value="Event Log"></string>
     <string key="lifecycle:model" value="standard">
