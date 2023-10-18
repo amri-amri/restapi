@@ -10,7 +10,7 @@ public class RESTAPI {
 
 	public static void main(String[] args) {
 		if (args.length < 3) throw new RuntimeException("Too few arguments!\n" +
-				"The first argument should be the databases' URL like \"jdbc:mysql://localhost:3306/\"\n" +
+				"The first argument should be the databases' URL like \"jdbc:mysql://localhost:3306/onkocase\"\n" +
 				"The second argument should the username for database access like \"root\"\n" +
 				"The third argument should be the password for database access.");
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT weight-function (if)* >
+
+<!ELEMENT if ((and | or | not | equals | same-object-as | instance-of | regex), double) >
+
+<!ELEMENT and ((and | or | not | equals | same-object-as | instance-of | regex), (and | or | not | equals | same-object-as | instance-of | regex), (and | or | not | equals | same-object-as | instance-of | regex)*) >
+<!ELEMENT or ((and | or | not | equals | same-object-as | instance-of | regex), (and | or | not | equals | same-object-as | instance-of | regex), (and | or | not | equals | same-object-as | instance-of | regex)*) >
+<!ELEMENT not ((and | or | not | equals | same-object-as | instance-of | regex)) >
+
+<!ELEMENT equals ((q | string | double | boolean | method-return-value),(q | string | double | boolean | method-return-value)) >
+<!ELEMENT same-object-as ((q | string | double | boolean | method-return-value),(q | string | double | boolean | method-return-value)) >
+
+<!ELEMENT instance-of ((q | method-return-value),(string)) >
+
+<!ELEMENT regex ((string | method-return-value), (string | method-return-value)) >
+
+<!ELEMENT q EMPTY >
+
+<!ELEMENT string EMPTY >
+<!ATTLIST string value CDATA #REQUIRED >
+
+<!ELEMENT double EMPTY >
+<!ATTLIST double value CDATA #REQUIRED >
+
+<!ELEMENT boolean EMPTY >
+<!ATTLIST boolean value CDATA #REQUIRED >
+
+<!ELEMENT method-return-value ((q | method-return-value), method) >
+
+<!ELEMENT method (string | double | boolean)* >
+<!ATTLIST method name CDATA #REQUIRED >
