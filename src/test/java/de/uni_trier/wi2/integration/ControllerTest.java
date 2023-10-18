@@ -363,7 +363,7 @@ public class ControllerTest {
         MethodList globalMethodInvokers = null;
         String localSimilarityMeasureFunc = """
                 <?xml version="1.0" encoding="UTF-8"?>
-                <!DOCTYPE similarity-measure-function SYSTEM "http:www.karim-amri.de/files/similaritymeasure-function.dtd">
+                <!DOCTYPE similarity-measure-function SYSTEM "src/main/resources/de/uni_trier/wi2/schema/similaritymeasure-function.dtd">
                 <similarity-measure-function>
                     <if>
                         <and>
