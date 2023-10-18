@@ -24,6 +24,7 @@ import de.uni_trier.wi2.service.DatabaseService;
 import de.uni_trier.wi2.service.ProCAKEService;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -218,7 +219,7 @@ public class ControllerTest {
                 <?xml version="1.0" encoding="UTF-8"?>
                 <log>
                     <string key="type" value="test log"/>
-                   \s
+                   
                     <trace>
                         <event>
                             <string key="eventString" value="Pferd"/>
@@ -239,8 +240,8 @@ public class ControllerTest {
                             </list>
                         </event>
                     </trace>
-                   \s
-                   \s
+                   
+                   
                     <trace>
                         <event>
                             <string key="eventString" value="Pferd"/>
@@ -261,7 +262,7 @@ public class ControllerTest {
                             </list>
                         </event>
                     </trace>
-                   \s
+                   
                     <trace>
                         <event>
                             <string key="eventString" value="Herd"/>
@@ -282,7 +283,7 @@ public class ControllerTest {
                             </list>
                         </event>
                     </trace>
-                   \s
+                   
                     <trace>
                         <event>
                             <string key="eventString" value="Herd"/>
@@ -362,11 +363,11 @@ public class ControllerTest {
         MethodList globalMethodInvokers = null;
         String localSimilarityMeasureFunc = """
                 <?xml version="1.0" encoding="UTF-8"?>
-                <!DOCTYPE similarity-measure-function SYSTEM "../procake-extension/src/main/resources/schema/similaritymeasure-function.dtd">
+                <!DOCTYPE similarity-measure-function SYSTEM "http:www.karim-amri.de/files/similaritymeasure-function.dtd">
                 <similarity-measure-function>
                     <if>
                         <and>
-                            \n            <equals>
+                                        <equals>
                                 <method-return-value>
                                     <method-return-value>
                                         <q/>
@@ -376,7 +377,7 @@ public class ControllerTest {
                                 </method-return-value>
                                 <string value="XESEventClass"/>
                             </equals>
-                            \n            <equals>
+                                        <equals>
                                 <method-return-value>
                                     <method-return-value>
                                         <c/>
@@ -386,10 +387,10 @@ public class ControllerTest {
                                 </method-return-value>
                                 <string value="XESEventClass"/>
                             </equals>
-                            \n        </and>
+                                    </and>
                         <string value="CollectionIsolatedMappingExt"/>
                     </if>
-                    \n    <if>
+                        <if>
                         <and>
                             <equals>
                                 <method-return-value>
@@ -426,7 +427,7 @@ public class ControllerTest {
                         </and>
                         <string value="CollectionIsolatedMappingExt"/>
                     </if>
-                    \n    <if>
+                        <if>
                         <and>
                             <equals>
                                 <method-return-value>
@@ -457,7 +458,7 @@ public class ControllerTest {
                         </and>
                         <string value="StringLevenshteinExt"/>
                     </if>
-                    \n    <if>
+                        <if>
                         <and>
                             <equals>
                                 <method-return-value>
