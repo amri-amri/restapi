@@ -19,6 +19,14 @@ class ConnectToDatabase {
 
     @Bean
     CommandLineRunner connect() {
-        return args -> log.info(DatabaseService.connectToDatabase("onkocase"));
+        return args -> {
+            String databaseUrl = args[0];
+            String databaseUsername = args[1];
+            String databasePassword = args[2];
+
+            DatabaseService.setUrlUsernamePassword(databaseUrl, databaseUsername, databasePassword);
+
+            log.info(DatabaseService.connectToDatabase());
+        };
     }
 }

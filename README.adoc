@@ -18,21 +18,38 @@ of the GitLab repository.
 In order to run the JAR on your machine, type
 `java -jar restapi.jar dbUrl dbUsername dbPassword`, where
 `restapi.jar` is the name of the JAR you want to run, `dbUrl` is
-the URL of the database connection you want to use, and `dbUsername`
+the URL of the MySQL server you want to use, **including the name of
+the database you want to use**, and `dbUsername`
 and `dbPassword` are the username and password with which you want
 to access the database.
 
 Additionally, you can add the argument `--server.port=xxxx` where
 `xxxx` is the port ID you want to use.
 
-In order to run the tests in your IDE, an additional database called
-`onkocase_test` should be created on your MySQL Server. Use the same
-SQL commands you used to create the `onkocase` database. Also,
+In order to run the tests in your IDE, an additional database
+should be created on your MySQL Server. Use the same
+SQL commands you used to create the main one. Also,
 the URL, username, and password have to be provided in the file
 `src/test/resources/de/uni_trier/wi2/databaseTestInfo.txt`.
 ##Write the URL in the first, the username in the second and
 the password in the third line! **Do not use whitespace in these
 lines!**## Everything beyond those first three lines will be ignored.
+Additionally, you have to provide that information in
+`RESTAPITest.java` and `ControllerTest.java` in the
+`SpringBootTest` annotation.
+
+Example:
+[source,java]
+----
+@SpringBootTest(
+    classes = RESTAPI.class,
+    args = {
+        "jdbc:mysql://localhost:3306/onkocase_test",
+        "root",
+        "pw1234"
+    }
+)
+----
 
 == Database Controller
 This controller can be used to interact with the MySQL database.
@@ -118,7 +135,7 @@ If the XES is valid however, every substring with prefix __"<trace"__ and suffix
 __"</trace>"__ is extracted from the document and inserted in the database as
 a trace entry. All that will be left from the original document is an empty
 log which will be inserted in the database as a log entry. The trace entries
-all reference the logs' ID.
+all reference the logs' ID.`
 
 ---
 === DELETE

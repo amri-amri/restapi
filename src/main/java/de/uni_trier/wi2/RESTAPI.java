@@ -10,7 +10,7 @@ public class RESTAPI {
 
 	public static void main(String[] args) {
 		if (args.length < 3) throw new RuntimeException("Too few arguments!\n" +
-				"The first argument should be the databases' URL like \"jdbc:mysql://localhost:3306/\".\n" +
+				"The first argument should be the databases' URL like \"jdbc:mysql://localhost:3306/\"\n" +
 				"The second argument should the username for database access like \"root\"\n" +
 				"The third argument should be the password for database access.");
 
@@ -21,12 +21,6 @@ public class RESTAPI {
 				portID = Integer.parseInt(arg.substring(14));
 			}
 		}
-
-		String databaseUrl = args[0];
-		String databaseUsername = args[1];
-		String databasePassword = args[2];
-
-		DatabaseService.setUrlUsernamePassword(databaseUrl, databaseUsername, databasePassword);
 
 		SpringApplication.run(RESTAPI.class, args);
 		LoggerFactory.getLogger(RESTAPI.class).info("API UI: http://localhost:" + portID + "/swagger-ui/index.html");

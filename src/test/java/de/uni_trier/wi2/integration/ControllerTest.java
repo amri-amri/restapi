@@ -37,7 +37,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.MOCK,
-        classes = RESTAPI.class)
+        classes = RESTAPI.class,
+        args = {
+                "jdbc:mysql://localhost:3306/onkocase_test",
+                "root",
+                "pw1234"
+        }
+)
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs(outputDir = "target/snippets")
 public class ControllerTest {
@@ -47,12 +53,7 @@ public class ControllerTest {
     private MockMvc mvc;
 
     @Before
-    public void before() throws SQLException, IOException {
-        String databaseTestInfo = IOUtils.getResourceAsString("databaseTestInfo.txt");
-        String[] args = databaseTestInfo.split(System.lineSeparator());
-        DatabaseService.setUrlUsernamePassword(args[0], args[1], args[2]);
-        DatabaseService.connectToDatabase();
-
+    public void before() throws SQLException, IOException, ClassNotFoundException {
         DatabaseService.startTransaction();
         DatabaseService.deleteAll();
         ProCAKEService.setupCake();
@@ -64,7 +65,6 @@ public class ControllerTest {
     @After
     public void after() throws SQLException, IOException {
         DatabaseService.deleteAll();
-
         DatabaseService.commit();
     }
 

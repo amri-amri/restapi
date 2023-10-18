@@ -10,14 +10,9 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringReader;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.*;
 import java.util.*;
 
@@ -34,13 +29,13 @@ public class DatabaseService {
     private static String url = null;
     private static String username = null;
     private static String password = null;
+    private static Connection connection;
 
-    public static void setUrlUsernamePassword(String url, String username, String password){
+    public static void setUrlUsernamePassword(String url, String username, String password) {
         DatabaseService.url = url;
         DatabaseService.username = username;
         DatabaseService.password = password;
     }
-    private static Connection connection;
 
     /**
      * <p>Connects to the database.</p>
@@ -48,14 +43,11 @@ public class DatabaseService {
      * @return String containing a status message
      */
     @NotNull
-    public static String connectToDatabase() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(url, username, password);
-            return "Connected to database";
-        } catch (SQLException | ClassNotFoundException e) {
-            return "Connection to database failed:\n" + e.getMessage();
-        }
+    public static String connectToDatabase() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        connection = DriverManager.getConnection(url, username, password);
+        connection.prepareStatement("SHOW TABLES").execute();
+        return "Connected to database";
     }
 
 

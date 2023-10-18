@@ -17,7 +17,7 @@ public class DatabaseServiceTest {
     static String connectionStatus;
 
     @BeforeAll
-    private static void connect() throws IOException {
+    private static void connect() throws IOException, SQLException, ClassNotFoundException {
         String databaseTestInfo = IOUtils.getResourceAsString("databaseTestInfo.txt");
         String[] args = databaseTestInfo.split(System.lineSeparator());
         DatabaseService.setUrlUsernamePassword(args[0], args[1], args[2]);
