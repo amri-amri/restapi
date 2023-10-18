@@ -124,7 +124,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        de.uni_trier.wi2.RESTfulAPIApplication
+                                        de.uni_trier.wi2.RESTAPI
                                     </mainClass>
                                 </manifest>
                             </archive>

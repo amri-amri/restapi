@@ -1,6 +1,7 @@
 package de.uni_trier.wi2.integration;
 
 import com.fasterxml.jackson.databind.*;
+import de.uni_trier.wi2.RESTAPI;
 import de.uni_trier.wi2.extension.similarity.measure.collection.SMCollectionIsolatedMappingExt;
 import org.junit.After;
 import org.junit.Before;
@@ -15,7 +16,6 @@ import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import de.uni_trier.wi2.RESTfulAPIApplication;
 import de.uni_trier.wi2.model.FilterParameters;
 import de.uni_trier.wi2.model.MethodList;
 import de.uni_trier.wi2.model.RetrievalParameters;
@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.MOCK,
-        classes = RESTfulAPIApplication.class)
+        classes = RESTAPI.class)
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs(outputDir = "target/snippets")
 public class ControllerTest {

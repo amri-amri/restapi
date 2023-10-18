@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RESTfulAPIApplication {
+public class RESTAPI {
 
 	public static void main(String[] args) {
 		if (args.length < 3) throw new RuntimeException("Too few arguments!\n" +
@@ -28,8 +28,8 @@ public class RESTfulAPIApplication {
 
 		DatabaseService.setUrlUsernamePassword(databaseUrl, databaseUsername, databasePassword);
 
-		SpringApplication.run(RESTfulAPIApplication.class, args);
-		LoggerFactory.getLogger(RESTfulAPIApplication.class).info("API UI: http://localhost:" + portID + "/swagger-ui/index.html");
+		SpringApplication.run(RESTAPI.class, args);
+		LoggerFactory.getLogger(RESTAPI.class).info("API UI: http://localhost:" + portID + "/swagger-ui/index.html");
 	}
 
 }

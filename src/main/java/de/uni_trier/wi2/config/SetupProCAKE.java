@@ -1,6 +1,6 @@
 package de.uni_trier.wi2.config;
 
-import de.uni_trier.wi2.RESTfulAPIApplication;
+import de.uni_trier.wi2.RESTAPI;
 import de.uni_trier.wi2.service.ProCAKEService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Configuration class to automatically setup ProCAKE when the {@link RESTfulAPIApplication} is started.
+ * Configuration class to automatically setup ProCAKE when the {@link RESTAPI} is started.
  */
 @Configuration
 class SetupProCAKE {

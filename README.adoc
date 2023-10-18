@@ -7,7 +7,7 @@ Karim Amri <info@karim-amri.de>
 Make sure to check out http://localhost:8080/swagger-ui/index.html#/
 in order to use the API per a GUI (8080 is the default port, if you
 use another port you should change this link, as well).
-The *RESTfulAPIApplication* has to be running for that, of course.
+The *RESTAPI* has to be running for that, of course.
 And make sure that the *MySQL Server* is running, as well (See
 database documentation for that:
 https://gitlab.rlp.net/wi2/onkocase/onkocasebackend).
