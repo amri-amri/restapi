@@ -3,6 +3,7 @@ package de.uni_trier.wi2.integration;
 import com.fasterxml.jackson.databind.*;
 import de.uni_trier.wi2.RESTAPI;
 import de.uni_trier.wi2.extension.similarity.measure.collection.SMCollectionIsolatedMappingExt;
+import de.uni_trier.wi2.service.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,9 +48,12 @@ public class ControllerTest {
 
     @Before
     public void before() throws SQLException, IOException {
-        DatabaseService.startTransaction();
+        String databaseTestInfo = IOUtils.getResourceAsString("databaseTestInfo.txt");
+        String[] args = databaseTestInfo.split(System.lineSeparator());
+        DatabaseService.setUrlUsernamePassword(args[0], args[1], args[2]);
+        DatabaseService.connectToDatabase();
 
-        DatabaseService.connectToDatabase("onkocase_test");
+        DatabaseService.startTransaction();
         DatabaseService.deleteAll();
         ProCAKEService.setupCake();
         ProCAKEService.loadCasebase();

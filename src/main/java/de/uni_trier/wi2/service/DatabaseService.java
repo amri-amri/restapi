@@ -48,10 +48,10 @@ public class DatabaseService {
      * @return String containing a status message
      */
     @NotNull
-    public static String connectToDatabase(String databaseName) {
+    public static String connectToDatabase() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(url + databaseName, username, password);
+            connection = DriverManager.getConnection(url, username, password);
             return "Connected to database";
         } catch (SQLException | ClassNotFoundException e) {
             return "Connection to database failed:\n" + e.getMessage();

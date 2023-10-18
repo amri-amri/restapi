@@ -21,7 +21,7 @@ public class DatabaseServiceTest {
         String databaseTestInfo = IOUtils.getResourceAsString("databaseTestInfo.txt");
         String[] args = databaseTestInfo.split(System.lineSeparator());
         DatabaseService.setUrlUsernamePassword(args[0], args[1], args[2]);
-        connectionStatus = DatabaseService.connectToDatabase("onkocase_test");
+        connectionStatus = DatabaseService.connectToDatabase();
     }
 
     @Test
