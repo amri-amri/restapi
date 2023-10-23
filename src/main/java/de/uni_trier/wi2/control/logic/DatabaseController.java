@@ -61,7 +61,7 @@ public class DatabaseController {
 		for (String traceID : traceIDs) {
 			trace = new HashMap<>();
 			trace.put(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID, traceID);
-			trace.put("link", linkTo(methodOn(DatabaseController.class).getTrace(traceID)).withSelfRel());
+			trace.put("links", linkTo(methodOn(DatabaseController.class).getTrace(traceID)).withSelfRel());
 			traces.add(trace);
 		}
 
