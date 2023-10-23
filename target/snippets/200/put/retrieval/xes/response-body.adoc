@@ -1,0 +1,4 @@
+[source,json,options="nowrap"]
+----
+[{"traceID":"3023f111-a2ae-4388-9778-fe904593d7bd","similarity":0.6666666666666666},{"traceID":"f9c1a810-7554-4d9d-a667-7e82139167bf","similarity":0.5208333333333333},{"traceID":"0eb6fa81-a291-4c2c-9078-0f26386257ed","similarity":0.5208333333333333},{"traceID":"e9b416c6-703a-411c-95d6-8ea6dcce062d","similarity":0.39999999999999997}]
+----

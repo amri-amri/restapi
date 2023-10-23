@@ -277,6 +277,7 @@ retrieval results.
 The response body is a list of `traceID`-`similarity value` pairs.
 
 === Snippets
+== retrieval/{traceID}
 .HTTP
 include::{snippets}/../target/snippets/200/put/retrieval/traceID_0/http-request.adoc[]
 .HTTPIE
@@ -285,3 +286,13 @@ include::{snippets}/../target/snippets/200/put/retrieval/traceID_0/httpie-reques
 include::{snippets}/../target/snippets/200/put/retrieval/traceID_0/curl-request.adoc[]
 .HTTP Response
 include::{snippets}/../target/snippets/200/put/retrieval/traceID_0/http-response.adoc[]
+
+== retrieval
+.HTTP
+include::{snippets}/../target/snippets/200/put/retrieval/xes/http-request.adoc[]
+.HTTPIE
+include::{snippets}/../target/snippets/200/put/retrieval/xes/httpie-request.adoc[]
+.CURL
+include::{snippets}/../target/snippets/200/put/retrieval/xes/curl-request.adoc[]
+.HTTP Response
+include::{snippets}/../target/snippets/200/put/retrieval/xes/http-response.adoc[]

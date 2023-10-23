@@ -3,7 +3,6 @@ package de.uni_trier.wi2.integration;
 import com.fasterxml.jackson.databind.*;
 import de.uni_trier.wi2.RESTAPI;
 import de.uni_trier.wi2.extension.similarity.measure.collection.SMCollectionIsolatedMappingExt;
-import de.uni_trier.wi2.service.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +23,6 @@ import de.uni_trier.wi2.service.DatabaseService;
 import de.uni_trier.wi2.service.ProCAKEService;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -215,12 +213,8 @@ public class ControllerTest {
 
     @Test
     public void procake_test() throws Exception {
-        String log = """
-                <?xml version="1.0" encoding="UTF-8"?>
-                <log>
-                    <string key="type" value="test log"/>
-                   
-                    <trace>
+        String trace = """
+                <trace>
                         <event>
                             <string key="eventString" value="Pferd"/>
                             <boolean key="eventBoolean" value="true"/>
@@ -239,9 +233,14 @@ public class ControllerTest {
                                 <string key="listString" value="Hund"/>
                             </list>
                         </event>
-                    </trace>
-                   
-                   
+                    </trace>""";
+        String head = """
+                <?xml version="1.0" encoding="UTF-8"?>
+                <log>""";
+        String foot = """
+                </log>""";
+        String log = head + """
+                    <string key="type" value="test log"/>""" + trace + """
                     <trace>
                         <event>
                             <string key="eventString" value="Pferd"/>
@@ -314,9 +313,7 @@ public class ControllerTest {
                                 <string key="listString" value="Degen"/>
                             </container>
                         </event>
-                    </trace>
-                </log>
-                """;
+                    </trace>""" + foot;
 
         MvcResult result = mvc.perform(post("/log").content(log))
                 .andExpect(status().isOk())
@@ -339,7 +336,11 @@ public class ControllerTest {
                 .andExpect(status().isOk())
                 .andDo(MockMvcRestDocumentation.document("200/get/procake/reload"));
 
-        String[] ids = performRetrieval(traceID);
+        String[] ids = performRetrievalByID(traceID);
+
+        assert ids.length == 4;
+
+        ids = performRetrievalByXES(head + trace + foot);
 
         assert ids.length == 4;
 
@@ -351,19 +352,19 @@ public class ControllerTest {
         mvc.perform(get("/procake/reload"))
                 .andExpect(status().isOk());
 
-        ids = performRetrieval(traceID);
+        ids = performRetrievalByID(traceID);
 
         assert ids.length == 0;
         DatabaseService.commit();
     }
 
-    private String[] performRetrieval(String traceID) throws Exception {
+    private String[] performRetrievalByID(String traceID) throws Exception {
         String xes = "";
         String globalSimilarityMeasure = SMCollectionIsolatedMappingExt.NAME;
         MethodList globalMethodInvokers = null;
         String localSimilarityMeasureFunc = """
                 <?xml version="1.0" encoding="UTF-8"?>
-                <!DOCTYPE similarity-measure-function SYSTEM "src/main/resources/de/uni_trier/wi2/schema/similaritymeasure-function.dtd">
+                <!DOCTYPE similarity-measure-function SYSTEM "https://karim-amri.de/dtd/similaritymeasure-function.dtd">
                 <similarity-measure-function>
                     <if>
                         <and>
@@ -523,6 +524,174 @@ public class ControllerTest {
 
         return retrieval.stream().map(e -> e.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID)).toList().toArray(String[]::new);
     }
+
+    private String[] performRetrievalByXES(String xes) throws Exception {
+        String globalSimilarityMeasure = SMCollectionIsolatedMappingExt.NAME;
+        MethodList globalMethodInvokers = null;
+        String localSimilarityMeasureFunc = """
+                <?xml version="1.0" encoding="UTF-8"?>
+                <!DOCTYPE similarity-measure-function SYSTEM "https://karim-amri.de/dtd/similaritymeasure-function.dtd">
+                <similarity-measure-function>
+                    <if>
+                        <and>
+                                        <equals>
+                                <method-return-value>
+                                    <method-return-value>
+                                        <q/>
+                                        <method name="getDataClass"></method>
+                                    </method-return-value>
+                                    <method name="getName"></method>
+                                </method-return-value>
+                                <string value="XESEventClass"/>
+                            </equals>
+                                        <equals>
+                                <method-return-value>
+                                    <method-return-value>
+                                        <c/>
+                                        <method name="getDataClass"></method>
+                                    </method-return-value>
+                                    <method name="getName"></method>
+                                </method-return-value>
+                                <string value="XESEventClass"/>
+                            </equals>
+                                    </and>
+                        <string value="CollectionIsolatedMappingExt"/>
+                    </if>
+                        <if>
+                        <and>
+                            <equals>
+                                <method-return-value>
+                                    <method-return-value>
+                                        <method-return-value>
+                                            <method-return-value>
+                                                <q/>
+                                                <method name="getDataClass"></method>
+                                            </method-return-value>
+                                            <method name="getSuperClass"></method>
+                                        </method-return-value>
+                                        <method name="getSuperClass"></method>
+                                    </method-return-value>
+                                    <method name="getName"></method>
+                                </method-return-value>
+                                <string value="XESNaturallyNestedClass"/>
+                            </equals>
+                            <equals>
+                                <method-return-value>
+                                    <method-return-value>
+                                        <method-return-value>
+                                            <method-return-value>
+                                                <c/>
+                                                <method name="getDataClass"></method>
+                                            </method-return-value>
+                                            <method name="getSuperClass"></method>
+                                        </method-return-value>
+                                        <method name="getSuperClass"></method>
+                                    </method-return-value>
+                                    <method name="getName"></method>
+                                </method-return-value>
+                                <string value="XESNaturallyNestedClass"/>
+                            </equals>
+                        </and>
+                        <string value="CollectionIsolatedMappingExt"/>
+                    </if>
+                        <if>
+                        <and>
+                            <equals>
+                                <method-return-value>
+                                    <method-return-value>
+                                        <method-return-value>
+                                            <q/>
+                                            <method name="getDataClass"></method>
+                                        </method-return-value>
+                                        <method name="getSuperClass"></method>
+                                    </method-return-value>
+                                    <method name="getName"></method>
+                                </method-return-value>
+                                <string value="XESLiteralClass"/>
+                            </equals>
+                            <equals>
+                                <method-return-value>
+                                    <method-return-value>
+                                        <method-return-value>
+                                            <c/>
+                                            <method name="getDataClass"></method>
+                                        </method-return-value>
+                                        <method name="getSuperClass"></method>
+                                    </method-return-value>
+                                    <method name="getName"></method>
+                                </method-return-value>
+                                <string value="XESLiteralClass"/>
+                            </equals>
+                        </and>
+                        <string value="StringLevenshteinExt"/>
+                    </if>
+                        <if>
+                        <and>
+                            <equals>
+                                <method-return-value>
+                                    <method-return-value>
+                                        <method-return-value>
+                                            <q/>
+                                            <method name="getDataClass"></method>
+                                        </method-return-value>
+                                        <method name="getSuperClass"></method>
+                                    </method-return-value>
+                                    <method name="getName"></method>
+                                </method-return-value>
+                                <string value="XESBooleanClass"/>
+                            </equals>
+                            <equals>
+                                <method-return-value>
+                                    <method-return-value>
+                                        <method-return-value>
+                                            <c/>
+                                            <method name="getDataClass"></method>
+                                        </method-return-value>
+                                        <method name="getSuperClass"></method>
+                                    </method-return-value>
+                                    <method name="getName"></method>
+                                </method-return-value>
+                                <string value="XESBooleanClass"/>
+                            </equals>
+                        </and>
+                        <string value="BooleanXOR"/>
+                    </if>
+                                
+                </similarity-measure-function>""";
+        String localMethodInvokersFunc = null;
+        String localWeightFunc = null;
+        FilterParameters filterParameters = null;
+        int numberOfResults = 4;
+
+        RetrievalParameters parameters = new RetrievalParameters(
+                xes,
+                globalSimilarityMeasure,
+                globalMethodInvokers,
+                localSimilarityMeasureFunc,
+                localMethodInvokersFunc,
+                localWeightFunc,
+                filterParameters,
+                numberOfResults
+        );
+
+        // PUT /retrieval/x 200
+        String result = mvc.perform(put("/retrieval")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content((new ObjectMapper()).writer().withDefaultPrettyPrinter().writeValueAsString(parameters)))
+                .andExpect(status().isOk())
+                .andDo(MockMvcRestDocumentation.document("200/put/retrieval/xes"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        ArrayList<Map<String, Object>> retrieval =
+                new ObjectMapper().readValue(result, ArrayList.class);
+
+
+        return retrieval.stream().map(e -> e.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID)).toList().toArray(String[]::new);
+    }
+
+
 
     private int retrievalCounter;
 
