@@ -175,6 +175,8 @@ public class ProCAKEService {
             for (String logID : DatabaseService.getLogIDs(false)) {
                 log = DatabaseService.getLog(logID);
                 header = (String) log.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__header);
+                while (header.contains("  ")) header = header.replace("  ", " ");
+                header = header.trim();
                 prefix = header.split("</log>")[0];
 
                 for (String traceID : DatabaseService.getTraceIDs(logID)) {
