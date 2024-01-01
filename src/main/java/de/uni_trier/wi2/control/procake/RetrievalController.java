@@ -40,7 +40,7 @@ public class RetrievalController {
      * @throws ParserConfigurationException todo
      * @throws SAXException                 todo
      */
-    @PutMapping("/retrieval/{traceID}")
+    @PutMapping(value = "/retrieval/{traceID}")
     Map<String, Object>[] retrieve(@PathVariable String traceID, @RequestBody RetrievalParameters parameters) throws Exception {
         Map<String, Object> t;
         try {
@@ -80,8 +80,8 @@ public class RetrievalController {
      * @throws ParserConfigurationException todo
      * @throws SAXException                 todo
      */
-    @PutMapping("/retrieval")
-    Map<String, Object>[] retrieve(@RequestBody RetrievalParameters parameters) throws Exception {
+    @PutMapping(value = "/retrieval")
+    Map<String, Object>[] retrieve( @RequestBody RetrievalParameters parameters) throws Exception {
         Map[] traces;
         try {
             traces = ProCAKEService.retrieve(
