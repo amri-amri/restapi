@@ -372,4 +372,16 @@ public class ProCAKEService {
         return cases;
     }
 
+    @Deprecated
+    // for testing purposes only //ProCAKE service/controller should not provide method to get any cases from the casebase
+    public static WriteableObjectPool<DataObject> getActualCasebase(){
+        return casebase;
+    }
+
+    @Deprecated
+    // for testing purposes only //ProCAKE service/controller should not provide method to get similarity model
+    public static SimilarityModel getSimilarityModel(){
+        return similarityModel;
+    }
+
 }
