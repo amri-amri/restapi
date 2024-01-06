@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static de.uni_trier.wi2.LoggingUtils.METHOD_CALL;
+
 /**
  * REST controller responsible for non-retrieval access to the ProCAKE instance.
  */
@@ -13,11 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class InstanceController {
 
 
-
     public InstanceController(){
     }
 
-    public static final Logger METHOD_CALL = LoggerFactory.getLogger("method-call");
 
     /**
      * <p>Restarts the ProCAKE instance.</p>
@@ -27,9 +27,9 @@ public class InstanceController {
      */
     @GetMapping("/procake/restart")
     public String restart(){
-        METHOD_CALL.info("public String control.procake.InstanceController.restart()...");
+        METHOD_CALL.info("public String restapi.control.procake.InstanceController.restart()...");
         String msg = ProCAKEService.setupCake();
-        METHOD_CALL.info("control.procake.InstanceController.restart(): {}", msg);
+        METHOD_CALL.info("restapi.control.procake.InstanceController.restart(): {}", msg);
         return msg;
     }
 
@@ -40,9 +40,9 @@ public class InstanceController {
      */
     @GetMapping("/procake/reload")
     String reload() {
-        METHOD_CALL.info("public String control.procake.InstanceController.reload()");
+        METHOD_CALL.info("public String restapi.control.procake.InstanceController.reload()");
         String msg = ProCAKEService.loadCasebase();
-        METHOD_CALL.info("control.procake.InstanceController.reload(): {}", msg);
+        METHOD_CALL.info("restapi.control.procake.InstanceController.reload(): {}", msg);
         return msg;
     }
 }

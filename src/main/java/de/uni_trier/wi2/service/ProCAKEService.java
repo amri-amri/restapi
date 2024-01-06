@@ -49,15 +49,14 @@ import java.sql.SQLException;
 import java.util.*;
 
 import static de.uni_trier.wi2.LoggingUtils.maxSubstring;
+import static de.uni_trier.wi2.LoggingUtils.METHOD_CALL;
+import static de.uni_trier.wi2.LoggingUtils.DIAGNOSTICS;
 
 /**
  * The service implementing all business logic for interacting with the ProCAKE instance.
  */
 @Service
 public class ProCAKEService {
-
-    public static final Logger METHOD_CALL = LoggerFactory.getLogger("method-call");
-    public static final Logger DIAGNOSTICS = LoggerFactory.getLogger("diagnostics");
 
     static final String TYPE_NAME_STRING = "string";
     static final String TYPE_NAME_DOUBLE = "double";
@@ -239,7 +238,7 @@ public class ProCAKEService {
 
                     DIAGNOSTICS.trace(
                             "service.ProCAKEService.loadCasebase(): NESTSequentialWorkflowObject stored in casebase: {}",
-                            maxSubstring(workflow.toString()));
+                            maxSubstring(workflow));
                 }
             }
 
@@ -291,11 +290,11 @@ public class ProCAKEService {
                 ", int numberOfResult={})...",
                 maxSubstring(xes),
                 maxSubstring(globalSimilarityMeasure),
-                maxSubstring(globalMethodInvokerList.toString()),
+                maxSubstring(globalMethodInvokerList),
                 maxSubstring(similarityMeasureFunc),
                 maxSubstring(methodInvokersFunc),
                 maxSubstring(weightFunc),
-                maxSubstring(filterParameters.toString()),
+                maxSubstring(filterParameters),
                 numberOfResults);
 
         // - preparation of retrieval - //
@@ -349,9 +348,9 @@ public class ProCAKEService {
             ));
         }
 
-        METHOD_CALL.info("service.ProCAKEService.retrieve" +
+        METHOD_CALL.info("restapi.service.ProCAKEService.retrieve" +
                 "(String, String, MethodList, String, String, String, FilterParameters, int): return results={}",
-                maxSubstring(results.toString()));
+                maxSubstring(results));
         return results;
     }
 
@@ -381,7 +380,7 @@ public class ProCAKEService {
         workflow.transformNESTGraphToNESTSequentialWorkflow(converter.convert(graph));
 
         METHOD_CALL.info("service.ProCAKEService.convertQuery(String): return NESTSequentialWorkflowObject {}",
-                maxSubstring(workflow.toString()));
+                maxSubstring(workflow));
         return workflow;
     }
 
@@ -394,7 +393,7 @@ public class ProCAKEService {
     private static ArrayList<MethodInvoker> convertGlobalMethodInvokers(MethodList globalMethodInvokers) {
         METHOD_CALL.info(
                 "private static ArrayList<MethodInvoker> service.ProCAKEService.convertGlobalMethodInvokers" +
-                        "(MethodList globalMethodInvokers={})...", maxSubstring(globalMethodInvokers.toString()));
+                        "(MethodList globalMethodInvokers={})...", maxSubstring(globalMethodInvokers));
 
         ArrayList<MethodInvoker> globalMethodInvokerList = new ArrayList<>();
         if (globalMethodInvokers == null) {
@@ -404,7 +403,7 @@ public class ProCAKEService {
 
         for (Method m : globalMethodInvokers.methods()) {
             DIAGNOSTICS.trace("service.ProCAKEService.convertGlobalMethodInvokers(MethodList): Method m={}",
-                    maxSubstring(m.toString()));
+                    maxSubstring(m));
 
             Class<?> clazz;
             Object object;
@@ -438,7 +437,7 @@ public class ProCAKEService {
 
 
         METHOD_CALL.info("service.ProCAKEService.convertGlobalMethodInvokers(MethodList): return {}",
-                maxSubstring(globalMethodInvokerList.toString()));
+                maxSubstring(globalMethodInvokerList));
         return globalMethodInvokerList;
     }
 

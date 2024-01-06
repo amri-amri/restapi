@@ -20,6 +20,8 @@ import java.util.*;
 
 import static de.uni_trier.wi2.LoggingUtils.maxSubstring;
 import static de.uni_trier.wi2.LoggingUtils.stringOf;
+import static de.uni_trier.wi2.LoggingUtils.METHOD_CALL;
+import static de.uni_trier.wi2.LoggingUtils.DIAGNOSTICS;
 import static de.uni_trier.wi2.service.IOUtils.getResourceAsString;
 
 
@@ -28,9 +30,6 @@ import static de.uni_trier.wi2.service.IOUtils.getResourceAsString;
  */
 @Service
 public class DatabaseService {
-
-    public static final Logger METHOD_CALL = LoggerFactory.getLogger("method-call");
-    public static final Logger DIAGNOSTICS = LoggerFactory.getLogger("diagnostics");
 
     // ------------------------------------------------- Connection ------------------------------------------------- //
     private static String url = null;
@@ -51,13 +50,13 @@ public class DatabaseService {
      */
     @NotNull
     public static String connectToDatabase() throws ClassNotFoundException, SQLException {
-        METHOD_CALL.info("ENTER: public static String service.DatabaseService.connectToDatabase()");
+        METHOD_CALL.info("public static String restapi.service.DatabaseService.connectToDatabase()...");
 
         Class.forName("com.mysql.cj.jdbc.Driver");
         connection = DriverManager.getConnection(url, username, password);
         connection.prepareStatement("SHOW TABLES").execute();
 
-        METHOD_CALL.info("EXIT: service.DatabaseService.connectToDatabase()");
+        METHOD_CALL.info("restapi.service.DatabaseService.connectToDatabase(): Connected to database");
         return "Connected to database";
     }
 
@@ -78,7 +77,7 @@ public class DatabaseService {
      * @throws SAXException
      */
     public static String[] putLog(String xes) throws XESnotValidException, SQLException, IOException, SAXException {
-        METHOD_CALL.info("public static String[] service.DatabaseService.putLog(String xes)\n" +
+        METHOD_CALL.info("public static String[] restapi.service.DatabaseService.putLog(String xes)\n" +
                 "xes: {}", maxSubstring(xes));
 
         // validate the XES
@@ -97,10 +96,10 @@ public class DatabaseService {
             splitTrace = splitXES[i].split("</trace>");
             trace = "<trace" + splitTrace[0] + "</trace>";
             traces.add(trace);
-            DIAGNOSTICS.trace("service.DatabaseService.putLog(String): Added trace to list of traces: {}", maxSubstring(trace));
+            DIAGNOSTICS.trace("restapi.service.DatabaseService.putLog(String): Added trace to list of traces: {}", maxSubstring(trace));
             if (splitTrace.length > 1) {
                 header.append(splitTrace[1]);
-                DIAGNOSTICS.trace("service.DatabaseService.putLog(String): Appended to header: {}", maxSubstring(splitTrace[1]));
+                DIAGNOSTICS.trace("restapi.service.DatabaseService.putLog(String): Appended to header: {}", maxSubstring(splitTrace[1]));
             }
         }
 
@@ -149,7 +148,7 @@ public class DatabaseService {
 
         }
 
-        DIAGNOSTICS.info("service.DatabaseService.putLog(String): return ids (first one is logID) = {}");
+        DIAGNOSTICS.info("restapi.service.DatabaseService.putLog(String): return ids (first one is logID) = {}");
         return ids;
     }
 
@@ -168,14 +167,14 @@ public class DatabaseService {
      * @throws SQLException if the log does not exist in the database or if there was a problem with the sql query
      */
     public static Map<String, Object> getLog(String logID) throws SQLException {
-        METHOD_CALL.info("public static String[] service.DatabaseService.getLog(String logID={})", logID);
+        METHOD_CALL.info("public static String[] restapi.service.DatabaseService.getLog(String logID={})", logID);
 
         ResultSet resultSet = selectFrom(DATABASE_NAMES.TABLENAME__log,
                 new String[]{DATABASE_NAMES.COLUMNNAME__log__header, DATABASE_NAMES.COLUMNNAME__log__removed},
                 DATABASE_NAMES.COLUMNNAME__log__logID + " = '" + logID + "'");
 
         if (!resultSet.next()) {
-            DIAGNOSTICS.info("service.DatabaseService.getLog(String): Log not found in database.");
+            DIAGNOSTICS.info("restapi.service.DatabaseService.getLog(String): Log not found in database.");
             throw new SQLException("Log not found in database.");
         }
 
@@ -184,7 +183,7 @@ public class DatabaseService {
         log.put(DATABASE_NAMES.COLUMNNAME__log__header, resultSet.getString(1));
         log.put(DATABASE_NAMES.COLUMNNAME__log__removed, resultSet.getBoolean(2));
 
-        DIAGNOSTICS.info("service.DatabaseService.getLog(String): return log = {}", maxSubstring(log.toString()));
+        DIAGNOSTICS.info("restapi.service.DatabaseService.getLog(String): return log = {}", maxSubstring(log.toString()));
         return log;
     }
 
@@ -196,7 +195,7 @@ public class DatabaseService {
      * @throws SQLException if no row was updated or if there was a problem with the sql query
      */
     public static int removeLog(String logID) throws SQLException {
-        METHOD_CALL.info("public static int service.DatabaseService.removeLog(String logID={})", logID);
+        METHOD_CALL.info("public static int restapi.service.DatabaseService.removeLog(String logID={})", logID);
 
         int rowsUpdated = update(
                 DATABASE_NAMES.TABLENAME__log,
@@ -206,7 +205,7 @@ public class DatabaseService {
         );
 
         if (rowsUpdated < 1) {
-            DIAGNOSTICS.info("service.DatabaseService.removeLog(String): Log not found in database.");
+            DIAGNOSTICS.info("restapi.service.DatabaseService.removeLog(String): Log not found in database.");
             throw new SQLException("Log not found in database.");
         }
 
@@ -217,7 +216,7 @@ public class DatabaseService {
                 DATABASE_NAMES.COLUMNNAME__trace__logID + " = '" + logID + "'"
         );
 
-        DIAGNOSTICS.info("service.DatabaseService.removeLog(String): return rows updated = {}", rowsUpdated);
+        DIAGNOSTICS.info("restapi.service.DatabaseService.removeLog(String): return rows updated = {}", rowsUpdated);
         return rowsUpdated;
     }
 
@@ -237,7 +236,7 @@ public class DatabaseService {
      * @throws SQLException if the trace does not exist in the database or if there was a problem with the sql query
      */
     public static Map<String, Object> getTrace(String traceID) throws SQLException {
-        METHOD_CALL.info("public static Map<String, Object> service.DatabaseService.getTrace(String traceID={})", traceID);
+        METHOD_CALL.info("public static Map<String, Object> restapi.service.DatabaseService.getTrace(String traceID={})", traceID);
 
         ResultSet resultSet = selectFrom(
                 DATABASE_NAMES.TABLENAME__trace,
@@ -249,7 +248,7 @@ public class DatabaseService {
                 DATABASE_NAMES.COLUMNNAME__trace__traceID + " = '" + traceID + "'");
 
         if (!resultSet.next()) {
-            DIAGNOSTICS.info("service.DatabaseService.getTrace(String): Trace not found in database.");
+            DIAGNOSTICS.info("restapi.service.DatabaseService.getTrace(String): Trace not found in database.");
             throw new SQLException("Trace not found in database.");
         }
 
@@ -259,7 +258,7 @@ public class DatabaseService {
         trace.put(DATABASE_NAMES.COLUMNNAME__trace__xes, resultSet.getString(2));
         trace.put(DATABASE_NAMES.COLUMNNAME__trace__removed, resultSet.getBoolean(3));
 
-        DIAGNOSTICS.info("service.DatabaseService.getTrace(String): return trace = {}", maxSubstring(trace.toString()));
+        DIAGNOSTICS.info("restapi.service.DatabaseService.getTrace(String): return trace = {}", maxSubstring(trace.toString()));
         return trace;
     }
 
@@ -271,7 +270,7 @@ public class DatabaseService {
      * @throws SQLException if the log does not exist in the database
      */
     public static String[] getTraceIDs(String logID) throws SQLException {
-        METHOD_CALL.info("public static String[] service.DatabaseService.getTraceIDs(String logID={})", logID);
+        METHOD_CALL.info("public static String[] restapi.service.DatabaseService.getTraceIDs(String logID={})", logID);
 
         ResultSet resultSet = selectFrom(
                 DATABASE_NAMES.TABLENAME__trace,
@@ -279,7 +278,7 @@ public class DatabaseService {
                 DATABASE_NAMES.COLUMNNAME__trace__logID + " = '" + logID + "'");
 
         if (!resultSet.next()) {
-            DIAGNOSTICS.info("service.DatabaseService.getTraceIDs(String): return trace IDs = []");
+            DIAGNOSTICS.info("restapi.service.DatabaseService.getTraceIDs(String): return trace IDs = []");
             return new String[0];
         }
 
@@ -293,7 +292,7 @@ public class DatabaseService {
 
         String[] traceIDsArray = traceIDs.toArray(new String[]{});
 
-        DIAGNOSTICS.info("service.DatabaseService.getTraceIDs(String): return trace IDs = {}",
+        DIAGNOSTICS.info("restapi.service.DatabaseService.getTraceIDs(String): return trace IDs = {}",
                 maxSubstring(Arrays.toString(traceIDsArray)));
         return traceIDsArray;
     }
@@ -306,14 +305,14 @@ public class DatabaseService {
      * @throws SQLException if the log does not exist in the database or if there was a problem with the sql query
      */
     public static List<Map<String, Object>> getTraces(String logID) throws SQLException {
-        METHOD_CALL.info("public static List<Map<String, Object>> service.DatabaseService.getTraces(String logID={})",
+        METHOD_CALL.info("public static List<Map<String, Object>> restapi.service.DatabaseService.getTraces(String logID={})",
                 logID);
 
         String[] traceIDs = getTraceIDs(logID);
         List<Map<String, Object>> traces = new ArrayList<>();
         for (String traceID : traceIDs) traces.add(getTrace(traceID));
 
-        DIAGNOSTICS.info("service.DatabaseService.getTraces(String): return traces = {}", maxSubstring(traces.toString()));
+        DIAGNOSTICS.info("restapi.service.DatabaseService.getTraces(String): return traces = {}", maxSubstring(traces.toString()));
         return traces;
     }
 
@@ -324,7 +323,7 @@ public class DatabaseService {
      * @throws SQLException if there was a problem with the sql query
      */
     public static String[] getLogIDs(boolean includeRemoved) throws SQLException {
-        METHOD_CALL.info("public static String[] service.DatabaseService.getlogIDs(boolean includeRemoved={})",
+        METHOD_CALL.info("public static String[] restapi.service.DatabaseService.getlogIDs(boolean includeRemoved={})",
                 includeRemoved);
 
         String condition = "true";
@@ -336,7 +335,7 @@ public class DatabaseService {
                 condition);
 
         if (!resultSet.next()) {
-            DIAGNOSTICS.info("service.DatabaseService.getLogIDs(boolean): return log IDs = []");
+            DIAGNOSTICS.info("restapi.service.DatabaseService.getLogIDs(boolean): return log IDs = []");
             return new String[0];
         }
 
@@ -350,7 +349,7 @@ public class DatabaseService {
 
         String[] logIDsArray = logIDs.toArray(new String[]{});
 
-        DIAGNOSTICS.info("service.DatabaseService.getLogIDs(boolean): return log IDs = {}",
+        DIAGNOSTICS.info("restapi.service.DatabaseService.getLogIDs(boolean): return log IDs = {}",
                 maxSubstring(Arrays.toString(logIDsArray)));
         return logIDsArray;
     }
@@ -370,7 +369,7 @@ public class DatabaseService {
      */
     public static String putTraceMetadata(String traceID, String metadataType, String metadataValue) throws SQLException {
         METHOD_CALL.info(
-                "public static String service.DatabaseService.putTraceMetadata(String traceID={}, String metadataType={}, String metadataValue={})...",
+                "public static String restapi.service.DatabaseService.putTraceMetadata(String traceID={}, String metadataType={}, String metadataValue={})...",
                 traceID, metadataType, metadataValue);
 
         // calling this function will throw an exception if the trace does not exist in the database
@@ -425,7 +424,7 @@ public class DatabaseService {
                         traceID});
 
 
-        METHOD_CALL.info("service.DatabaseService.putTraceMetadata(String, String, String): return metadataID = {}",
+        METHOD_CALL.info("restapi.service.DatabaseService.putTraceMetadata(String, String, String): return metadataID = {}",
                 metadataID);
         return metadataID;
     }
@@ -444,7 +443,7 @@ public class DatabaseService {
      */
     public static String putLogMetadata(String logID, String metadataType, String metadataValue) throws SQLException {
         METHOD_CALL.info(
-                "public static String service.DatabaseService.putLogMetadata(String traceID={}, String metadataType={}, String metadataValue={})...",
+                "public static String restapi.service.DatabaseService.putLogMetadata(String traceID={}, String metadataType={}, String metadataValue={})...",
                 logID, metadataType, metadataValue);
 
         // calling this function will throw an exception if the log does not exist in the database
@@ -498,7 +497,7 @@ public class DatabaseService {
                         metadataID,
                         logID});
 
-        METHOD_CALL.info("service.DatabaseService.putLogMetadata(String, String, String): return metadataID = {}",
+        METHOD_CALL.info("restapi.service.DatabaseService.putLogMetadata(String, String, String): return metadataID = {}",
                 metadataID);
         return metadataID;
     }
@@ -514,7 +513,7 @@ public class DatabaseService {
      * @throws SQLException if the trace does not exist in the database or if there was a problem with the sql query
      */
     public static Map<String, String> getTraceMetadata(String traceID) throws SQLException {
-        METHOD_CALL.info("public static Map<String, String> service.DatabaseService.getTraceMetadata(String traceID={})...",
+        METHOD_CALL.info("public static Map<String, String> restapi.service.DatabaseService.getTraceMetadata(String traceID={})...",
                 traceID);
 
         // calling this function will throw an exception if the trace does not exist in the database
@@ -553,7 +552,7 @@ public class DatabaseService {
         }
 
 
-        METHOD_CALL.info("service.DatabaseService.getTraceMetadata(String): return metadata = {}",
+        METHOD_CALL.info("restapi.service.DatabaseService.getTraceMetadata(String): return metadata = {}",
                 metadata);
         return metadata;
     }
@@ -569,7 +568,7 @@ public class DatabaseService {
      * @throws SQLException if the log does not exist in the database or if there was a problem with the sql query
      */
     public static Map<String, String> getLogMetadata(String logID) throws SQLException {
-        METHOD_CALL.info("public static Map<String, String> service.DatabaseService.getLogMetadata(String traceID={})...",
+        METHOD_CALL.info("public static Map<String, String> restapi.service.DatabaseService.getLogMetadata(String traceID={})...",
                 logID);
 
         // calling this function will throw an exception if the log does not exist in the database
@@ -608,7 +607,7 @@ public class DatabaseService {
         }
 
 
-        METHOD_CALL.info("service.DatabaseService.getLogMetadata(String): return metadata = {}",
+        METHOD_CALL.info("restapi.service.DatabaseService.getLogMetadata(String): return metadata = {}",
                 metadata);
         return metadata;
     }
@@ -621,7 +620,7 @@ public class DatabaseService {
 
     private static ResultSet selectFrom(String tableName, String[] attributeNames, String condition) throws SQLException {
         METHOD_CALL.info(
-                "private static ResultSet service.DatabaseService.selectFrom(String tableName={}, String[] attributeNames={}, String condition={})",
+                "private static ResultSet restapi.service.DatabaseService.selectFrom(String tableName={}, String[] attributeNames={}, String condition={})",
                 tableName, attributeNames, condition);
 
         assert (tableName != null &&
@@ -635,14 +634,14 @@ public class DatabaseService {
         select.append("\nFROM ").append(tableName).append("\nWHERE ").append(condition).append(";");
         ResultSet resultSet = connection.prepareStatement(select.toString()).executeQuery();
 
-        DIAGNOSTICS.info("service.DatabaseService.selectFrom(String, String[], String): return {}",
+        DIAGNOSTICS.info("restapi.service.DatabaseService.selectFrom(String, String[], String): return {}",
                 maxSubstring(stringOf(resultSet)));
         return resultSet;
     }
 
     private static ResultSet insertInto(String tableName, String[] attributeNames, Object[] values) throws SQLException {
         METHOD_CALL.info(
-                "private static ResultSet service.DatabaseService.insertInto(String tableName={}, String[] attributeNames={}, Object[] values={})",
+                "private static ResultSet restapi.service.DatabaseService.insertInto(String tableName={}, String[] attributeNames={}, Object[] values={})",
                 tableName, attributeNames, maxSubstring(values.toString()));
 
         assert (tableName != null &&
@@ -671,13 +670,13 @@ public class DatabaseService {
         insertStatement.executeUpdate();
         ResultSet generatedKeys = insertStatement.getGeneratedKeys();
 
-        DIAGNOSTICS.info("service.DatabaseService.insertInto(String, String[], Object[]): return generated keys = {}", maxSubstring(generatedKeys.toString()));
+        DIAGNOSTICS.info("restapi.service.DatabaseService.insertInto(String, String[], Object[]): return generated keys = {}", maxSubstring(generatedKeys.toString()));
         return generatedKeys;
     }
 
     private static int deleteFrom(String tableName, String conditionString) throws SQLException {
         METHOD_CALL.info(
-                "private static int service.DatabaseService.deleteFrom(String tableName={}, String conditionString={})",
+                "private static int restapi.service.DatabaseService.deleteFrom(String tableName={}, String conditionString={})",
                 tableName, conditionString);
 
         assert (tableName != null &&
@@ -685,13 +684,13 @@ public class DatabaseService {
 
         int rows = connection.prepareStatement("DELETE FROM " + tableName + "\nWHERE " + conditionString + ";").executeUpdate();
 
-        DIAGNOSTICS.info("service.DatabaseService.deleteFrom(String, String): return rows affected = {}", rows);
+        DIAGNOSTICS.info("restapi.service.DatabaseService.deleteFrom(String, String): return rows affected = {}", rows);
         return rows;
     }
 
     private static int update(String tableName, String[] attributeNames, Object[] values, String condition) throws SQLException {
         METHOD_CALL.info(
-                "private static int service.DatabaseService.update(String tableName={}, String[] attributeNames={}, Object[] values={}, String condition={})",
+                "private static int restapi.service.DatabaseService.update(String tableName={}, String[] attributeNames={}, Object[] values={}, String condition={})",
                 tableName, attributeNames, maxSubstring(values.toString()), condition);
 
         assert (tableName != null &&
@@ -716,7 +715,7 @@ public class DatabaseService {
         }
         int rows = updateStatement.executeUpdate();
 
-        DIAGNOSTICS.info("service.DatabaseService.deleteFrom(String, String): return rows affected = {}", rows);
+        DIAGNOSTICS.info("restapi.service.DatabaseService.deleteFrom(String, String): return rows affected = {}", rows);
         return rows;
     }
 
@@ -724,22 +723,22 @@ public class DatabaseService {
     // - transaction operations to ensure consistency -
 
     public static void startTransaction() throws SQLException {
-        METHOD_CALL.info("public static void service.DatabaseService.startTransaction()");
+        METHOD_CALL.info("public static void restapi.service.DatabaseService.startTransaction()");
         connection.prepareStatement("start transaction;").execute();
     }
 
     public static void savepoint(String identifier) throws SQLException {
-        METHOD_CALL.info("public static void service.DatabaseService.savepoint( \"{}\" )", identifier);
+        METHOD_CALL.info("public static void restapi.service.DatabaseService.savepoint( \"{}\" )", identifier);
         connection.prepareStatement("savepoint " + identifier + ";").execute();
     }
 
     public static void rollbackTo(String identifier) throws SQLException {
-        METHOD_CALL.info("public static void service.DatabaseService.rollbackTo( \"{}\" )", identifier);
+        METHOD_CALL.info("public static void restapi.service.DatabaseService.rollbackTo( \"{}\" )", identifier);
         connection.prepareStatement("rollback to savepoint " + identifier + ";").execute();
     }
 
     public static void commit() throws SQLException {
-        METHOD_CALL.info("public static void service.DatabaseService.commit()");
+        METHOD_CALL.info("public static void restapi.service.DatabaseService.commit()");
         connection.prepareStatement("commit;").execute();
     }
 
@@ -749,7 +748,7 @@ public class DatabaseService {
      */
     @Deprecated
     public static void deleteAll() throws SQLException, IOException {
-        METHOD_CALL.info("public static void service.DatabaseService.deleteAll()");
+        METHOD_CALL.info("public static void restapi.service.DatabaseService.deleteAll()");
         String sql = getResourceAsString("/sql/deleteAll.sql");
         for (String create : sql.split("--")) {
             connection.prepareStatement(create).execute();
@@ -771,12 +770,12 @@ public class DatabaseService {
      * </ul>
      */
     public static boolean logIsValid(@NotNull String xml) throws SAXException, IOException {
-        METHOD_CALL.info("public static boolean service.DatabaseService.logIsValid( \"{}\" )", maxSubstring(xml));
+        METHOD_CALL.info("public static boolean restapi.service.DatabaseService.logIsValid( \"{}\" )", maxSubstring(xml));
 
 
         // by default, the validator ignores this declaration, but we want to include it
         if (!xml.contains("<?xml")) {
-            DIAGNOSTICS.info("service.DatabaseService.logIsValid(String xml): return false");
+            DIAGNOSTICS.info("restapi.service.DatabaseService.logIsValid(String xml): return false");
             return false;
         }
 
@@ -798,7 +797,7 @@ public class DatabaseService {
 
             // check if the xml contains a log element
             if (!xml.contains("<log")) {
-                DIAGNOSTICS.info("service.DatabaseService.logIsValid(String xml): return false");
+                DIAGNOSTICS.info("restapi.service.DatabaseService.logIsValid(String xml): return false");
                 return false;
             }
 
@@ -808,7 +807,7 @@ public class DatabaseService {
             // check if the xml contains too many log elements (length > 2)
             // or if the cutoff string "<log" was at the end of the xml (length = 1)
             if (split.length != 2) {
-                DIAGNOSTICS.info("service.DatabaseService.logIsValid(String xml): return false");
+                DIAGNOSTICS.info("restapi.service.DatabaseService.logIsValid(String xml): return false");
                 return false;
             }
 
@@ -821,13 +820,13 @@ public class DatabaseService {
                 validator.validate(new StreamSource(new StringReader(xes)));
             } catch (SAXException f) {
                 // neither forms of the xml is valid
-                DIAGNOSTICS.info("service.DatabaseService.logIsValid(String xml): return false");
+                DIAGNOSTICS.info("restapi.service.DatabaseService.logIsValid(String xml): return false");
                 return false;
             }
         }
 
         // one of the forms of the xml is valid
-        DIAGNOSTICS.info("service.DatabaseService.logIsValid(String xml): return true");
+        DIAGNOSTICS.info("restapi.service.DatabaseService.logIsValid(String xml): return true");
         return true;
 
     }
@@ -845,7 +844,7 @@ public class DatabaseService {
      * @throws SAXException
      */
     public static boolean traceIsValid(@NotNull String xml) throws IOException, SAXException {
-        METHOD_CALL.info("public static boolean service.DatabaseService.traceIsValid(String xml)");
+        METHOD_CALL.info("public static boolean restapi.service.DatabaseService.traceIsValid(String xml)");
         String prefix = "<?xml version=\"1.0\" encoding=\"utf-8\" ?> <log>";
         String suffix = "</log>";
         return logIsValid(prefix + xml + suffix);
