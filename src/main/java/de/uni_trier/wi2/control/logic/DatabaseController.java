@@ -84,7 +84,7 @@ public class DatabaseController {
 		for (String traceID : traceIDs) {
 			trace = new HashMap<>();
 			trace.put(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID, traceID);
-			trace.put("link", linkTo(methodOn(DatabaseController.class).getTrace(traceID)).withSelfRel());
+			trace.put("links", new Link[]{linkTo(methodOn(DatabaseController.class).getTrace(traceID)).withSelfRel()});
 			traces.add(trace);
 
 			DIAGNOSTICS.trace("restapi.control.logic.DatabaseController.getLog(String): Added trace to list of traces: {}",
@@ -127,14 +127,14 @@ public class DatabaseController {
 		Map<String, Object> logInfo = new HashMap<>();
 		String logID = (String) trace.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__logID);
 		logInfo.put(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__logID, logID);
-		logInfo.put("href", linkTo(methodOn(DatabaseController.class).getLog(logID)).withSelfRel());
+		logInfo.put("links", new Link[]{linkTo(methodOn(DatabaseController.class).getLog(logID)).withSelfRel()});
 
 		Map<String, Object> response = new HashMap<>();
 		response.put(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID, traceID);
 		response.put(DatabaseService.DATABASE_NAMES.TABLENAME__log, logInfo);
 		response.put(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__xes, trace.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__xes));
 		response.put(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__removed, trace.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__removed));
-		response.put("href", linkTo(methodOn(DatabaseController.class).getTrace(traceID)).withSelfRel());
+		response.put("links", new Link[]{linkTo(methodOn(DatabaseController.class).getTrace(traceID)).withSelfRel()});
 
 		//metadata
 		response.put(DatabaseService.DATABASE_NAMES.TABLENAME__metadata, DatabaseService.getTraceMetadata(traceID));

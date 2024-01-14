@@ -132,7 +132,7 @@
     <xs:complexType name="AttributeType">
         <xs:complexContent>
             <xs:extension base="AttributableType">
-                <xs:attribute name="key" type="xs:Name" use="required"/>
+                <xs:attribute name="key" type="xs:string" use="required"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

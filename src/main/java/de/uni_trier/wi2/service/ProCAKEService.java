@@ -207,6 +207,8 @@ public class ProCAKEService {
 
                 log = DatabaseService.getLog(logID);
                 header = (String) log.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__header);
+                while (header.contains("  ")) header = header.replace("  ", " ");
+                header = header.trim();
                 prefix = header.split("</log>")[0];
 
                 for (String traceID : DatabaseService.getTraceIDs(logID)) {
@@ -459,6 +461,18 @@ public class ProCAKEService {
                     trace.getId(), ((StringObject) trace).getNativeString()});
         }
         return cases;
+    }
+
+    @Deprecated
+    // for testing purposes only //ProCAKE service/controller should not provide method to get any cases from the casebase
+    public static WriteableObjectPool<DataObject> getActualCasebase(){
+        return casebase;
+    }
+
+    @Deprecated
+    // for testing purposes only //ProCAKE service/controller should not provide method to get similarity model
+    public static SimilarityModel getSimilarityModel(){
+        return similarityModel;
     }
 
 }

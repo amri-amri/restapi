@@ -2,6 +2,7 @@ package de.uni_trier.wi2.restapi;
 
 import de.uni_trier.wi2.error.DatabaseNotEmptyException;
 import de.uni_trier.wi2.service.IOUtils;
+import org.apache.jena.base.Sys;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
@@ -81,7 +82,14 @@ public class DatabaseServiceTest {
 
             Map<String, Object> log = DatabaseService.getLog(logID);
             assert (log.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__logID).equals(logID));
-            assert (log.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__header).equals((header + footer).replace("\n", "")));
+            assert (
+                    ((String) log.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__header))
+                            .replace("\n", "").replace("\r", "")
+                            .equals(
+                                    (header + footer)
+                                            .replace("\n", "").replace("\r", "")
+                            )
+            );
             assert (log.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__removed).equals(false));
 
             String[] traceIDs = DatabaseService.getTraceIDs(logID);
