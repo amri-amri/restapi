@@ -2,8 +2,6 @@ package de.uni_trier.wi2.control.logic;
 
 import de.uni_trier.wi2.service.DatabaseService;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +13,9 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.util.*;
 
-import static de.uni_trier.wi2.LoggingUtils.maxSubstring;
-import static de.uni_trier.wi2.LoggingUtils.METHOD_CALL;
-import static de.uni_trier.wi2.LoggingUtils.DIAGNOSTICS;
+import static de.uni_trier.wi2.RestAPILoggingUtils.maxSubstring;
+import static de.uni_trier.wi2.RestAPILoggingUtils.METHOD_CALL;
+import static de.uni_trier.wi2.RestAPILoggingUtils.DIAGNOSTICS;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 

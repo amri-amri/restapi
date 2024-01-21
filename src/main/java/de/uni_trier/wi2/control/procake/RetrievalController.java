@@ -3,8 +3,6 @@ package de.uni_trier.wi2.control.procake;
 import de.uni_trier.wi2.model.RetrievalParameters;
 import de.uni_trier.wi2.service.DatabaseService;
 import de.uni_trier.wi2.service.ProCAKEService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,9 +17,9 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static de.uni_trier.wi2.LoggingUtils.maxSubstring;
-import static de.uni_trier.wi2.LoggingUtils.METHOD_CALL;
-import static de.uni_trier.wi2.LoggingUtils.DIAGNOSTICS;
+import static de.uni_trier.wi2.RestAPILoggingUtils.maxSubstring;
+import static de.uni_trier.wi2.RestAPILoggingUtils.METHOD_CALL;
+import static de.uni_trier.wi2.RestAPILoggingUtils.DIAGNOSTICS;
 
 /**
  * REST controller responsible for retrieval related acces on the ProCAKE instance.

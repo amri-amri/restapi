@@ -38,8 +38,6 @@ import de.uni_trier.wi2.utils.MethodInvoker;
 import de.uni_trier.wi2.utils.MethodInvokersFunc;
 import de.uni_trier.wi2.utils.SimilarityMeasureFunc;
 import de.uni_trier.wi2.utils.WeightFunc;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
@@ -48,9 +46,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
-import static de.uni_trier.wi2.LoggingUtils.maxSubstring;
-import static de.uni_trier.wi2.LoggingUtils.METHOD_CALL;
-import static de.uni_trier.wi2.LoggingUtils.DIAGNOSTICS;
+import static de.uni_trier.wi2.RestAPILoggingUtils.maxSubstring;
+import static de.uni_trier.wi2.RestAPILoggingUtils.METHOD_CALL;
+import static de.uni_trier.wi2.RestAPILoggingUtils.DIAGNOSTICS;
 
 /**
  * The service implementing all business logic for interacting with the ProCAKE instance.
@@ -88,7 +86,7 @@ public class ProCAKEService {
      * @return status message
      */
     public static String setupCake() {
-        METHOD_CALL.info("public static String service.ProCAKEService.setupCake()...");
+        METHOD_CALL.info("public static String restapi.service.ProCAKEService.setupCake()...");
         CakeInstance.start();
         setupDataModel();
         setupSimilarityModel();
@@ -100,7 +98,7 @@ public class ProCAKEService {
      * Sets up data model.
      */
     private static void setupDataModel() {
-        METHOD_CALL.info("private static void service.ProCAKEService.setupDataModel()...");
+        METHOD_CALL.info("private static void restapi.service.ProCAKEService.setupDataModel()...");
         model = ModelFactory.getDefaultModel();
     }
 
@@ -108,7 +106,7 @@ public class ProCAKEService {
      * Sets up similarity model.
      */
     private static void setupSimilarityModel() {
-        METHOD_CALL.info("private static void service.ProCAKEService.setupSimilarityModel()...");
+        METHOD_CALL.info("private static void restapi.service.ProCAKEService.setupSimilarityModel()...");
 
         similarityModel = new SimilarityModelImpl();
 
@@ -137,7 +135,7 @@ public class ProCAKEService {
      * @param dataClass the data class for which the similarity measure will be available
      */
     private static void addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl sm, DataClass dataClass) {
-        METHOD_CALL.info("private static void service.ProCAKEService.addSimilarityMeasureToSimilarityModel" +
+        METHOD_CALL.info("private static void restapi.service.ProCAKEService.addSimilarityMeasureToSimilarityModel" +
                 "(SimilarityMeasureImpl sm={}, DataClass dataClass={})...",
                 sm, dataClass);
 
@@ -146,11 +144,11 @@ public class ProCAKEService {
             similarityModel.registerSimilarityMeasureTemplate(sm);
 
             DIAGNOSTICS.trace(
-                    "service.ProCAKEService.addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl, DataClass): " +
+                    "restapi.service.ProCAKEService.addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl, DataClass): " +
                             "similarityModel.registerSimilarityMeasureTemplate(sm); successful!");
         } catch (NameAlreadyExistsException ignored) {
             DIAGNOSTICS.trace(
-                    "service.ProCAKEService.addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl, DataClass): " +
+                    "restapi.service.ProCAKEService.addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl, DataClass): " +
                             "similarityModel.registerSimilarityMeasureTemplate(sm); failed!");
         }
 
@@ -158,14 +156,14 @@ public class ProCAKEService {
         sm.setDataClass(dataClass);
 
         DIAGNOSTICS.trace(
-                "service.ProCAKEService.addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl, DataClass): " +
+                "restapi.service.ProCAKEService.addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl, DataClass): " +
                         "sm.setDataClass(dataClass); successful!");
 
         //adds sm to the SMs that can be applied to 'dataClass'
         similarityModel.addSimilarityMeasure(sm, sm.getSystemName());
 
         DIAGNOSTICS.trace(
-                "service.ProCAKEService.addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl, DataClass): " +
+                "restapi.service.ProCAKEService.addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl, DataClass): " +
                         "similarityModel.addSimilarityMeasure(sm, sm.getSystemName()); successful!");
 
     }
@@ -176,7 +174,7 @@ public class ProCAKEService {
      * @return status message
      */
     public static String loadCasebase() {
-        METHOD_CALL.info("public static String service.ProCAKEService.loadCasebase()...");
+        METHOD_CALL.info("public static String restapi.service.ProCAKEService.loadCasebase()...");
 
         try {
 
@@ -363,9 +361,9 @@ public class ProCAKEService {
      * @return trace in form of a NESTGraph
      * @throws IOException todo
      */
-    private static NESTSequentialWorkflowObject convertQuery(String xes) throws IOException {
+    private static NESTSequentialWorkflowObject convertQuery(String xes) {
         METHOD_CALL.info(
-                "private static NESTSequentialWorkflowObject service.ProCAKEService.convertQuery(String xes={})...",
+                "private static NESTSequentialWorkflowObject restapi.service.ProCAKEService.convertQuery(String xes={})...",
                 maxSubstring(xes));
 
         // Convert the log containing one trace and get said trace.
@@ -380,6 +378,7 @@ public class ProCAKEService {
         XESGraphToWorkflowConverter converter = new XESGraphToWorkflowConverter(model);
         NESTSequentialWorkflowObject workflow = (NESTSequentialWorkflowObject) ModelFactory.getDefaultModel().getNESTSequentialWorkflowClass().newObject();
         workflow.transformNESTGraphToNESTSequentialWorkflow(converter.convert(graph));
+        workflow.setId("CONVERTED_WORKFLOW");
 
         METHOD_CALL.info("service.ProCAKEService.convertQuery(String): return NESTSequentialWorkflowObject {}",
                 maxSubstring(workflow));
@@ -394,7 +393,7 @@ public class ProCAKEService {
      */
     private static ArrayList<MethodInvoker> convertGlobalMethodInvokers(MethodList globalMethodInvokers) {
         METHOD_CALL.info(
-                "private static ArrayList<MethodInvoker> service.ProCAKEService.convertGlobalMethodInvokers" +
+                "private static ArrayList<MethodInvoker> restapi.service.ProCAKEService.convertGlobalMethodInvokers" +
                         "(MethodList globalMethodInvokers={})...", maxSubstring(globalMethodInvokers));
 
         ArrayList<MethodInvoker> globalMethodInvokerList = new ArrayList<>();
@@ -445,7 +444,7 @@ public class ProCAKEService {
 
     private static ReadableObjectPool<DataObject> getFilteredCasebase(FilterParameters parameters) {
         METHOD_CALL.info(
-                "private static ReadableObjectPool<DataObject> service.ProCAKEService.getFilteredCasebase" +
+                "private static ReadableObjectPool<DataObject> restapi.service.ProCAKEService.getFilteredCasebase" +
                         "(FilterParameters parameters={})...", parameters);
 
         return casebase; //todo

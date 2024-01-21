@@ -2,8 +2,6 @@ package de.uni_trier.wi2.service;
 
 import de.uni_trier.wi2.error.XESnotValidException;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
@@ -18,10 +16,10 @@ import java.net.URL;
 import java.sql.*;
 import java.util.*;
 
-import static de.uni_trier.wi2.LoggingUtils.maxSubstring;
-import static de.uni_trier.wi2.LoggingUtils.stringOf;
-import static de.uni_trier.wi2.LoggingUtils.METHOD_CALL;
-import static de.uni_trier.wi2.LoggingUtils.DIAGNOSTICS;
+import static de.uni_trier.wi2.RestAPILoggingUtils.maxSubstring;
+import static de.uni_trier.wi2.RestAPILoggingUtils.stringOf;
+import static de.uni_trier.wi2.RestAPILoggingUtils.METHOD_CALL;
+import static de.uni_trier.wi2.RestAPILoggingUtils.DIAGNOSTICS;
 import static de.uni_trier.wi2.service.IOUtils.getResourceAsString;
 
 
@@ -148,7 +146,7 @@ public class DatabaseService {
 
         }
 
-        DIAGNOSTICS.info("restapi.service.DatabaseService.putLog(String): return ids (first one is logID) = {}");
+        METHOD_CALL.info("restapi.service.DatabaseService.putLog(String): return ids (first one is logID) = {}", ids);
         return ids;
     }
 
@@ -174,7 +172,7 @@ public class DatabaseService {
                 DATABASE_NAMES.COLUMNNAME__log__logID + " = '" + logID + "'");
 
         if (!resultSet.next()) {
-            DIAGNOSTICS.info("restapi.service.DatabaseService.getLog(String): Log not found in database.");
+            METHOD_CALL.info("restapi.service.DatabaseService.getLog(String): Log not found in database.");
             throw new SQLException("Log not found in database.");
         }
 
@@ -183,7 +181,7 @@ public class DatabaseService {
         log.put(DATABASE_NAMES.COLUMNNAME__log__header, resultSet.getString(1));
         log.put(DATABASE_NAMES.COLUMNNAME__log__removed, resultSet.getBoolean(2));
 
-        DIAGNOSTICS.info("restapi.service.DatabaseService.getLog(String): return log = {}", maxSubstring(log.toString()));
+        METHOD_CALL.info("restapi.service.DatabaseService.getLog(String): return log = {}", maxSubstring(log.toString()));
         return log;
     }
 
@@ -205,7 +203,7 @@ public class DatabaseService {
         );
 
         if (rowsUpdated < 1) {
-            DIAGNOSTICS.info("restapi.service.DatabaseService.removeLog(String): Log not found in database.");
+            METHOD_CALL.info("restapi.service.DatabaseService.removeLog(String): Log not found in database.");
             throw new SQLException("Log not found in database.");
         }
 
@@ -216,7 +214,7 @@ public class DatabaseService {
                 DATABASE_NAMES.COLUMNNAME__trace__logID + " = '" + logID + "'"
         );
 
-        DIAGNOSTICS.info("restapi.service.DatabaseService.removeLog(String): return rows updated = {}", rowsUpdated);
+        METHOD_CALL.info("restapi.service.DatabaseService.removeLog(String): return rows updated = {}", rowsUpdated);
         return rowsUpdated;
     }
 
@@ -248,7 +246,7 @@ public class DatabaseService {
                 DATABASE_NAMES.COLUMNNAME__trace__traceID + " = '" + traceID + "'");
 
         if (!resultSet.next()) {
-            DIAGNOSTICS.info("restapi.service.DatabaseService.getTrace(String): Trace not found in database.");
+            METHOD_CALL.info("restapi.service.DatabaseService.getTrace(String): Trace not found in database.");
             throw new SQLException("Trace not found in database.");
         }
 
@@ -258,7 +256,7 @@ public class DatabaseService {
         trace.put(DATABASE_NAMES.COLUMNNAME__trace__xes, resultSet.getString(2));
         trace.put(DATABASE_NAMES.COLUMNNAME__trace__removed, resultSet.getBoolean(3));
 
-        DIAGNOSTICS.info("restapi.service.DatabaseService.getTrace(String): return trace = {}", maxSubstring(trace.toString()));
+        METHOD_CALL.info("restapi.service.DatabaseService.getTrace(String): return trace = {}", maxSubstring(trace.toString()));
         return trace;
     }
 
@@ -278,7 +276,7 @@ public class DatabaseService {
                 DATABASE_NAMES.COLUMNNAME__trace__logID + " = '" + logID + "'");
 
         if (!resultSet.next()) {
-            DIAGNOSTICS.info("restapi.service.DatabaseService.getTraceIDs(String): return trace IDs = []");
+            METHOD_CALL.info("restapi.service.DatabaseService.getTraceIDs(String): return trace IDs = []");
             return new String[0];
         }
 
@@ -292,7 +290,7 @@ public class DatabaseService {
 
         String[] traceIDsArray = traceIDs.toArray(new String[]{});
 
-        DIAGNOSTICS.info("restapi.service.DatabaseService.getTraceIDs(String): return trace IDs = {}",
+        METHOD_CALL.info("restapi.service.DatabaseService.getTraceIDs(String): return trace IDs = {}",
                 maxSubstring(Arrays.toString(traceIDsArray)));
         return traceIDsArray;
     }
@@ -312,7 +310,7 @@ public class DatabaseService {
         List<Map<String, Object>> traces = new ArrayList<>();
         for (String traceID : traceIDs) traces.add(getTrace(traceID));
 
-        DIAGNOSTICS.info("restapi.service.DatabaseService.getTraces(String): return traces = {}", maxSubstring(traces.toString()));
+        METHOD_CALL.info("restapi.service.DatabaseService.getTraces(String): return traces = {}", maxSubstring(traces.toString()));
         return traces;
     }
 
@@ -335,7 +333,7 @@ public class DatabaseService {
                 condition);
 
         if (!resultSet.next()) {
-            DIAGNOSTICS.info("restapi.service.DatabaseService.getLogIDs(boolean): return log IDs = []");
+            METHOD_CALL.info("restapi.service.DatabaseService.getLogIDs(boolean): return log IDs = []");
             return new String[0];
         }
 
@@ -349,7 +347,7 @@ public class DatabaseService {
 
         String[] logIDsArray = logIDs.toArray(new String[]{});
 
-        DIAGNOSTICS.info("restapi.service.DatabaseService.getLogIDs(boolean): return log IDs = {}",
+        METHOD_CALL.info("restapi.service.DatabaseService.getLogIDs(boolean): return log IDs = {}",
                 maxSubstring(Arrays.toString(logIDsArray)));
         return logIDsArray;
     }
@@ -634,7 +632,7 @@ public class DatabaseService {
         select.append("\nFROM ").append(tableName).append("\nWHERE ").append(condition).append(";");
         ResultSet resultSet = connection.prepareStatement(select.toString()).executeQuery();
 
-        DIAGNOSTICS.info("restapi.service.DatabaseService.selectFrom(String, String[], String): return {}",
+        METHOD_CALL.info("restapi.service.DatabaseService.selectFrom(String, String[], String): return {}",
                 maxSubstring(stringOf(resultSet)));
         return resultSet;
     }
@@ -670,7 +668,7 @@ public class DatabaseService {
         insertStatement.executeUpdate();
         ResultSet generatedKeys = insertStatement.getGeneratedKeys();
 
-        DIAGNOSTICS.info("restapi.service.DatabaseService.insertInto(String, String[], Object[]): return generated keys = {}", maxSubstring(generatedKeys.toString()));
+        METHOD_CALL.info("restapi.service.DatabaseService.insertInto(String, String[], Object[]): return generated keys = {}", maxSubstring(generatedKeys.toString()));
         return generatedKeys;
     }
 
@@ -684,7 +682,7 @@ public class DatabaseService {
 
         int rows = connection.prepareStatement("DELETE FROM " + tableName + "\nWHERE " + conditionString + ";").executeUpdate();
 
-        DIAGNOSTICS.info("restapi.service.DatabaseService.deleteFrom(String, String): return rows affected = {}", rows);
+        METHOD_CALL.info("restapi.service.DatabaseService.deleteFrom(String, String): return rows affected = {}", rows);
         return rows;
     }
 
@@ -715,7 +713,7 @@ public class DatabaseService {
         }
         int rows = updateStatement.executeUpdate();
 
-        DIAGNOSTICS.info("restapi.service.DatabaseService.deleteFrom(String, String): return rows affected = {}", rows);
+        METHOD_CALL.info("restapi.service.DatabaseService.deleteFrom(String, String): return rows affected = {}", rows);
         return rows;
     }
 
@@ -775,7 +773,7 @@ public class DatabaseService {
 
         // by default, the validator ignores this declaration, but we want to include it
         if (!xml.contains("<?xml")) {
-            DIAGNOSTICS.info("restapi.service.DatabaseService.logIsValid(String xml): return false");
+            METHOD_CALL.info("restapi.service.DatabaseService.logIsValid(String xml): return false");
             return false;
         }
 
@@ -797,7 +795,7 @@ public class DatabaseService {
 
             // check if the xml contains a log element
             if (!xml.contains("<log")) {
-                DIAGNOSTICS.info("restapi.service.DatabaseService.logIsValid(String xml): return false");
+                METHOD_CALL.info("restapi.service.DatabaseService.logIsValid(String xml): return false");
                 return false;
             }
 
@@ -807,7 +805,7 @@ public class DatabaseService {
             // check if the xml contains too many log elements (length > 2)
             // or if the cutoff string "<log" was at the end of the xml (length = 1)
             if (split.length != 2) {
-                DIAGNOSTICS.info("restapi.service.DatabaseService.logIsValid(String xml): return false");
+                METHOD_CALL.info("restapi.service.DatabaseService.logIsValid(String xml): return false");
                 return false;
             }
 
@@ -820,13 +818,13 @@ public class DatabaseService {
                 validator.validate(new StreamSource(new StringReader(xes)));
             } catch (SAXException f) {
                 // neither forms of the xml is valid
-                DIAGNOSTICS.info("restapi.service.DatabaseService.logIsValid(String xml): return false");
+                METHOD_CALL.info("restapi.service.DatabaseService.logIsValid(String xml): return false");
                 return false;
             }
         }
 
         // one of the forms of the xml is valid
-        DIAGNOSTICS.info("restapi.service.DatabaseService.logIsValid(String xml): return true");
+        METHOD_CALL.info("restapi.service.DatabaseService.logIsValid(String xml): return true");
         return true;
 
     }

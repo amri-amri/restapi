@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import static de.uni_trier.wi2.LoggingUtils.METHOD_CALL;
-import static de.uni_trier.wi2.LoggingUtils.maxSubstring;
+import static de.uni_trier.wi2.RestAPILoggingUtils.METHOD_CALL;
+import static de.uni_trier.wi2.RestAPILoggingUtils.maxSubstring;
 
 public class IOUtils {
 

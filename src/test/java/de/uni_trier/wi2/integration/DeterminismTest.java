@@ -33,6 +33,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
+import static de.uni_trier.wi2.RestAPILoggingUtils.DIAGNOSTICS;
+import static de.uni_trier.wi2.RestAPILoggingUtils.METHOD_CALL;
 import static de.uni_trier.wi2.service.IOUtils.getResourceAsString;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -57,10 +59,8 @@ public class DeterminismTest {
     private MockMvc mvc;
 
     @Before
-    public void before() throws InterruptedException, SQLException, IOException, SAXException {
-        System.out.println("waiting");
-        //Thread.sleep(10*1000);
-        System.out.println("waited");
+    public void before() throws SQLException, IOException, SAXException {
+        METHOD_CALL.info("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.before()...");
 
         String log = getResourceAsString("determinism_test_log.xes");
 
@@ -69,18 +69,27 @@ public class DeterminismTest {
         DatabaseService.putLog(log);
         ProCAKEService.setupCake();
         ProCAKEService.loadCasebase();
+
+        METHOD_CALL.info("restapi.de.uni_trier.wi2.integration.DeterminismTest.before(): return");
     }
 
     @After
     public void after() throws SQLException, IOException {
+        METHOD_CALL.info("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.after()...");
+
         DatabaseService.deleteAll();
         DatabaseService.commit();
+
+        METHOD_CALL.info("restapi.de.uni_trier.wi2.integration.DeterminismTest.after(): return");
     }
 
     @Test
     public void controller_test() throws Exception {
+        METHOD_CALL.info("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.controller_test()...");
 
         // get all logs
+
+        DIAGNOSTICS.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.controller_test(): get all logs via controller...");
 
         String result = mvc.perform(get("/log"))
                 .andExpect(status().isOk())
@@ -95,6 +104,8 @@ public class DeterminismTest {
         // get first traceID in first log
 
         String traceID = (String) ((ArrayList<LinkedHashMap>) logs.get(0).get("traces")).get(0).get("traceID");
+
+        DIAGNOSTICS.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.controller_test(): first traceID in first log: {}", traceID);
 
 
         // define retrieval parameters
@@ -158,6 +169,8 @@ public class DeterminismTest {
 
         // perform retrieval first time
 
+        DIAGNOSTICS.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.controller_test(): perform retrieval first time...");
+
         String result_1 = mvc.perform(put("/retrieval/" + traceID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content((new ObjectMapper()).writer().withDefaultPrettyPrinter().writeValueAsString(retrievalParameters)))
@@ -172,6 +185,8 @@ public class DeterminismTest {
 
         // perform retrieval second time
 
+        DIAGNOSTICS.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.controller_test(): perform retrieval first time...");
+
         String result_2 = mvc.perform(put("/retrieval/" + traceID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content((new ObjectMapper()).writer().withDefaultPrettyPrinter().writeValueAsString(retrievalParameters)))
@@ -185,13 +200,18 @@ public class DeterminismTest {
 
         // compare retrieval results
 
+        DIAGNOSTICS.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.controller_test(): compare retrieval results...");
+
         String[] ids1 = new String[numberOfResults];
         String[] ids2 = new String[numberOfResults];
         double[] sims1 = new double[numberOfResults];
         double[] sims2 = new double[numberOfResults];
         for (int i = 0; i < numberOfResults; i++) {
-            //ids1[i] = (String) retrieval_1.get(i).get();
-            //sims1[i] = (double) retrieval_1.get(i).get();
+            ids1[i] = (String) retrieval_1.get(i).get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID);
+            ids2[i] = (String) retrieval_2.get(i).get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID);
+
+            sims1[i] = (double) retrieval_1.get(i).get("similarity");
+            sims2[i] = (double) retrieval_2.get(i).get("similarity");
         }
 
         Arrays.sort(ids1, Comparator.naturalOrder());
@@ -203,21 +223,28 @@ public class DeterminismTest {
             assertEquals(ids1[i], ids2[i]);
             assertEquals(sims1[i], sims2[i], 0);
         }
+
+
+        METHOD_CALL.info("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.controller_test(): return");
     }
 
 
     @Test
     public void service_test() throws Exception {
+        METHOD_CALL.info("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.service_test()...");
 
         // get logID of first log
 
         String logID = DatabaseService.getLogIDs(true)[0];
+
+        DIAGNOSTICS.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.service_test(): logID of first log={}", logID);
 
 
         // get first traceID and xes
 
         String traceID = DatabaseService.getTraceIDs(logID)[0];
 
+        DIAGNOSTICS.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.service_test(): traceID of first traceID={}", traceID);
 
         String xes = (String) DatabaseService.getTrace(traceID).get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__xes);
 
@@ -277,6 +304,8 @@ public class DeterminismTest {
 
         // perform retrieval first time
 
+        DIAGNOSTICS.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.service_test(): perform retrieval first time...");
+
         List<Retrieval> retrieval_1 = ProCAKEService.retrieve(
                 xes,
                 globalSimilarityMeasure,
@@ -288,8 +317,11 @@ public class DeterminismTest {
                 numberOfResults
         );
 
+        DIAGNOSTICS.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.service_test(): first retrieval done...");
 
         // perform retrieval second time
+
+        DIAGNOSTICS.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.service_test(): perform retrieval second time...");
 
         List<Retrieval> retrieval_2 = ProCAKEService.retrieve(
                 xes,
@@ -302,8 +334,11 @@ public class DeterminismTest {
                 numberOfResults
         );
 
+        DIAGNOSTICS.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.service_test(): second retrieval done...");
 
         // perform retrieval third time
+
+        DIAGNOSTICS.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.service_test(): perform retrieval third time...");
 
         List<Retrieval> retrieval_3 = ProCAKEService.retrieve(
                 xes,
@@ -327,6 +362,7 @@ public class DeterminismTest {
             ids1[i] = retrieval_1.get(i).id();
             ids2[i] = retrieval_2.get(i).id();
             ids3[i] = retrieval_3.get(i).id();
+
             sims1[i] = retrieval_1.get(i).similarityValue();
             sims2[i] = retrieval_2.get(i).similarityValue();
             sims3[i] = retrieval_3.get(i).similarityValue();
@@ -339,6 +375,8 @@ public class DeterminismTest {
         Arrays.sort(sims2);
         Arrays.sort(sims3);
 
+        DIAGNOSTICS.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.service_test(): compare results...");
+
         for (int i = 0; i < numberOfResults; i++) {
             assertEquals(ids1[i], ids2[i]);
             assertEquals(ids1[i], ids3[i]);
@@ -346,6 +384,7 @@ public class DeterminismTest {
             assertEquals(sims1[i], sims3[i], 0);
         }
 
+        METHOD_CALL.info("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.service_test(): return");
     }
 
 

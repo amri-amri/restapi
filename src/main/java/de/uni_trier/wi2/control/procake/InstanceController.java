@@ -1,12 +1,10 @@
 package de.uni_trier.wi2.control.procake;
 
 import de.uni_trier.wi2.service.ProCAKEService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static de.uni_trier.wi2.LoggingUtils.METHOD_CALL;
+import static de.uni_trier.wi2.RestAPILoggingUtils.METHOD_CALL;
 
 /**
  * REST controller responsible for non-retrieval access to the ProCAKE instance.
