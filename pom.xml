@@ -162,6 +162,11 @@
             <id>xestoworkflowconverter</id>
             <url>https://gitlab.rlp.net/api/v4/projects/32964/packages/maven</url>
         </repository>
+
+        <repository>
+            <id>onkocasebackend</id>
+            <url>https://gitlab.rlp.net/api/v4/projects/36008/packages/maven</url>
+        </repository>
     </repositories>
 
     <!-- remote repos for publishing -->
