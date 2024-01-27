@@ -22,15 +22,6 @@ public class RestAPILoggingUtils {
         return maxSubstring(obj.toString());
     }
 
-    public static String maxSubstring(NESTSequentialWorkflowObject obj){
-        if (obj == null) return "null";
-        NESTControlflowEdgeObject edge = obj.getControlflowEdges().toArray(new NESTControlflowEdgeObject[]{})[0];
-        edge.getPre();
-        edge.getPost();
-        //obj.get
-        return maxSubstring(obj.toString());
-    }
-
     public static String maxSubstring(Object[] objArr){
         return maxSubstring(Arrays.toString(objArr));
     }
