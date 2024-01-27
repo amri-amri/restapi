@@ -44,7 +44,7 @@
         <dependency>
             <groupId>de.uni-trier.wi2</groupId>
             <artifactId>procake-extension</artifactId>
-            <version>1.2.0</version>
+            <version>1.2.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 
