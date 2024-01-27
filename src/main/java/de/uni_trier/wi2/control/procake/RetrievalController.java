@@ -46,7 +46,7 @@ public class RetrievalController {
      */
     @PutMapping(value = "/retrieval/{traceID}")
     Map<String, Object>[] retrieve(@PathVariable String traceID, @RequestBody RetrievalParameters parameters) throws Exception {
-        METHOD_CALL.info("Map<String, Object>[] restapi.control.procake.RetrievalController.retrieve" +
+        METHOD_CALL.trace("Map<String, Object>[] restapi.control.procake.RetrievalController.retrieve" +
                 "(@PathVariable String traceID={}, @RequestBody RetrievalParameters parameters={})"
                 , traceID, maxSubstring(parameters));
 
@@ -55,7 +55,7 @@ public class RetrievalController {
             t = DatabaseService.getTrace(traceID);
         } catch (SQLException e) {
             DIAGNOSTICS.trace("restapi.control.procake.RetrievalController.retrieve(String, RetrievalParameters): Could not find trace belonging to traceID {}", traceID);
-            METHOD_CALL.info("ENTER: Map<String, Object>[] restapi.control.procake.RetrievalController.retrieve(@PathVariable String traceID, @RequestBody RetrievalParameters parameters)");
+            METHOD_CALL.trace("ENTER: Map<String, Object>[] restapi.control.procake.RetrievalController.retrieve(@PathVariable String traceID, @RequestBody RetrievalParameters parameters)");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
 
@@ -91,7 +91,7 @@ public class RetrievalController {
 
         Map<String, Object>[] retrieval = retrieve(parameters1);
 
-        METHOD_CALL.info("restapi.control.procake.RetrievalController.retrieve" +
+        METHOD_CALL.trace("restapi.control.procake.RetrievalController.retrieve" +
                 "(String, RetrievalParameters): return retrieval: {}", maxSubstring(retrieval));
         return retrieval;
     }
@@ -109,7 +109,7 @@ public class RetrievalController {
      */
     @PutMapping(value = "/retrieval")
     Map<String, Object>[] retrieve( @RequestBody RetrievalParameters parameters) throws Exception {
-        METHOD_CALL.info("Map<String, Object>[] restapi.control.procake.RetrievalController.retrieve" +
+        METHOD_CALL.trace("Map<String, Object>[] restapi.control.procake.RetrievalController.retrieve" +
                 "(@RequestBody RetrievalParameters parameters={})", maxSubstring(parameters));
         Map[] traces;
         try {
@@ -131,13 +131,13 @@ public class RetrievalController {
                     }).toArray(Map[]::new);
         } catch (Exception e) {
 
-            METHOD_CALL.info("restapi.control.procake.RetrievalController.retrieve(RetrievalParameters): " +
+            METHOD_CALL.trace("restapi.control.procake.RetrievalController.retrieve(RetrievalParameters): " +
                     "throw new ResponseStatusException(HttpStatus.BAD_REQUEST, {});", maxSubstring(e.getMessage()));
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
 
 
-        METHOD_CALL.info("restapi.control.procake.RetrievalController.retrieve(RetrievalParameters): " +
+        METHOD_CALL.trace("restapi.control.procake.RetrievalController.retrieve(RetrievalParameters): " +
                 "return traces: {}", maxSubstring(traces));
         return (Map<String, Object>[]) traces;
     }

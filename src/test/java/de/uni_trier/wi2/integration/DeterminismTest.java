@@ -60,7 +60,7 @@ public class DeterminismTest {
 
     @Before
     public void before() throws SQLException, IOException, SAXException {
-        METHOD_CALL.info("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.before()...");
+        METHOD_CALL.trace("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.before()...");
 
         String log = getResourceAsString("determinism_test_log.xes");
 
@@ -70,22 +70,22 @@ public class DeterminismTest {
         ProCAKEService.setupCake();
         ProCAKEService.loadCasebase();
 
-        METHOD_CALL.info("restapi.de.uni_trier.wi2.integration.DeterminismTest.before(): return");
+        METHOD_CALL.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.before(): return");
     }
 
     @After
     public void after() throws SQLException, IOException {
-        METHOD_CALL.info("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.after()...");
+        METHOD_CALL.trace("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.after()...");
 
         DatabaseService.deleteAll();
         DatabaseService.commit();
 
-        METHOD_CALL.info("restapi.de.uni_trier.wi2.integration.DeterminismTest.after(): return");
+        METHOD_CALL.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.after(): return");
     }
 
     @Test
     public void controller_test() throws Exception {
-        METHOD_CALL.info("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.controller_test()...");
+        METHOD_CALL.trace("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.controller_test()...");
 
         // get all logs
 
@@ -225,13 +225,13 @@ public class DeterminismTest {
         }
 
 
-        METHOD_CALL.info("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.controller_test(): return");
+        METHOD_CALL.trace("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.controller_test(): return");
     }
 
 
     @Test
     public void service_test() throws Exception {
-        METHOD_CALL.info("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.service_test()...");
+        METHOD_CALL.trace("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.service_test()...");
 
         // get logID of first log
 
@@ -384,7 +384,7 @@ public class DeterminismTest {
             assertEquals(sims1[i], sims3[i], 0);
         }
 
-        METHOD_CALL.info("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.service_test(): return");
+        METHOD_CALL.trace("public void restapi.de.uni_trier.wi2.integration.DeterminismTest.service_test(): return");
     }
 
 

@@ -25,9 +25,9 @@ public class InstanceController {
      */
     @GetMapping("/procake/restart")
     public String restart(){
-        METHOD_CALL.info("public String restapi.control.procake.InstanceController.restart()...");
+        METHOD_CALL.trace("public String restapi.control.procake.InstanceController.restart()...");
         String msg = ProCAKEService.setupCake();
-        METHOD_CALL.info("restapi.control.procake.InstanceController.restart(): {}", msg);
+        METHOD_CALL.trace("restapi.control.procake.InstanceController.restart(): {}", msg);
         return msg;
     }
 
@@ -38,9 +38,9 @@ public class InstanceController {
      */
     @GetMapping("/procake/reload")
     String reload() {
-        METHOD_CALL.info("public String restapi.control.procake.InstanceController.reload()");
+        METHOD_CALL.trace("public String restapi.control.procake.InstanceController.reload()");
         String msg = ProCAKEService.loadCasebase();
-        METHOD_CALL.info("restapi.control.procake.InstanceController.reload(): {}", msg);
+        METHOD_CALL.trace("restapi.control.procake.InstanceController.reload(): {}", msg);
         return msg;
     }
 }

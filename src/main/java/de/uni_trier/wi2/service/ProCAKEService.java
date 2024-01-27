@@ -86,11 +86,11 @@ public class ProCAKEService {
      * @return status message
      */
     public static String setupCake() {
-        METHOD_CALL.info("public static String restapi.service.ProCAKEService.setupCake()...");
+        METHOD_CALL.trace("public static String restapi.service.ProCAKEService.setupCake()...");
         CakeInstance.start();
         setupDataModel();
         setupSimilarityModel();
-        METHOD_CALL.info("service.ProCAKEService.setupCake(): return \"{}\"", "ProCAKE instance set up");
+        METHOD_CALL.trace("service.ProCAKEService.setupCake(): return \"{}\"", "ProCAKE instance set up");
         return "ProCAKE instance set up";
     }
 
@@ -98,7 +98,7 @@ public class ProCAKEService {
      * Sets up data model.
      */
     private static void setupDataModel() {
-        METHOD_CALL.info("private static void restapi.service.ProCAKEService.setupDataModel()...");
+        METHOD_CALL.trace("private static void restapi.service.ProCAKEService.setupDataModel()...");
         model = ModelFactory.getDefaultModel();
     }
 
@@ -106,7 +106,7 @@ public class ProCAKEService {
      * Sets up similarity model.
      */
     private static void setupSimilarityModel() {
-        METHOD_CALL.info("private static void restapi.service.ProCAKEService.setupSimilarityModel()...");
+        METHOD_CALL.trace("private static void restapi.service.ProCAKEService.setupSimilarityModel()...");
 
         similarityModel = new SimilarityModelImpl();
 
@@ -135,7 +135,7 @@ public class ProCAKEService {
      * @param dataClass the data class for which the similarity measure will be available
      */
     private static void addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl sm, DataClass dataClass) {
-        METHOD_CALL.info("private static void restapi.service.ProCAKEService.addSimilarityMeasureToSimilarityModel" +
+        METHOD_CALL.trace("private static void restapi.service.ProCAKEService.addSimilarityMeasureToSimilarityModel" +
                 "(SimilarityMeasureImpl sm={}, DataClass dataClass={})...",
                 sm, dataClass);
 
@@ -174,7 +174,7 @@ public class ProCAKEService {
      * @return status message
      */
     public static String loadCasebase() {
-        METHOD_CALL.info("public static String restapi.service.ProCAKEService.loadCasebase()...");
+        METHOD_CALL.trace("public static String restapi.service.ProCAKEService.loadCasebase()...");
 
         try {
 
@@ -242,11 +242,11 @@ public class ProCAKEService {
                 }
             }
 
-            METHOD_CALL.info("service.ProCAKEService.loadCasebase(): return \"{}\"", "Casebase loaded successfully!");
+            METHOD_CALL.trace("service.ProCAKEService.loadCasebase(): return \"{}\"", "Casebase loaded successfully!");
             return "Casebase loaded successfully!";
 
         } catch (SQLException e) {
-            METHOD_CALL.info("service.ProCAKEService.loadCasebase(): {}",
+            METHOD_CALL.trace("service.ProCAKEService.loadCasebase(): {}",
                     maxSubstring("Failed to load casebase!" + e.getMessage()));
 
             return "Failed to load casebase!" + e.getMessage();
@@ -279,7 +279,7 @@ public class ProCAKEService {
             FilterParameters filterParameters,
             int numberOfResults
     ) throws ParserConfigurationException, IOException, SAXException {
-        METHOD_CALL.info("public static List<Retrieval> retrieve" +
+        METHOD_CALL.trace("public static List<Retrieval> retrieve" +
                 "(String xes={}" +
                 ", String globalSimilarityMeasure={}" +
                 ", MethodList globalMethodInvokerList={}" +
@@ -348,7 +348,7 @@ public class ProCAKEService {
             ));
         }
 
-        METHOD_CALL.info("restapi.service.ProCAKEService.retrieve" +
+        METHOD_CALL.trace("restapi.service.ProCAKEService.retrieve" +
                 "(String, String, MethodList, String, String, String, FilterParameters, int): return results={}",
                 maxSubstring(results));
         return results;
@@ -362,7 +362,7 @@ public class ProCAKEService {
      * @throws IOException todo
      */
     private static NESTSequentialWorkflowObject convertQuery(String xes) {
-        METHOD_CALL.info(
+        METHOD_CALL.trace(
                 "private static NESTSequentialWorkflowObject restapi.service.ProCAKEService.convertQuery(String xes={})...",
                 maxSubstring(xes));
 
@@ -380,7 +380,7 @@ public class ProCAKEService {
         workflow.transformNESTGraphToNESTSequentialWorkflow(converter.convert(graph));
         workflow.setId("CONVERTED_WORKFLOW");
 
-        METHOD_CALL.info("service.ProCAKEService.convertQuery(String): return NESTSequentialWorkflowObject {}",
+        METHOD_CALL.trace("service.ProCAKEService.convertQuery(String): return NESTSequentialWorkflowObject {}",
                 maxSubstring(workflow));
         return workflow;
     }
@@ -392,7 +392,7 @@ public class ProCAKEService {
      * @return list of MethodInvokers
      */
     private static ArrayList<MethodInvoker> convertGlobalMethodInvokers(MethodList globalMethodInvokers) {
-        METHOD_CALL.info(
+        METHOD_CALL.trace(
                 "private static ArrayList<MethodInvoker> restapi.service.ProCAKEService.convertGlobalMethodInvokers" +
                         "(MethodList globalMethodInvokers={})...", maxSubstring(globalMethodInvokers));
 
@@ -437,13 +437,13 @@ public class ProCAKEService {
         }
 
 
-        METHOD_CALL.info("service.ProCAKEService.convertGlobalMethodInvokers(MethodList): return {}",
+        METHOD_CALL.trace("service.ProCAKEService.convertGlobalMethodInvokers(MethodList): return {}",
                 maxSubstring(globalMethodInvokerList));
         return globalMethodInvokerList;
     }
 
     private static ReadableObjectPool<DataObject> getFilteredCasebase(FilterParameters parameters) {
-        METHOD_CALL.info(
+        METHOD_CALL.trace(
                 "private static ReadableObjectPool<DataObject> restapi.service.ProCAKEService.getFilteredCasebase" +
                         "(FilterParameters parameters={})...", parameters);
 

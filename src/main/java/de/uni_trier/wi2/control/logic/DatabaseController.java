@@ -31,7 +31,7 @@ public class DatabaseController {
 	@GetMapping("/log")
 	@ResponseBody
 	public List<Map<String, Object>> getLog() throws SQLException {
-		METHOD_CALL.info("public List<Map<String, Object>> restapi.control.logic.DatabaseController.getLog()...");
+		METHOD_CALL.trace("public List<Map<String, Object>> restapi.control.logic.DatabaseController.getLog()...");
 
 		List<Map<String, Object>> logs = new ArrayList<>();
 		Map<String, Object> log;
@@ -42,14 +42,14 @@ public class DatabaseController {
 		}
 
 
-		METHOD_CALL.info("restapi.control.logic.DatabaseController.getLog(): return list of logs: {}", logs);
+		METHOD_CALL.trace("restapi.control.logic.DatabaseController.getLog(): return list of logs: {}", logs);
 		return logs;
 	}
 
 	@GetMapping("/log/{logID}")
 	@ResponseBody
 	public Map<String, Object> getLog(@PathVariable @NotNull String logID) throws SQLException {
-		METHOD_CALL.info("public Map<String, Object> restapi.control.logic.DatabaseController.getLog" +
+		METHOD_CALL.trace("public Map<String, Object> restapi.control.logic.DatabaseController.getLog" +
 				"(@PathVariable @NotNull String logID={})...", logID);
 
 		// log id and links
@@ -58,7 +58,7 @@ public class DatabaseController {
 			log = DatabaseService.getLog(logID);
 		} catch (SQLException e) {
 			DIAGNOSTICS.trace("restapi.control.logic.DatabaseController.getLog(String): Failed to get log belonging to logID {}", logID);
-			METHOD_CALL.info("restapi.control.logic.DatabaseController.getLog(String): " +
+			METHOD_CALL.trace("restapi.control.logic.DatabaseController.getLog(String): " +
 				"throw new ResponseStatusException(HttpStatus.NOT_FOUND, {});", maxSubstring(e.getMessage()));
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
@@ -100,7 +100,7 @@ public class DatabaseController {
 		DIAGNOSTICS.trace("restapi.control.logic.DatabaseController.getLog(String): Added metadata to log: {}",
 				maxSubstring(log.get(DatabaseService.DATABASE_NAMES.TABLENAME__metadata).toString()));
 
-		METHOD_CALL.info("restapi.control.logic.DatabaseController.getLog(String): return log: {}",
+		METHOD_CALL.trace("restapi.control.logic.DatabaseController.getLog(String): return log: {}",
 				maxSubstring(log.toString()));
 		return log;
 	}
@@ -108,7 +108,7 @@ public class DatabaseController {
 	@GetMapping("/trace/{traceID}")
 	@ResponseBody
 	public Map<String, Object> getTrace(@PathVariable @NotNull String traceID) throws SQLException {
-		METHOD_CALL.info("public Map<String, Object> restapi.control.logic.DatabaseController.getTrace" +
+		METHOD_CALL.trace("public Map<String, Object> restapi.control.logic.DatabaseController.getTrace" +
 				"(@PathVariable @NotNull String traceID={})...", traceID);
 
 		Map<String, Object> trace;
@@ -116,7 +116,7 @@ public class DatabaseController {
 			trace = DatabaseService.getTrace(traceID);
 		} catch(SQLException e){
 			DIAGNOSTICS.trace("restapi.control.logic.DatabaseController.getTrace(String): Failed to get trace belonging to traceID {}", traceID);
-			METHOD_CALL.info("restapi.control.logic.DatabaseController.getTrace(String): " +
+			METHOD_CALL.trace("restapi.control.logic.DatabaseController.getTrace(String): " +
 					"throw new ResponseStatusException(HttpStatus.NOT_FOUND, {});", maxSubstring(e.getMessage()));
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
@@ -137,7 +137,7 @@ public class DatabaseController {
 		//metadata
 		response.put(DatabaseService.DATABASE_NAMES.TABLENAME__metadata, DatabaseService.getTraceMetadata(traceID));
 
-		METHOD_CALL.info("restapi.control.logic.DatabaseController.getTrace(String): return trace: {}",
+		METHOD_CALL.trace("restapi.control.logic.DatabaseController.getTrace(String): return trace: {}",
 				maxSubstring(response.toString()));
 		return response;
 	}
@@ -145,7 +145,7 @@ public class DatabaseController {
 	@PostMapping("/log")
 	@ResponseBody
 	public Map<String, Object> postLog(@RequestBody @NotNull String xes) throws SQLException, IOException, SAXException {
-		METHOD_CALL.info("public Map<String, Object> restapi.control.logic.DatabaseController.postLog" +
+		METHOD_CALL.trace("public Map<String, Object> restapi.control.logic.DatabaseController.postLog" +
 				"(@RequestBody @NotNull String xes={})...", maxSubstring(xes));
 		DatabaseService.startTransaction();
 		DatabaseService.savepoint("putLog");
@@ -174,7 +174,7 @@ public class DatabaseController {
 
 			DIAGNOSTICS.trace("restapi.control.logic.DatabaseController.postLog(String): Posted Log.");
 
-			METHOD_CALL.info("restapi.control.logic.DatabaseController.postLog(String): return logInfo: {}",
+			METHOD_CALL.trace("restapi.control.logic.DatabaseController.postLog(String): return logInfo: {}",
 					maxSubstring(logInfo.toString()));
 			// return log information
 			return logInfo;
@@ -183,7 +183,7 @@ public class DatabaseController {
 			DatabaseService.rollbackTo("putLog");
 			DatabaseService.commit();
 
-			METHOD_CALL.info("restapi.control.logic.DatabaseController.postLog(String): " +
+			METHOD_CALL.trace("restapi.control.logic.DatabaseController.postLog(String): " +
 				"throw new ResponseStatusException(HttpStatus.BAD_REQUEST, {});", maxSubstring(e.getMessage()));
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
@@ -192,7 +192,7 @@ public class DatabaseController {
 	@DeleteMapping("/log/{logID}")
 	@ResponseBody
 	public Map<String, Object> deleteLog(@PathVariable @NotNull String logID) throws SQLException {
-		METHOD_CALL.info("public Map<String, Object> restapi.control.logic.DatabaseController.deleteLog" +
+		METHOD_CALL.trace("public Map<String, Object> restapi.control.logic.DatabaseController.deleteLog" +
 				"(@PathVariable @NotNull String logID={})...", logID);
 		DatabaseService.startTransaction();
 		DatabaseService.savepoint("putLog");
