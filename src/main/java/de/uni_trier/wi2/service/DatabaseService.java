@@ -153,7 +153,7 @@ public class DatabaseService {
     /**
      * <p>Returns a {@link Map} object assigning objects to {@link String}s, representing the log's database entry.</p>
      *
-     * <p>The values in that map are
+     * <p>The value in that map are
      * <ol>
      *     <li>the log's id (String),</li>
      *     <li>the log's header (String) &</li>
@@ -221,7 +221,7 @@ public class DatabaseService {
     /**
      * <p>Returns a {@link Map} object assigning objects to {@link String}s, representing the trace's database entry.</p>
      *
-     * <p>The values in that map are
+     * <p>The value in that map are
      * <ol>
      *     <li>the traces's id (String),</li>
      *     <li>the id of the log the trace belongs to (String),</li>
@@ -361,7 +361,7 @@ public class DatabaseService {
      *
      * @param traceID       UUID of trace
      * @param metadataType  name of metadata type
-     * @param metadataValue values of metadata
+     * @param metadataValue value of metadata
      * @return id of metadata
      * @throws SQLException if the trace does not exist in the database or if there was a problem with the sql query
      */
@@ -435,7 +435,7 @@ public class DatabaseService {
      *
      * @param logID         UUID of log
      * @param metadataType  name of metadata type
-     * @param metadataValue values of metadata
+     * @param metadataValue value of metadata
      * @return id of metadata
      * @throws SQLException if the log does not exist in the database or if there was a problem with the sql query
      */
@@ -503,8 +503,8 @@ public class DatabaseService {
     /**
      * <p>Returns a {@link Map} object representing metadata of the requested trace.</p>
      *
-     * <p>The map's keys are {@link String}s denoting the type of the metadata. The respective values are Strings
-     * denoting the metadata's values.</p>
+     * <p>The map's keys are {@link String}s denoting the type of the metadata. The respective value are Strings
+     * denoting the metadata's value.</p>
      *
      * @param traceID UUID of trace
      * @return {@link Map} representing metadata
@@ -558,8 +558,8 @@ public class DatabaseService {
     /**
      * <p>Returns a {@link Map} object representing metadata of the requested log.</p>
      *
-     * <p>The map's keys are {@link String}s denoting the type of the metadata. The respective values are Strings
-     * denoting the metadata's values.</p>
+     * <p>The map's keys are {@link String}s denoting the type of the metadata. The respective value are Strings
+     * denoting the metadata's value.</p>
      *
      * @param logID UUID of log
      * @return {@link Map} representing metadata
@@ -639,7 +639,7 @@ public class DatabaseService {
 
     private static ResultSet insertInto(String tableName, String[] attributeNames, Object[] values) throws SQLException {
         METHOD_CALL.trace(
-                "private static ResultSet restapi.service.DatabaseService.insertInto(String tableName={}, String[] attributeNames={}, Object[] values={})",
+                "private static ResultSet restapi.service.DatabaseService.insertInto(String tableName={}, String[] attributeNames={}, Object[] value={})",
                 tableName, attributeNames, maxSubstring(values.toString()));
 
         assert (tableName != null &&
@@ -688,7 +688,7 @@ public class DatabaseService {
 
     private static int update(String tableName, String[] attributeNames, Object[] values, String condition) throws SQLException {
         METHOD_CALL.trace(
-                "private static int restapi.service.DatabaseService.update(String tableName={}, String[] attributeNames={}, Object[] values={}, String condition={})",
+                "private static int restapi.service.DatabaseService.update(String tableName={}, String[] attributeNames={}, Object[] value={}, String condition={})",
                 tableName, attributeNames, maxSubstring(values.toString()), condition);
 
         assert (tableName != null &&
@@ -872,7 +872,7 @@ public class DatabaseService {
         // - metadata -
         public static final String TABLENAME__metadata = "metadata";
         public static final String COLUMNNAME__metadata__metadataID = "metadataID";
-        public static final String COLUMNNAME__metadata__value = "values";
+        public static final String COLUMNNAME__metadata__value = "value";
         // - metadataType -
         public static final String TABLENAME__metadataType = "metadataType";
         public static final String COLUMNNAME__metadataType__metadataTypeID = "metadataTypeID";

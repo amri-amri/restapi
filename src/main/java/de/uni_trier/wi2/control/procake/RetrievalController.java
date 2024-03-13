@@ -35,7 +35,7 @@ public class RetrievalController {
      * <p>Performs retrieval with the trace with the given traceID as query.</p>
      * <p>The xes in the request body is ignored, instead, the xes belonging to the given traceID is taken.</p>
      * <p>The retrieval will be performed on the filtered casebase and a JSON containing the
-     * results of the retrieval is returned. Only traceID's and similarity values are returned.</p>
+     * results of the retrieval is returned. Only traceID's and similarity value are returned.</p>
      *
      * @param traceID    traceID of the query trace
      * @param parameters parameters necessary for the retrieval
@@ -99,7 +99,7 @@ public class RetrievalController {
     /**
      * <p>Performs retrieval with the trace in the request body as query.</p>
      * <p>The retrieval will be performed on the filtered casebase and a JSON containing the
-     * results of the retrieval is returned. Only id's and similarity values are returned.</p>
+     * results of the retrieval is returned. Only id's and similarity value are returned.</p>
      *
      * @param parameters parameters necessary for the retrieval
      * @return JSON representation of retrieval results

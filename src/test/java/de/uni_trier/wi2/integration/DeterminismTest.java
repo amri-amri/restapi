@@ -121,7 +121,7 @@ public class DeterminismTest {
 
         xes = "";
         globalSimilarityMeasure = "ListDTWExt";
-        Method m = new Method("setHalvingDistPercentage", "double", "0.5");
+        Method m = new Method("setHalvingDistPercentage", List.of("double"), List.of("0.5"));
         globalMethodInvokers = new MethodList(new ArrayList<>(Collections.singleton(m)));
         localSimilarityMeasureFunc = """
                 <?xml version="1.0" encoding="UTF-8"?>
@@ -267,7 +267,7 @@ public class DeterminismTest {
 
         xes = head + xes + foot;
         globalSimilarityMeasure = "ListDTWExt";
-        Method m = new Method("setHalvingDistPercentage", "double", "0.5");
+        Method m = new Method("setHalvingDistPercentage", List.of("double"), List.of("0.5"));
         globalMethodInvokers = new MethodList(new ArrayList<>(Collections.singleton(m)));
         localSimilarityMeasureFunc = """
                 <?xml version="1.0" encoding="UTF-8"?>
