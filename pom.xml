@@ -10,7 +10,7 @@
     </parent>
     <groupId>de.uni_trier.wi2</groupId>
     <artifactId>restapi</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>RESTful API</name>
     <description>RESTful API for ProCAKE and Logic module</description>
     <properties>
