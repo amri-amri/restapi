@@ -22,6 +22,7 @@ import de.uni_trier.wi2.procake.data.model.ModelFactory;
 import de.uni_trier.wi2.procake.data.object.DataObject;
 import de.uni_trier.wi2.procake.data.object.base.StringObject;
 import de.uni_trier.wi2.procake.data.object.nest.NESTSequentialWorkflowObject;
+import de.uni_trier.wi2.procake.data.object.nest.NESTWorkflowObject;
 import de.uni_trier.wi2.procake.data.objectpool.ObjectPoolFactory;
 import de.uni_trier.wi2.procake.data.objectpool.ReadableObjectPool;
 import de.uni_trier.wi2.procake.data.objectpool.WriteableObjectPool;
@@ -228,17 +229,18 @@ public class ProCAKEService {
                     graph.addEdgesByDocumentOrder();
 
                     // Now we have to convert and cast to a NESTSequentialWorkflowObject.
-                    NESTSequentialWorkflowObject workflow =
+                    NESTSequentialWorkflowObject sequentialWorkflow =
                             (NESTSequentialWorkflowObject) model.getNESTSequentialWorkflowClass().newObject();
-                    workflow.transformNESTGraphToNESTSequentialWorkflow(converter.convert(graph));
+                    NESTWorkflowObject workflow = converter.convert(graph);
+                    sequentialWorkflow.transformNESTGraphToNESTSequentialWorkflow(workflow);
 
                     // We set the ID and store it in the casebase.
-                    workflow.setId(traceID);
-                    casebase.store(workflow);
+                    sequentialWorkflow.setId(traceID);
+                    casebase.store(sequentialWorkflow);
 
                     DIAGNOSTICS.trace(
                             "service.ProCAKEService.loadCasebase(): NESTSequentialWorkflowObject stored in casebase: {}",
-                            maxSubstring(workflow));
+                            maxSubstring(sequentialWorkflow));
                 }
             }
 
