@@ -1,9 +1,11 @@
 package de.uni_trier.wi2.model;
 
+import java.util.List;
+
 /**
  * A record representing a method with one parameter.
  * @param name name of the method
- * @param valueType parameter type
- * @param value value of parameter
+ * @param valueTypes parameter type
+ * @param values values of parameter
  */
-public record Method(String name, String valueType, String value) { }
+public record Method(String name, List<String> valueTypes, List<String> values) { }

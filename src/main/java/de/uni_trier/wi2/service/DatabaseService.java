@@ -361,7 +361,7 @@ public class DatabaseService {
      *
      * @param traceID       UUID of trace
      * @param metadataType  name of metadata type
-     * @param metadataValue value of metadata
+     * @param metadataValue values of metadata
      * @return id of metadata
      * @throws SQLException if the trace does not exist in the database or if there was a problem with the sql query
      */
@@ -435,7 +435,7 @@ public class DatabaseService {
      *
      * @param logID         UUID of log
      * @param metadataType  name of metadata type
-     * @param metadataValue value of metadata
+     * @param metadataValue values of metadata
      * @return id of metadata
      * @throws SQLException if the log does not exist in the database or if there was a problem with the sql query
      */
@@ -504,7 +504,7 @@ public class DatabaseService {
      * <p>Returns a {@link Map} object representing metadata of the requested trace.</p>
      *
      * <p>The map's keys are {@link String}s denoting the type of the metadata. The respective values are Strings
-     * denoting the metadata's value.</p>
+     * denoting the metadata's values.</p>
      *
      * @param traceID UUID of trace
      * @return {@link Map} representing metadata
@@ -559,7 +559,7 @@ public class DatabaseService {
      * <p>Returns a {@link Map} object representing metadata of the requested log.</p>
      *
      * <p>The map's keys are {@link String}s denoting the type of the metadata. The respective values are Strings
-     * denoting the metadata's value.</p>
+     * denoting the metadata's values.</p>
      *
      * @param logID UUID of log
      * @return {@link Map} representing metadata
@@ -872,7 +872,7 @@ public class DatabaseService {
         // - metadata -
         public static final String TABLENAME__metadata = "metadata";
         public static final String COLUMNNAME__metadata__metadataID = "metadataID";
-        public static final String COLUMNNAME__metadata__value = "value";
+        public static final String COLUMNNAME__metadata__value = "values";
         // - metadataType -
         public static final String TABLENAME__metadataType = "metadataType";
         public static final String COLUMNNAME__metadataType__metadataTypeID = "metadataTypeID";

@@ -280,7 +280,7 @@ public class ProCAKEService {
             String weightFunc,
             FilterParameters filterParameters,
             int numberOfResults
-    ) throws ParserConfigurationException, IOException, SAXException {
+    ) throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException {
         METHOD_CALL.trace("public static List<Retrieval> retrieve" +
                 "(String xes={}" +
                 ", String globalSimilarityMeasure={}" +
@@ -393,7 +393,7 @@ public class ProCAKEService {
      * @param globalMethodInvokers the method list
      * @return list of MethodInvokers
      */
-    private static ArrayList<MethodInvoker> convertGlobalMethodInvokers(MethodList globalMethodInvokers) {
+    private static ArrayList<MethodInvoker> convertGlobalMethodInvokers(MethodList globalMethodInvokers) throws ClassNotFoundException {
         METHOD_CALL.trace(
                 "private static ArrayList<MethodInvoker> restapi.service.ProCAKEService.convertGlobalMethodInvokers" +
                         "(MethodList globalMethodInvokers={})...", maxSubstring(globalMethodInvokers));
@@ -408,33 +408,37 @@ public class ProCAKEService {
             DIAGNOSTICS.trace("service.ProCAKEService.convertGlobalMethodInvokers(MethodList): Method m={}",
                     maxSubstring(m));
 
-            Class<?> clazz;
-            Object object;
+            int numOfArgs = m.valueTypes().size();
 
-            switch (m.valueType()) {
-                case TYPE_NAME_STRING -> {
-                    clazz = String.class;
-                    object = m.value();
-                }
-                case TYPE_NAME_DOUBLE -> {
-                    clazz = Double.class;
-                    object = Double.parseDouble(m.value());
-                }
-                case TYPE_NAME_BOOLEAN -> {
-                    clazz = Boolean.class;
-                    object = Boolean.parseBoolean(m.value());
-                }
-                default -> {
-                    clazz = null;
-                    object = null;
+            Class<?>[] classes = new Class<?>[numOfArgs];
+            Object[] objects = new Object[numOfArgs];
+
+            for (int i = 0; i < numOfArgs; i++){
+                String valueType = m.valueTypes().get(i);
+                String value = m.values().get(i);
+                switch (valueType) {
+                    case TYPE_NAME_STRING -> {
+                        classes[i] = String.class;
+                        objects[i] = value;
+                    }
+                    case TYPE_NAME_DOUBLE -> {
+                        classes[i] = Double.class;
+                        objects[i] = Double.parseDouble(value);
+                    }
+                    case TYPE_NAME_BOOLEAN -> {
+                        classes[i] = Boolean.class;
+                        objects[i] = Boolean.parseBoolean(value);
+                    }
+                    default -> {
+                        throw new ClassNotFoundException(valueType);
+                    }
                 }
             }
 
-
             globalMethodInvokerList.add(new MethodInvoker(
                     m.name(),
-                    clazz == null ? new Class[0] : new Class[]{clazz},
-                    clazz == null ? new Object[0] : new Object[]{object}
+                    classes,
+                    objects
             ));
         }
 
