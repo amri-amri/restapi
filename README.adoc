@@ -17,7 +17,7 @@ https://gitlab.rlp.net/wi2/onkocase/restapi/-/packages[package registry]
 of the GitLab repository.
 In order to run the JAR on your machine, type
 `java -jar restapi.jar dbUrl dbUsername dbPassword`, where
-`restapi.jar` is the name of the JAR you want to run, `dbUrl` is
+`restapi.jar` is the path of the JAR you want to run, `dbUrl` is
 the URL of the MySQL server you want to use, **including the name of
 the database you want to use**, and `dbUsername`
 and `dbPassword` are the username and password with which you want
@@ -208,8 +208,8 @@ The request body is a JSON of the following structure:
         "methods": [
             {
                 "name": "string",
-                "valueType": "string",
-                "value": "string"
+                "valueTypes": ["string"],
+                "values": ["string"]
             }
         ]
     },
@@ -241,18 +241,15 @@ This fields' value is another field _"methods"_, which represents
 a list of objects that each have a
 
 * _"name"_, a
-* _"valueType"_, and a
-* _"value"_ field.
+* _"valueTypes"_, and a
+* _"values"_ field.
 
 The value of _"name"_ is the name of a method that is implemented
 by the similarity measure denoted by _"globalSimilarityMeasure"_
-*without any modifiers or parameter types*. _"valueType"_ denotes
-the class of the parameter which can only be `"string"`,
-`"double"`, or `"boolean"`. Other data types have not been
-implemented yet. If the data type is none of the above,
-that `method` object corresponds to a method without any parameters.
-Methods that accept more than one argument are not implemented (yet).
-The _"value"_ field denotes the value of the passed argument.
+*without any modifiers or parameter types*. _"valueTypes"_ denotes
+a list of classes of the parameters which can only be `"string"`,
+`"double"`, `"boolean"`, `"integer"`, `"character"`, or `"byte"`.
+The _"values"_ field denotes a list of the respective values of the passed arguments.
 
 This fields' value can be `null`.
 
