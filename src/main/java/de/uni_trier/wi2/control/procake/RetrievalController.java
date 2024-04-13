@@ -1,5 +1,6 @@
 package de.uni_trier.wi2.control.procake;
 
+import de.uni_trier.wi2.model.Retrieval;
 import de.uni_trier.wi2.model.RetrievalParameters;
 import de.uni_trier.wi2.service.DatabaseService;
 import de.uni_trier.wi2.service.ProCAKEService;
@@ -15,6 +16,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static de.uni_trier.wi2.RestAPILoggingUtils.maxSubstring;
@@ -113,7 +115,7 @@ public class RetrievalController {
                 "(@RequestBody RetrievalParameters parameters={})", maxSubstring(parameters));
         Map[] traces;
         try {
-            traces = ProCAKEService.retrieve(
+            List<Retrieval> retrievalList = ProCAKEService.retrieve(
                             parameters.xes(), // xes of RetrievalParameters is ignored
                             parameters.globalSimilarityMeasure(),
                             parameters.globalMethodInvokers(),
@@ -121,9 +123,9 @@ public class RetrievalController {
                             parameters.localMethodInvokersFunc(),
                             parameters.localWeightFunc(),
                             parameters.filterParameters(),
-                            parameters.numberOfResults())
+                            parameters.numberOfResults());
 
-                    .stream().map(retrieval -> {
+            traces = retrievalList.stream().map(retrieval -> {
                         Map<String, Object> out = new HashMap();
                         out.put(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID, retrieval.id());
                         out.put("similarity", retrieval.similarityValue());//todo: magic String = bad!
