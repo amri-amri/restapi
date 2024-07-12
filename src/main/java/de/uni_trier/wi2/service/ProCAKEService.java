@@ -56,6 +56,9 @@ public class ProCAKEService {
     static final String TYPE_NAME_STRING = "string";
     static final String TYPE_NAME_DOUBLE = "double";
     static final String TYPE_NAME_BOOLEAN = "boolean";
+    static final String TYPE_NAME_INTEGER = "integer";
+    static final String TYPE_NAME_CHARACTER = "character";
+    static final String TYPE_NAME_BYTE = "byte";
 
     /**
      * The casebase used for retrieval.
@@ -336,6 +339,18 @@ public class ProCAKEService {
                     case TYPE_NAME_BOOLEAN -> {
                         classes[i] = Boolean.class;
                         objects[i] = Boolean.parseBoolean(value);
+                    }
+                    case TYPE_NAME_INTEGER -> {
+                        classes[i] = Integer.class;
+                        objects[i] = Integer.parseInt(value);
+                    }
+                    case TYPE_NAME_CHARACTER -> {
+                        classes[i] = Character.class;
+                        objects[i] = value.charAt(0);
+                    }
+                    case TYPE_NAME_BYTE -> {
+                        classes[i] = Byte.class;
+                        objects[i] = Byte.parseByte(value);
                     }
                     default -> {
                         throw new ClassNotFoundException(valueType);
