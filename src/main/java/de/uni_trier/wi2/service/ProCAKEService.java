@@ -3,7 +3,9 @@ package de.uni_trier.wi2.service;
 
 import de.uni_trier.wi2.conversion.sax.XEStoNESTsAXConverter;
 import de.uni_trier.wi2.conversion.sax.XEStoNESTsAXparallelConverter;
+import de.uni_trier.wi2.extension.abstraction.RetrieverExt;
 import de.uni_trier.wi2.extension.retrieval.LinearRetrieverImplExt;
+import de.uni_trier.wi2.extension.retrieval.ParallelLinearRetrieverImplExt;
 import de.uni_trier.wi2.extension.similarity.measure.SMBooleanXORImpl;
 import de.uni_trier.wi2.extension.similarity.measure.SMStringLevenshteinImplExt;
 import de.uni_trier.wi2.extension.similarity.measure.collection.*;
@@ -27,6 +29,7 @@ import de.uni_trier.wi2.procake.data.objectpool.WriteableObjectPool;
 import de.uni_trier.wi2.procake.retrieval.Query;
 import de.uni_trier.wi2.procake.retrieval.RetrievalResult;
 import de.uni_trier.wi2.procake.retrieval.RetrievalResultList;
+import de.uni_trier.wi2.procake.retrieval.Retriever;
 import de.uni_trier.wi2.procake.similarity.SimilarityModel;
 import de.uni_trier.wi2.procake.similarity.base.SMObjectEqual;
 import de.uni_trier.wi2.procake.similarity.base.impl.SMObjectEqualImpl;
@@ -42,6 +45,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -232,7 +236,7 @@ public class ProCAKEService {
      * @throws IOException                  todo
      * @throws SAXException                 todo
      */
-    public static List<Retrieval> retrieve(String xes, String globalSimilarityMeasure, MethodList globalMethodInvokerList, String similarityMeasureFunc, String methodInvokersFunc, String weightFunc, FilterParameters filterParameters, int numberOfResults) throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException {
+    public static List<Retrieval> retrieve(int numberOfWorkers, String xes, String globalSimilarityMeasure, MethodList globalMethodInvokerList, String similarityMeasureFunc, String methodInvokersFunc, String weightFunc, FilterParameters filterParameters, int numberOfResults) throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         METHOD_CALL.trace("public static List<Retrieval> retrieve" + "(String xes={}" + ", String globalSimilarityMeasure={}" + ", MethodList globalMethodInvokerList={}" + ", String similarityMeasureFunc={}" + ", String methodInvokersFunc={}" + ", String weightFunc={}" + ", FilterParameters filterParameters={}" + ", int numberOfResult={})...", maxSubstring(xes), maxSubstring(globalSimilarityMeasure), maxSubstring(globalMethodInvokerList), maxSubstring(similarityMeasureFunc), maxSubstring(methodInvokersFunc), maxSubstring(weightFunc), maxSubstring(filterParameters), numberOfResults);
 
         // - preparation of retrieval - //
@@ -256,16 +260,21 @@ public class ProCAKEService {
 
         // - retrieval - //
 
-        LinearRetrieverImplExt linearRetrieverImplExt = new LinearRetrieverImplExt();
+        Retriever<DataObject, Query> linearRetrieverImplExt;
+        if (numberOfWorkers>0) {
+            linearRetrieverImplExt = new ParallelLinearRetrieverImplExt();
+            ((ParallelLinearRetrieverImplExt) linearRetrieverImplExt).setNumberOfWorkers(numberOfWorkers);
+        }
+        else linearRetrieverImplExt = new LinearRetrieverImplExt();
         linearRetrieverImplExt.setSimilarityModel(similarityModel);
         linearRetrieverImplExt.setObjectPool(getFilteredCasebase(filterParameters));
         linearRetrieverImplExt.setAddQueryToResults(false);
 
-        linearRetrieverImplExt.setGlobalSimilarityMeasure(globalSimilarityMeasure);
-        linearRetrieverImplExt.setGlobalMethodInvokers(globalMethodInvokers);
-        linearRetrieverImplExt.setLocalSimilarityMeasureFunc(localSimilarityMeasureFunc);
-        linearRetrieverImplExt.setLocalMethodInvokersFunc(localMethodInvokersFunc);
-        linearRetrieverImplExt.setLocalWeightFunc(localWeightFunc);
+        ((RetrieverExt) linearRetrieverImplExt).setGlobalSimilarityMeasure(globalSimilarityMeasure);
+        ((RetrieverExt) linearRetrieverImplExt).setGlobalMethodInvokers(globalMethodInvokers);
+        ((RetrieverExt) linearRetrieverImplExt).setLocalSimilarityMeasureFunc(localSimilarityMeasureFunc);
+        ((RetrieverExt) linearRetrieverImplExt).setLocalMethodInvokersFunc(localMethodInvokersFunc);
+        ((RetrieverExt) linearRetrieverImplExt).setLocalWeightFunc(localWeightFunc);
 
         Query query = linearRetrieverImplExt.newQuery();
         query.setQueryObject(trace);
