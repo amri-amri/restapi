@@ -83,26 +83,27 @@ public class DatabaseService {
 
         // Split the log into the header and the traces
         String[] splitXES = xes.split("<trace");
-        StringBuilder header = new StringBuilder(splitXES[0]);
+        StringBuilder header = new StringBuilder(splitXES[0].trim());
 
         // Put traces in list
         // Complete header
-        ArrayList<String> traces = new ArrayList<>();
+        final ArrayList<String> traces = new ArrayList<>();
         String[] splitTrace;
-        String trace;
+        String trace, traceContent, splitter;
         for (int i = 1; i < splitXES.length; i++) {
-            splitTrace = splitXES[i].split("</trace>");
-            trace = "<trace" + splitTrace[0] + "</trace>";
+            traceContent = splitXES[i];
+            splitter = "</trace>";
+            if (!traceContent.contains(splitter)) splitter = "/>";
+            splitTrace = traceContent.split(splitter);
+            trace = "<trace" + splitTrace[0] + splitter;
+            trace = trace.trim();
             traces.add(trace);
-            DIAGNOSTICS.trace("restapi.service.DatabaseService.putLog(String): Added trace to list of traces: {}", maxSubstring(trace));
-            if (splitTrace.length > 1) {
-                header.append(splitTrace[1]);
-                DIAGNOSTICS.trace("restapi.service.DatabaseService.putLog(String): Appended to header: {}", maxSubstring(splitTrace[1]));
-            }
+
+            for (int j = 1; j < splitTrace.length; j++) header.append(splitTrace[j].trim());
         }
 
         // create logID
-        String logID = UUID.randomUUID().toString();
+        final String logID = UUID.randomUUID().toString();
 
         // insert log
         insertInto(
@@ -119,13 +120,14 @@ public class DatabaseService {
                         false});
 
         // array for memorizing id's to be returned
-        String[] ids = new String[traces.size() + 1];
+        final String[] ids = new String[traces.size() + 1];
         ids[0] = logID;
 
+        String traceID;
         // insert traces
         for (int i = 0; i < traces.size(); i++) {
 
-            String traceID = UUID.randomUUID().toString();
+            traceID = UUID.randomUUID().toString();
             insertInto(
                     DATABASE_NAMES.TABLENAME__trace,
 
