@@ -1,9 +1,9 @@
 package de.uni_trier.wi2.service;
 
 
-import de.uni_trier.wi2.conversion.*;
 import de.uni_trier.wi2.conversion.sax.*;
 import de.uni_trier.wi2.eval.*;
+import de.uni_trier.wi2.extension.abstraction.*;
 import de.uni_trier.wi2.extension.retrieval.*;
 import de.uni_trier.wi2.extension.similarity.measure.*;
 import de.uni_trier.wi2.extension.similarity.measure.collection.*;
@@ -117,7 +117,7 @@ public class ProCAKEService {
         similarityModel.setDefaultSimilarityMeasure(model.getDataSystemClass(), SMObjectEqual.NAME);
     }
 
-    private static void addSimilarityMeasuresFromEval(){
+    private static void addSimilarityMeasuresFromEval() {
         addSimilarityMeasureToSimilarityModel(new SMChronologicalOrNumericComparison100Impl(), model.getDataSystemClass());
         addSimilarityMeasureToSimilarityModel(new SMBooleanEquivalenceImpl(), model.getDataSystemClass());
     }
@@ -137,9 +137,13 @@ public class ProCAKEService {
         try {
             similarityModel.registerSimilarityMeasureTemplate(sm);
 
-            DIAGNOSTICS.trace("restapi.service.ProCAKEService.addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl, DataClass): " + "similarityModel.registerSimilarityMeasureTemplate(sm); successful!");
+            DIAGNOSTICS.trace(
+                    "restapi.service.ProCAKEService.addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl, DataClass): " +
+                            "similarityModel.registerSimilarityMeasureTemplate(sm); successful!");
         } catch (NameAlreadyExistsException ignored) {
-            DIAGNOSTICS.trace("restapi.service.ProCAKEService.addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl, DataClass): " + "similarityModel.registerSimilarityMeasureTemplate(sm); failed!");
+            DIAGNOSTICS.trace(
+                    "restapi.service.ProCAKEService.addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl, DataClass): " +
+                            "similarityModel.registerSimilarityMeasureTemplate(sm); failed!");
         }
 
         // sets the DataClass the SM can be applied to
@@ -160,7 +164,13 @@ public class ProCAKEService {
 
     }
 
+    /**
+     * Reloads the traces from the database into the casebase after converting them to {@link NESTSequentialWorkflowObject}s.
+     *
+     * @return status message
+     */
     public static String loadCasebase() {
+
 
         // Re-instantiate the case base
         casebase = ObjectPoolFactory.newObjectPool();
@@ -173,13 +183,10 @@ public class ProCAKEService {
             // but also to be a valid xes document, the root element of which is a log tag ("<log ...>").
 
             Map<String, Object> log;
-
             String header, prefix, suffix;
-
             suffix = "</log>";
 
             Map<String, Object> trace;
-
             String xes;
 
             StringBuilder completeLog;
@@ -187,9 +194,7 @@ public class ProCAKEService {
             for (String logID : DatabaseService.getLogIDs(false)) {
 
                 log = DatabaseService.getLog(logID);
-
                 header = (String) log.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__header);
-
                 prefix = header.split(suffix)[0];
 
                 String[] ids = DatabaseService.getTraceIDs(logID);
@@ -197,29 +202,22 @@ public class ProCAKEService {
                 completeLog = new StringBuilder(prefix);
 
                 for (String traceID : ids) {
-
                     trace = DatabaseService.getTrace(traceID);
-
                     xes = (String) trace.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__xes);
-
                     completeLog.append(xes);
-
                 }
 
                 completeLog.append(suffix);
 
                 XEStoNESTsAXparallelConverter converter = new XEStoNESTsAXparallelConverter(model, 7);
-
                 converter.configure(false, false, null, ids);
-
                 casebase.storeAll((Collection) converter.convert(completeLog.toString()));
 
             }
 
             return "Casebase loaded successfully!";
         } catch (SQLException e) {
-
-            return ":(";
+            return ":(";//todo: logging
         }
     }
 
@@ -240,7 +238,7 @@ public class ProCAKEService {
      * @throws IOException                  todo
      * @throws SAXException                 todo
      */
-    public static List<Retrieval> retrieve(String xes, String globalSimilarityMeasure, MethodList globalMethodInvokerList, String similarityMeasureFunc, String methodInvokersFunc, String weightFunc, FilterParameters filterParameters, int numberOfResults) throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public static List<Retrieval> retrieve(int numberOfWorkers, String xes, String globalSimilarityMeasure, MethodList globalMethodInvokerList, String similarityMeasureFunc, String methodInvokersFunc, String weightFunc, FilterParameters filterParameters, int numberOfResults) throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         METHOD_CALL.trace("public static List<Retrieval> retrieve" + "(String xes={}" + ", String globalSimilarityMeasure={}" + ", MethodList globalMethodInvokerList={}" + ", String similarityMeasureFunc={}" + ", String methodInvokersFunc={}" + ", String weightFunc={}" + ", FilterParameters filterParameters={}" + ", int numberOfResult={})...", maxSubstring(xes), maxSubstring(globalSimilarityMeasure), maxSubstring(globalMethodInvokerList), maxSubstring(similarityMeasureFunc), maxSubstring(methodInvokersFunc), maxSubstring(weightFunc), maxSubstring(filterParameters), numberOfResults);
 
         // - preparation of retrieval - //
@@ -259,21 +257,26 @@ public class ProCAKEService {
         if (methodInvokersFunc != null)
             localMethodInvokersFunc = XMLtoMethodInvokersFuncConverter.getMethodInvokersFunc(methodInvokersFunc);
 
-        if (weightFunc != null) localWeightFunc = XMLtoWeightFuncConverter.getWeightFunc(weightFunc);
+        if (weightFunc != null)
+            localWeightFunc = XMLtoWeightFuncConverter.getWeightFunc(weightFunc);
 
 
         // - retrieval - //
 
-        LinearRetrieverImplExt linearRetrieverImplExt = new LinearRetrieverImplExt();
+        Retriever<DataObject, Query> linearRetrieverImplExt;
+        if (numberOfWorkers > 1) {
+            linearRetrieverImplExt = new ParallelLinearRetrieverImplExt();
+            ((ParallelLinearRetrieverImplExt) linearRetrieverImplExt).setNumberOfWorkers(numberOfWorkers);
+        } else linearRetrieverImplExt = new LinearRetrieverImplExt();
         linearRetrieverImplExt.setSimilarityModel(similarityModel);
         linearRetrieverImplExt.setObjectPool(getFilteredCasebase(filterParameters));
         linearRetrieverImplExt.setAddQueryToResults(false);
 
-        linearRetrieverImplExt.setGlobalSimilarityMeasure(globalSimilarityMeasure);
-        linearRetrieverImplExt.setGlobalMethodInvokers(globalMethodInvokers);
-        linearRetrieverImplExt.setLocalSimilarityMeasureFunc(localSimilarityMeasureFunc);
-        linearRetrieverImplExt.setLocalMethodInvokersFunc(localMethodInvokersFunc);
-        linearRetrieverImplExt.setLocalWeightFunc(localWeightFunc);
+        ((RetrieverExt) linearRetrieverImplExt).setGlobalSimilarityMeasure(globalSimilarityMeasure);
+        ((RetrieverExt) linearRetrieverImplExt).setGlobalMethodInvokers(globalMethodInvokers);
+        ((RetrieverExt) linearRetrieverImplExt).setLocalSimilarityMeasureFunc(localSimilarityMeasureFunc);
+        ((RetrieverExt) linearRetrieverImplExt).setLocalMethodInvokersFunc(localMethodInvokersFunc);
+        ((RetrieverExt) linearRetrieverImplExt).setLocalWeightFunc(localWeightFunc);
 
         Query query = linearRetrieverImplExt.newQuery();
         query.setQueryObject(trace);
@@ -287,10 +290,15 @@ public class ProCAKEService {
         RetrievalResult retrievalResult;
         while (retrievalResultIterator.hasNext()) {
             retrievalResult = retrievalResultIterator.next();
-            results.add(new Retrieval(retrievalResult.getObjectId(), retrievalResult.getSimilarity().getValue()));
+            results.add(new Retrieval(
+                    retrievalResult.getObjectId(),
+                    retrievalResult.getSimilarity().getValue()
+            ));
         }
 
-        METHOD_CALL.trace("restapi.service.ProCAKEService.retrieve" + "(String, String, MethodList, String, String, String, FilterParameters, int): return results={}", maxSubstring(results));
+        METHOD_CALL.trace("restapi.service.ProCAKEService.retrieve" +
+                        "(String, String, MethodList, String, String, String, FilterParameters, int): return results={}",
+                maxSubstring(results));
         return results;
     }
 
@@ -298,12 +306,12 @@ public class ProCAKEService {
      * Converts a trace to a {@link NESTSequentialWorkflowObject}.
      *
      * @param xes XES log containing (at least) one trace
-     * @return trace in form of a NESTGraph
-     * @throws IOException todo
+     * @return trace in form of a NESTSequentialWorkflowObject
+     * @throws java.lang.IndexOutOfBoundsException if there are no traces present
      */
-    private static NESTSequentialWorkflowObject convertQuery(String xes) {
-        XEStoNESTConverter converter = new XEStoNESTsAXConverter(model);
-        converter.configure(false,false,null,null);
+    private static NESTSequentialWorkflowObject convertQuery(String xes) throws java.lang.IndexOutOfBoundsException {
+        XEStoNESTsAXConverter converter = new XEStoNESTsAXConverter(model);
+        converter.configure(false, false, null, null);
         NESTSequentialWorkflowObject workflow = converter.convert(xes).get(0);
         workflow.setId("CONVERTED_WORKFLOW");
         return workflow;
@@ -366,16 +374,23 @@ public class ProCAKEService {
                 }
             }
 
-            globalMethodInvokerList.add(new MethodInvoker(m.name(), classes, objects));
+            globalMethodInvokerList.add(new MethodInvoker(
+                    m.name(),
+                    classes,
+                    objects
+            ));
         }
 
 
-        METHOD_CALL.trace("service.ProCAKEService.convertGlobalMethodInvokers(MethodList): return {}", maxSubstring(globalMethodInvokerList));
+        METHOD_CALL.trace("service.ProCAKEService.convertGlobalMethodInvokers(MethodList): return {}",
+                maxSubstring(globalMethodInvokerList));
         return globalMethodInvokerList;
     }
 
     private static ReadableObjectPool<DataObject> getFilteredCasebase(FilterParameters parameters) {
-        METHOD_CALL.trace("private static ReadableObjectPool<DataObject> restapi.service.ProCAKEService.getFilteredCasebase" + "(FilterParameters parameters={})...", parameters);
+        METHOD_CALL.trace(
+                "private static ReadableObjectPool<DataObject> restapi.service.ProCAKEService.getFilteredCasebase" +
+                        "(FilterParameters parameters={})...", parameters);
 
         return casebase; //todo
     }
@@ -386,7 +401,8 @@ public class ProCAKEService {
     public static List<String[]> getCasebase() {
         List<String[]> cases = new ArrayList<>();
         for (DataObject trace : casebase.getCollection()) {
-            cases.add(new String[]{trace.getId(), ((StringObject) trace).getNativeString()});
+            cases.add(new String[]{
+                    trace.getId(), ((StringObject) trace).getNativeString()});
         }
         return cases;
     }

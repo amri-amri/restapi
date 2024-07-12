@@ -1,5 +1,6 @@
 package de.uni_trier.wi2.control.procake;
 
+import de.uni_trier.wi2.model.Retrieval;
 import de.uni_trier.wi2.model.RetrievalParameters;
 import de.uni_trier.wi2.service.DatabaseService;
 import de.uni_trier.wi2.service.ProCAKEService;
@@ -15,17 +16,18 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import static de.uni_trier.wi2.RestAPILoggingUtils.maxSubstring;
-import static de.uni_trier.wi2.RestAPILoggingUtils.METHOD_CALL;
-import static de.uni_trier.wi2.RestAPILoggingUtils.DIAGNOSTICS;
+import static de.uni_trier.wi2.RestAPILoggingUtils.*;
 
 /**
  * REST controller responsible for retrieval related acces on the ProCAKE instance.
  */
 @RestController
 public class RetrievalController {
+
+    private static final int NUMBER_OF_WORKERS = 7; //number of workers for retrieval
 
 
     RetrievalController() {
@@ -46,9 +48,7 @@ public class RetrievalController {
      */
     @PutMapping(value = "/retrieval/{traceID}")
     Map<String, Object>[] retrieve(@PathVariable String traceID, @RequestBody RetrievalParameters parameters) throws Exception {
-        METHOD_CALL.trace("Map<String, Object>[] restapi.control.procake.RetrievalController.retrieve" +
-                "(@PathVariable String traceID={}, @RequestBody RetrievalParameters parameters={})"
-                , traceID, maxSubstring(parameters));
+        METHOD_CALL.trace("Map<String, Object>[] restapi.control.procake.RetrievalController.retrieve" + "(@PathVariable String traceID={}, @RequestBody RetrievalParameters parameters={})", traceID, maxSubstring(parameters));
 
         Map<String, Object> t;
         try {
@@ -60,14 +60,11 @@ public class RetrievalController {
         }
 
 
-        DIAGNOSTICS.trace("restapi.control.procake.RetrievalController.retrieve" +
-                "(String, RetrievalParameters): Trace belonging to traceID is {}.", maxSubstring(t));
+        DIAGNOSTICS.trace("restapi.control.procake.RetrievalController.retrieve" + "(String, RetrievalParameters): Trace belonging to traceID is {}.", maxSubstring(t));
 
-        Map<String, Object> l =
-                DatabaseService.getLog((String) t.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__logID));
+        Map<String, Object> l = DatabaseService.getLog((String) t.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__logID));
 
-        DIAGNOSTICS.trace("restapi.control.procake.RetrievalController.retrieve" +
-                "(String, RetrievalParameters): Log belonging to traceID is {}.", maxSubstring(l));
+        DIAGNOSTICS.trace("restapi.control.procake.RetrievalController.retrieve" + "(String, RetrievalParameters): Log belonging to traceID is {}.", maxSubstring(l));
 
         // Since the trace belongs to a log that means the log is not empty and thus the root element (log) is not
         //  self-closing which means there is a String "</log>" somewhere in the header
@@ -75,24 +72,13 @@ public class RetrievalController {
         assert (header.length > 0);
         String xes = header[0] + t.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__xes) + "</log>";
 
-        DIAGNOSTICS.trace("restapi.control.procake.RetrievalController.retrieve" +
-                "(String, RetrievalParameters): XES with log header is {}", maxSubstring(xes));
+        DIAGNOSTICS.trace("restapi.control.procake.RetrievalController.retrieve" + "(String, RetrievalParameters): XES with log header is {}", maxSubstring(xes));
 
-        RetrievalParameters parameters1 = new RetrievalParameters(
-                xes,
-                parameters.globalSimilarityMeasure(),
-                parameters.globalMethodInvokers(),
-                parameters.localSimilarityMeasureFunc(),
-                parameters.localMethodInvokersFunc(),
-                parameters.localWeightFunc(),
-                parameters.filterParameters(),
-                parameters.numberOfResults()
-        );
+        RetrievalParameters parameters1 = new RetrievalParameters(xes, parameters.globalSimilarityMeasure(), parameters.globalMethodInvokers(), parameters.localSimilarityMeasureFunc(), parameters.localMethodInvokersFunc(), parameters.localWeightFunc(), parameters.filterParameters(), parameters.numberOfResults());
 
         Map<String, Object>[] retrieval = retrieve(parameters1);
 
-        METHOD_CALL.trace("restapi.control.procake.RetrievalController.retrieve" +
-                "(String, RetrievalParameters): return retrieval: {}", maxSubstring(retrieval));
+        METHOD_CALL.trace("restapi.control.procake.RetrievalController.retrieve" + "(String, RetrievalParameters): return retrieval: {}", maxSubstring(retrieval));
         return retrieval;
     }
 
@@ -108,37 +94,28 @@ public class RetrievalController {
      * @throws SAXException                 todo
      */
     @PutMapping(value = "/retrieval")
-    Map<String, Object>[] retrieve( @RequestBody RetrievalParameters parameters) throws Exception {
-        METHOD_CALL.trace("Map<String, Object>[] restapi.control.procake.RetrievalController.retrieve" +
-                "(@RequestBody RetrievalParameters parameters={})", maxSubstring(parameters));
+    Map<String, Object>[] retrieve(@RequestBody RetrievalParameters parameters) throws Exception {
+        METHOD_CALL.trace("Map<String, Object>[] restapi.control.procake.RetrievalController.retrieve" + "(@RequestBody RetrievalParameters parameters={})", maxSubstring(parameters));
         Map[] traces;
         try {
-            traces = ProCAKEService.retrieve(
-                            parameters.xes(), // xes of RetrievalParameters is ignored
-                            parameters.globalSimilarityMeasure(),
-                            parameters.globalMethodInvokers(),
-                            parameters.localSimilarityMeasureFunc(),
-                            parameters.localMethodInvokersFunc(),
-                            parameters.localWeightFunc(),
-                            parameters.filterParameters(),
-                            parameters.numberOfResults())
+            List<Retrieval> retrievalList = ProCAKEService.retrieve(NUMBER_OF_WORKERS, parameters.xes(), // xes of RetrievalParameters is ignored
+                    parameters.globalSimilarityMeasure(), parameters.globalMethodInvokers(), parameters.localSimilarityMeasureFunc(), parameters.localMethodInvokersFunc(), parameters.localWeightFunc(), parameters.filterParameters(), parameters.numberOfResults());
 
-                    .stream().map(retrieval -> {
-                        Map<String, Object> out = new HashMap();
-                        out.put(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID, retrieval.id());
-                        out.put("similarity", retrieval.similarityValue());//todo: magic String = bad!
-                        return out;
-                    }).toArray(Map[]::new);
+            traces = retrievalList.stream().map(retrieval -> {
+                Map<String, Object> out = new HashMap();
+                out.put(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID, retrieval.id());
+                out.put("similarity", retrieval.similarityValue());//todo: magic String = bad!
+                return out;
+            }).toArray(Map[]::new);
         } catch (Exception e) {
 
-            METHOD_CALL.trace("restapi.control.procake.RetrievalController.retrieve(RetrievalParameters): " +
-                    "throw new ResponseStatusException(HttpStatus.BAD_REQUEST, {});", maxSubstring(e.getMessage()));
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            METHOD_CALL.trace("restapi.control.procake.RetrievalController.retrieve(RetrievalParameters): " + "throw new ResponseStatusException(HttpStatus.BAD_REQUEST, {});", maxSubstring(e.getMessage()));
+            throw e;
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
 
 
-        METHOD_CALL.trace("restapi.control.procake.RetrievalController.retrieve(RetrievalParameters): " +
-                "return traces: {}", maxSubstring(traces));
+        METHOD_CALL.trace("restapi.control.procake.RetrievalController.retrieve(RetrievalParameters): " + "return traces: {}", maxSubstring(traces));
         return (Map<String, Object>[]) traces;
     }
 

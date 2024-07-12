@@ -144,7 +144,7 @@ public class DatabaseController {
 
 	@PostMapping("/log")
 	@ResponseBody
-	public Map<String, Object> postLog(@RequestBody @NotNull String xes) throws SQLException, IOException, SAXException {
+	public Map<String, Object> postLog(@RequestBody @NotNull String xes) throws SQLException {
 		METHOD_CALL.trace("public Map<String, Object> restapi.control.logic.DatabaseController.postLog" +
 				"(@RequestBody @NotNull String xes={})...", maxSubstring(xes));
 		DatabaseService.startTransaction();

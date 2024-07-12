@@ -307,6 +307,7 @@ public class DeterminismTest {
         DIAGNOSTICS.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.service_test(): perform retrieval first time...");
 
         List<Retrieval> retrieval_1 = ProCAKEService.retrieve(
+                1,
                 xes,
                 globalSimilarityMeasure,
                 globalMethodInvokers,
@@ -324,6 +325,7 @@ public class DeterminismTest {
         DIAGNOSTICS.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.service_test(): perform retrieval second time...");
 
         List<Retrieval> retrieval_2 = ProCAKEService.retrieve(
+                1,
                 xes,
                 globalSimilarityMeasure,
                 globalMethodInvokers,
@@ -341,6 +343,7 @@ public class DeterminismTest {
         DIAGNOSTICS.trace("restapi.de.uni_trier.wi2.integration.DeterminismTest.service_test(): perform retrieval third time...");
 
         List<Retrieval> retrieval_3 = ProCAKEService.retrieve(
+                1,
                 xes,
                 globalSimilarityMeasure,
                 globalMethodInvokers,

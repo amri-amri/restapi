@@ -12,11 +12,6 @@
       <option name="url" value="https://gitlab.rlp.net/api/v4/projects/36008/packages/maven" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="local-maven-repo" />
-      <option name="name" value="local-maven-repo" />
-      <option name="url" value="file:////Users/karimamri/Desktop/DFKI/OnkoCase/onkocasebackend/xestoworkflowconverter/local-maven-repo" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="github" />
       <option name="name" value="github" />
       <option name="url" value="https://maven.pkg.github.com/amri-amri/other-app-repo" />
@@ -27,19 +22,9 @@
       <option name="url" value="https://repo1.maven.org/maven2" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="procake-extension" />
-      <option name="name" value="procake-extension" />
-      <option name="url" value="https://gitlab.rlp.net/api/v4/projects/35164/packages/maven" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="xestoworkflowconverter" />
       <option name="name" value="xestoworkflowconverter" />
       <option name="url" value="https://gitlab.rlp.net/api/v4/projects/32964/packages/maven" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="jboss.community" />
-      <option name="name" value="JBoss Community repository" />
-      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="gitlab-maven" />
@@ -52,6 +37,11 @@
       <option name="url" value="https://repo1.maven.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="onkocasebackend" />
+      <option name="name" value="onkocasebackend" />
+      <option name="url" value="https://gitlab.rlp.net/api/v4/projects/36008/packages/maven" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="local-maven-repo" />
       <option name="name" value="local-maven-repo" />
       <option name="url" value="file:////Users/karimamri/Desktop/xestoworkflowconverter-main/local-maven-repo" />
@@ -60,6 +50,21 @@
       <option name="id" value="local-maven-repo" />
       <option name="name" value="local-maven-repo" />
       <option name="url" value="file:////Users/karimamri/Desktop/DFKI/OnkoCase/ProCAKE/xestoworkflowconverter/local-maven-repo" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="local-maven-repo" />
+      <option name="name" value="local-maven-repo" />
+      <option name="url" value="file:////Users/karimamri/Desktop/DFKI/OnkoCase/onkocasebackend/xestoworkflowconverter/local-maven-repo" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="procake-extension" />
+      <option name="name" value="procake-extension" />
+      <option name="url" value="https://gitlab.rlp.net/api/v4/projects/35164/packages/maven" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
   </component>
 </project>
