@@ -33,7 +33,7 @@ import java.lang.reflect.*;
 import java.sql.*;
 import java.util.*;
 
-import static de.uni_trier.wi2.RestAPILoggingUtils.*;
+
 
 /**
  * The service implementing all business logic for interacting with the ProCAKE instance.
@@ -74,11 +74,11 @@ public class ProCAKEService {
      * @return status message
      */
     public static String setupCake() {
-        METHOD_CALL.trace("public static String restapi.service.ProCAKEService.setupCake()...");
+        
         CakeInstance.start();
         setupDataModel();
         setupSimilarityModel();
-        METHOD_CALL.trace("service.ProCAKEService.setupCake(): return \"{}\"", "ProCAKE instance set up");
+        
         return "ProCAKE instance set up";
     }
 
@@ -86,7 +86,7 @@ public class ProCAKEService {
      * Sets up data model.
      */
     private static void setupDataModel() {
-        METHOD_CALL.trace("private static void restapi.service.ProCAKEService.setupDataModel()...");
+        
         model = ModelFactory.getDefaultModel();
     }
 
@@ -129,34 +129,28 @@ public class ProCAKEService {
      * @param dataClass the data class for which the similarity measure will be available
      */
     private static void addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl sm, DataClass dataClass) {
-        //METHOD_CALL.trace("private static void restapi.service.ProCAKEService.addSimilarityMeasureToSimilarityModel" +
-        //        "(SimilarityMeasureImpl sm={}, DataClass dataClass={})...",
-        //        sm, dataClass);
+        
 
         // puts name and SimilarityMeasure-Object in cache (should be called only once per SM)
         try {
             similarityModel.registerSimilarityMeasureTemplate(sm);
 
-            DIAGNOSTICS.trace("restapi.service.ProCAKEService.addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl, DataClass): " + "similarityModel.registerSimilarityMeasureTemplate(sm); successful!");
+            
         } catch (NameAlreadyExistsException ignored) {
-            DIAGNOSTICS.trace("restapi.service.ProCAKEService.addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl, DataClass): " + "similarityModel.registerSimilarityMeasureTemplate(sm); failed!");
+            
         }
 
         // sets the DataClass the SM can be applied to
         sm.setDataClass(dataClass);
 
-        //DIAGNOSTICS.trace(
-        //        "restapi.service.ProCAKEService.addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl, DataClass): " +
-        //                "sm.setDataClass(dataClass); successful!");
+        
 
         //adds sm to the SMs that can be applied to 'dataClass'
         similarityModel.addSimilarityMeasure(sm, sm.getSystemName());
 
         logger.info("similarity measure {} added to similarity model", sm.getSystemName());
 
-        //DIAGNOSTICS.trace(
-        //        "restapi.service.ProCAKEService.addSimilarityMeasureToSimilarityModel(SimilarityMeasureImpl, DataClass): " +
-        //                "similarityModel.addSimilarityMeasure(sm, sm.getSystemName()); successful!");
+        
 
     }
 
@@ -241,7 +235,6 @@ public class ProCAKEService {
      * @throws SAXException                 todo
      */
     public static List<Retrieval> retrieve(String xes, String globalSimilarityMeasure, MethodList globalMethodInvokerList, String similarityMeasureFunc, String methodInvokersFunc, String weightFunc, FilterParameters filterParameters, int numberOfResults) throws ParserConfigurationException, IOException, SAXException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        METHOD_CALL.trace("public static List<Retrieval> retrieve" + "(String xes={}" + ", String globalSimilarityMeasure={}" + ", MethodList globalMethodInvokerList={}" + ", String similarityMeasureFunc={}" + ", String methodInvokersFunc={}" + ", String weightFunc={}" + ", FilterParameters filterParameters={}" + ", int numberOfResult={})...", maxSubstring(xes), maxSubstring(globalSimilarityMeasure), maxSubstring(globalMethodInvokerList), maxSubstring(similarityMeasureFunc), maxSubstring(methodInvokersFunc), maxSubstring(weightFunc), maxSubstring(filterParameters), numberOfResults);
 
         // - preparation of retrieval - //
 
@@ -290,7 +283,7 @@ public class ProCAKEService {
             results.add(new Retrieval(retrievalResult.getObjectId(), retrievalResult.getSimilarity().getValue()));
         }
 
-        METHOD_CALL.trace("restapi.service.ProCAKEService.retrieve" + "(String, String, MethodList, String, String, String, FilterParameters, int): return results={}", maxSubstring(results));
+        
         return results;
     }
 
@@ -316,16 +309,16 @@ public class ProCAKEService {
      * @return list of MethodInvokers
      */
     private static ArrayList<MethodInvoker> convertGlobalMethodInvokers(MethodList globalMethodInvokers) throws ClassNotFoundException {
-        METHOD_CALL.trace("private static ArrayList<MethodInvoker> restapi.service.ProCAKEService.convertGlobalMethodInvokers" + "(MethodList globalMethodInvokers={})...", maxSubstring(globalMethodInvokers));
+        
 
         ArrayList<MethodInvoker> globalMethodInvokerList = new ArrayList<>();
         if (globalMethodInvokers == null) {
-            DIAGNOSTICS.trace("service.ProCAKEService.convertGlobalMethodInvokers(MethodList): return []");
+            
             return globalMethodInvokerList;
         }
 
         for (Method m : globalMethodInvokers.methods()) {
-            DIAGNOSTICS.trace("service.ProCAKEService.convertGlobalMethodInvokers(MethodList): Method m={}", maxSubstring(m));
+            
 
             int numOfArgs = m.valueTypes().size();
 
@@ -370,12 +363,12 @@ public class ProCAKEService {
         }
 
 
-        METHOD_CALL.trace("service.ProCAKEService.convertGlobalMethodInvokers(MethodList): return {}", maxSubstring(globalMethodInvokerList));
+        
         return globalMethodInvokerList;
     }
 
     private static ReadableObjectPool<DataObject> getFilteredCasebase(FilterParameters parameters) {
-        METHOD_CALL.trace("private static ReadableObjectPool<DataObject> restapi.service.ProCAKEService.getFilteredCasebase" + "(FilterParameters parameters={})...", parameters);
+        
 
         return casebase; //todo
     }

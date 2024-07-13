@@ -20,11 +20,4 @@
     <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
-
-    <!--logger name="diagnostics" level="TRACE" additivity="false">
-        <appender-ref ref="RESTAPI"/>
-    </logger-->
-    <!--logger name="method-call" level="info" additivity="false">
-        <appender-ref ref="RESTAPI"/>
-    </logger-->
 </configuration>
