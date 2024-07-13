@@ -247,8 +247,8 @@ public class EvalSepsis {
         String log = getResourceAsString("eval/sepsis.xes");
 
         DatabaseService.startTransaction();
-        //DatabaseService.deleteAll();
-        //DatabaseService.putLog(log);
+        DatabaseService.deleteAll();
+        DatabaseService.putLog(log);
         ProCAKEService.setupCake();
         ProCAKEService.loadCasebase();
 

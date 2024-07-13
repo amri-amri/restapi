@@ -29,7 +29,7 @@ import java.util.Map;
 @RestController
 public class RetrievalController {
 
-    private static final int NUMBER_OF_WORKERS = 7; //number of workers for retrieval
+    public static final int NUMBER_OF_WORKERS = 7; //number of workers for retrieval
 
 
     RetrievalController() {
