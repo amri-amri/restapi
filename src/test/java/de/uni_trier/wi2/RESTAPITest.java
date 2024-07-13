@@ -1,7 +1,7 @@
 package de.uni_trier.wi2;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.*;
+import org.springframework.boot.test.context.*;
 
 @SpringBootTest(
         classes = RESTAPI.class,

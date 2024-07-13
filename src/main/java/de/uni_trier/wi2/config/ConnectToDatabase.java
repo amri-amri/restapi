@@ -1,12 +1,10 @@
 package de.uni_trier.wi2.config;
 
-import de.uni_trier.wi2.RESTAPI;
-import de.uni_trier.wi2.service.DatabaseService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import de.uni_trier.wi2.*;
+import de.uni_trier.wi2.service.*;
+import org.slf4j.*;
+import org.springframework.boot.*;
+import org.springframework.context.annotation.*;
 
 /**
  * Configuration class to automatically connect to the database when the {@link RESTAPI} is started.

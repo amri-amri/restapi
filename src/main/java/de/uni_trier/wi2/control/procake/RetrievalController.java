@@ -1,26 +1,16 @@
 package de.uni_trier.wi2.control.procake;
 
-import de.uni_trier.wi2.model.Retrieval;
-import de.uni_trier.wi2.model.RetrievalParameters;
-import de.uni_trier.wi2.service.DatabaseService;
-import de.uni_trier.wi2.service.ProCAKEService;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-import org.xml.sax.SAXException;
+import de.uni_trier.wi2.model.*;
+import de.uni_trier.wi2.service.*;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.*;
+import org.xml.sax.*;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
-
+import javax.xml.parsers.*;
+import java.io.*;
+import java.sql.*;
+import java.util.*;
 
 
 /**
@@ -62,11 +52,8 @@ public class RetrievalController {
         }
 
 
-
-
         Map<String, Object> l =
                 DatabaseService.getLog((String) t.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__logID));
-
 
 
         // Since the trace belongs to a log that means the log is not empty and thus the root element (log) is not
@@ -74,7 +61,6 @@ public class RetrievalController {
         String[] header = ((String) l.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__log__header)).split("</log>");
         assert (header.length > 0);
         String xes = header[0] + t.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__xes) + "</log>";
-
 
 
         RetrievalParameters parameters1 = new RetrievalParameters(
@@ -106,7 +92,7 @@ public class RetrievalController {
      * @throws SAXException                 todo
      */
     @PutMapping(value = "/retrieval")
-    Map<String, Object>[] retrieve( @RequestBody RetrievalParameters parameters) throws Exception {
+    Map<String, Object>[] retrieve(@RequestBody RetrievalParameters parameters) throws Exception {
 
         Map[] traces;
         try {
@@ -124,7 +110,6 @@ public class RetrievalController {
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
-
 
 
         return (Map<String, Object>[]) traces;

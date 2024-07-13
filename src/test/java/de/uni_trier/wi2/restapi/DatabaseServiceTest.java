@@ -1,24 +1,20 @@
 package de.uni_trier.wi2.restapi;
 
-import de.uni_trier.wi2.error.DatabaseNotEmptyException;
-import de.uni_trier.wi2.service.IOUtils;
-import org.apache.jena.base.Sys;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.xml.sax.SAXException;
-import de.uni_trier.wi2.service.DatabaseService;
+import de.uni_trier.wi2.error.*;
+import de.uni_trier.wi2.service.*;
+import org.junit.jupiter.api.*;
+import org.xml.sax.*;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Map;
+import java.io.*;
+import java.sql.*;
+import java.util.*;
 
 public class DatabaseServiceTest {
 
     static String connectionStatus;
 
     @BeforeAll
-    private static void connect() throws IOException, SQLException, ClassNotFoundException {
+    public static void connect() throws IOException, SQLException, ClassNotFoundException {
         String databaseTestInfo = IOUtils.getResourceAsString("databaseTestInfo.txt");
         String[] args = databaseTestInfo.split(System.lineSeparator());
         DatabaseService.setUrlUsernamePassword(args[0], args[1], args[2]);
@@ -142,4 +138,6 @@ public class DatabaseServiceTest {
 
 
     }
+
+
 }

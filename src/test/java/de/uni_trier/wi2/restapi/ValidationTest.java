@@ -1,12 +1,12 @@
 package de.uni_trier.wi2.restapi;
 
-import org.junit.jupiter.api.Test;
-import org.xml.sax.SAXException;
-import de.uni_trier.wi2.service.DatabaseService;
+import de.uni_trier.wi2.service.*;
+import org.junit.jupiter.api.*;
+import org.xml.sax.*;
 
-import java.io.IOException;
+import java.io.*;
 
-import static de.uni_trier.wi2.service.IOUtils.getResourceAsString;
+import static de.uni_trier.wi2.service.IOUtils.*;
 
 public class ValidationTest {
 
@@ -44,11 +44,17 @@ public class ValidationTest {
     }
 
     @Test
+    public void testValidLog_3() throws IOException, SAXException {
+        String xml = getResourceAsString("eval/hospital_billing.xes");
+        assert (DatabaseService.logIsValid(xml));
+    }
+
+    @Test
     public void testInvalidLogs() throws IOException, SAXException {
         String xml;
 
-        for (int i = 0; i <= 6; i++){
-            xml = getResourceAsString(String.format("invalid_log%d.xes",i));
+        for (int i = 0; i <= 6; i++) {
+            xml = getResourceAsString(String.format("invalid_log%d.xes", i));
             assert (!DatabaseService.logIsValid(xml));
         }
     }

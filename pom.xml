@@ -22,7 +22,7 @@
         <dependency>
             <groupId>de.uni-trier.wi2</groupId>
             <artifactId>procake-extension</artifactId>
-            <version>1.5.21-SNAPSHOT</version>
+            <version>1.5.23-SNAPSHOT</version>
         </dependency>
 
         <!-- CONVERTER -->

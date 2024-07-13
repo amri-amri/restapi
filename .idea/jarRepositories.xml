@@ -27,6 +27,11 @@
       <option name="url" value="https://gitlab.rlp.net/api/v4/projects/32964/packages/maven" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="restapi" />
+      <option name="name" value="restapi" />
+      <option name="url" value="https://gitlab.rlp.net/api/v4/projects/35701/packages/maven" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="gitlab-maven" />
       <option name="name" value="gitlab-maven" />
       <option name="url" value="gitlab.rlp.net" />

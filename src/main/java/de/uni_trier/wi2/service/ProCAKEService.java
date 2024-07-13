@@ -1,7 +1,6 @@
 package de.uni_trier.wi2.service;
 
 
-import de.uni_trier.wi2.conversion.*;
 import de.uni_trier.wi2.conversion.sax.*;
 import de.uni_trier.wi2.eval.*;
 import de.uni_trier.wi2.extension.abstraction.*;
@@ -33,7 +32,6 @@ import java.io.*;
 import java.lang.reflect.*;
 import java.sql.*;
 import java.util.*;
-
 
 
 /**
@@ -118,8 +116,8 @@ public class ProCAKEService {
         similarityModel.setDefaultSimilarityMeasure(model.getDataSystemClass(), SMObjectEqual.NAME);
     }
 
-    private static void addSimilarityMeasuresFromEval(){
-        addSimilarityMeasureToSimilarityModel(new SMChronologicalOrNumericComparison100Impl(), model.getDataSystemClass());
+    private static void addSimilarityMeasuresFromEval() {
+        addSimilarityMeasureToSimilarityModel(new SMNumericComparison100Impl(), model.getDataSystemClass());
         addSimilarityMeasureToSimilarityModel(new SMBooleanEquivalenceImpl(), model.getDataSystemClass());
     }
 
@@ -145,12 +143,10 @@ public class ProCAKEService {
         sm.setDataClass(dataClass);
 
 
-
         //adds sm to the SMs that can be applied to 'dataClass'
         similarityModel.addSimilarityMeasure(sm, sm.getSystemName());
 
         logger.info("similarity measure {} added to similarity model", sm.getSystemName());
-
 
 
     }
@@ -374,7 +370,6 @@ public class ProCAKEService {
 
             globalMethodInvokerList.add(new MethodInvoker(m.name(), classes, objects));
         }
-
 
 
         return globalMethodInvokerList;

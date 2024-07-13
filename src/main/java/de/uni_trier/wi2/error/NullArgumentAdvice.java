@@ -1,11 +1,8 @@
 package de.uni_trier.wi2.error;
 
-import org.apache.commons.lang.NullArgumentException;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.apache.commons.lang.*;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
 
 @ControllerAdvice
 class NullArgumentAdvice {

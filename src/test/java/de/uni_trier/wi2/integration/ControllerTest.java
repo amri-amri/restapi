@@ -1,37 +1,28 @@
 package de.uni_trier.wi2.integration;
 
 import com.fasterxml.jackson.databind.*;
-import de.uni_trier.wi2.RESTAPI;
-import de.uni_trier.wi2.extension.similarity.measure.collection.SMCollectionIsolatedMappingExt;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import de.uni_trier.wi2.model.FilterParameters;
-import de.uni_trier.wi2.model.MethodList;
-import de.uni_trier.wi2.model.RetrievalParameters;
-import de.uni_trier.wi2.service.DatabaseService;
-import de.uni_trier.wi2.service.ProCAKEService;
+import de.uni_trier.wi2.*;
+import de.uni_trier.wi2.extension.similarity.measure.collection.*;
+import de.uni_trier.wi2.model.*;
+import de.uni_trier.wi2.service.*;
+import org.junit.*;
+import org.junit.runner.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.boot.test.autoconfigure.restdocs.*;
+import org.springframework.boot.test.autoconfigure.web.servlet.*;
+import org.springframework.boot.test.context.*;
+import org.springframework.http.*;
+import org.springframework.restdocs.mockmvc.*;
+import org.springframework.test.context.junit4.*;
+import org.springframework.test.web.servlet.*;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.sql.*;
+import java.util.*;
 
+import static de.uni_trier.wi2.service.IOUtils.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -50,6 +41,7 @@ public class ControllerTest {
     final String savepoint = "spt";
     @Autowired
     private MockMvc mvc;
+    private int retrievalCounter;
 
     @Before
     public void before() throws SQLException, IOException, ClassNotFoundException {
@@ -240,80 +232,80 @@ public class ControllerTest {
         String foot = """
                 </log>""";
         String log = head + """
-                    <string key="type" value="test log"/>""" + trace + """
-                    <trace>
-                        <event>
-                            <string key="eventString" value="Pferd"/>
-                            <boolean key="eventBoolean" value="true"/>
-                            <list key="eventList">
-                                <string key="listString" value="Affe"/>
-                                <string key="listString" value="Vase"/>
-                                <string key="listString" value="Besen"/>
-                            </list>
-                        </event>
-                        <event>
-                            <string key="eventString" value="Maultier"/>
-                            <boolean key="eventBoolean" value="true"/>
-                            <list key="eventList">
-                                <string key="listString" value="Affe"/>
-                                <string key="listString" value="Hase"/>
-                                <string key="listString" value="Esel"/>
-                            </list>
-                        </event>
-                    </trace>
-                   
-                    <trace>
-                        <event>
-                            <string key="eventString" value="Herd"/>
-                            <boolean key="eventBoolean" value="false"/>
-                            <list key="eventList">
-                                <string key="listString" value="Affe"/>
-                                <string key="listString" value="Vase"/>
-                                <string key="listString" value="Besen"/>
-                            </list>
-                        </event>
-                        <event>
-                            <string key="eventString" value="Schaukel"/>
-                            <boolean key="eventBoolean" value="false"/>
-                            <list key="eventList">
-                                <string key="listString" value="Waffe"/>
-                                <string key="listString" value="Gabe"/>
-                                <string key="listString" value="Segen"/>
-                            </list>
-                        </event>
-                    </trace>
-                   
-                    <trace>
-                        <event>
-                            <string key="eventString" value="Herd"/>
-                            <boolean key="eventBoolean" value="false"/>
-                            <list key="eventList">
-                                <string key="listString" value="Affe"/>
-                                <string key="listString" value="Vase"/>
-                                <string key="listString" value="Besen"/>
-                            </list>
-                        </event>
-                        <event>
-                            <string key="eventString" value="Schaukel"/>
-                            <boolean key="eventBoolean" value="false"/>
-                            <list key="eventList">
-                                <string key="listString" value="Waffe"/>
-                                <string key="listString" value="Gabe"/>
-                                <string key="listString" value="Segen"/>
-                            </list>
-                        </event>
-                        <event>
-                            <string key="eventString" value="Raupe"/>
-                            <boolean key="eventBoolean" value="true"/>
-                            <container key="eventList">
-                                <string key="listString" value="Rabe"/>
-                                <string key="listString" value="Gabe"/>
-                                <string key="listString" value="Segen"/>
-                                <string key="listString" value="Regen"/>
-                                <string key="listString" value="Degen"/>
-                            </container>
-                        </event>
-                    </trace>""" + foot;
+                <string key="type" value="test log"/>""" + trace + """
+                <trace>
+                    <event>
+                        <string key="eventString" value="Pferd"/>
+                        <boolean key="eventBoolean" value="true"/>
+                        <list key="eventList">
+                            <string key="listString" value="Affe"/>
+                            <string key="listString" value="Vase"/>
+                            <string key="listString" value="Besen"/>
+                        </list>
+                    </event>
+                    <event>
+                        <string key="eventString" value="Maultier"/>
+                        <boolean key="eventBoolean" value="true"/>
+                        <list key="eventList">
+                            <string key="listString" value="Affe"/>
+                            <string key="listString" value="Hase"/>
+                            <string key="listString" value="Esel"/>
+                        </list>
+                    </event>
+                </trace>
+                                   
+                <trace>
+                    <event>
+                        <string key="eventString" value="Herd"/>
+                        <boolean key="eventBoolean" value="false"/>
+                        <list key="eventList">
+                            <string key="listString" value="Affe"/>
+                            <string key="listString" value="Vase"/>
+                            <string key="listString" value="Besen"/>
+                        </list>
+                    </event>
+                    <event>
+                        <string key="eventString" value="Schaukel"/>
+                        <boolean key="eventBoolean" value="false"/>
+                        <list key="eventList">
+                            <string key="listString" value="Waffe"/>
+                            <string key="listString" value="Gabe"/>
+                            <string key="listString" value="Segen"/>
+                        </list>
+                    </event>
+                </trace>
+                                   
+                <trace>
+                    <event>
+                        <string key="eventString" value="Herd"/>
+                        <boolean key="eventBoolean" value="false"/>
+                        <list key="eventList">
+                            <string key="listString" value="Affe"/>
+                            <string key="listString" value="Vase"/>
+                            <string key="listString" value="Besen"/>
+                        </list>
+                    </event>
+                    <event>
+                        <string key="eventString" value="Schaukel"/>
+                        <boolean key="eventBoolean" value="false"/>
+                        <list key="eventList">
+                            <string key="listString" value="Waffe"/>
+                            <string key="listString" value="Gabe"/>
+                            <string key="listString" value="Segen"/>
+                        </list>
+                    </event>
+                    <event>
+                        <string key="eventString" value="Raupe"/>
+                        <boolean key="eventBoolean" value="true"/>
+                        <container key="eventList">
+                            <string key="listString" value="Rabe"/>
+                            <string key="listString" value="Gabe"/>
+                            <string key="listString" value="Segen"/>
+                            <string key="listString" value="Regen"/>
+                            <string key="listString" value="Degen"/>
+                        </container>
+                    </event>
+                </trace>""" + foot;
 
         MvcResult result = mvc.perform(post("/log").content(log))
                 .andExpect(status().isOk())
@@ -691,9 +683,48 @@ public class ControllerTest {
         return retrieval.stream().map(e -> e.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID)).toList().toArray(String[]::new);
     }
 
+    @Test
+    public void uploadAnReloadLog_test() throws Exception {
+        String[] paths = new String[]{
+                "eval/sepsis.xes",
+                "eval/hospital_billing.xes",
+        };
+
+        for (String path : paths) {
+
+            System.out.printf("Starting test for log at path \"%s\"%n", path);
+
+            long start = System.nanoTime();
+            String log = getResourceAsString(path);
+            mvc.perform(post("/log").content(log))
+                    .andExpect(status().isOk())
+                    .andReturn();
+
+            long finish = System.nanoTime();
+            long timeElapsed = finish - start;
+
+            double totalSeconds = timeElapsed / 1E9;
+            int seconds = (int) (totalSeconds % 60);
+            int minutes = (int) ((totalSeconds - seconds) / 60);
 
 
-    private int retrievalCounter;
+            System.out.printf("Upload of log into database took %d:%d [min:sec]%n", minutes, seconds);
+
+            start = System.nanoTime();
+
+            mvc.perform(get("/procake/reload"))
+                    .andExpect(status().isOk());
+
+            finish = System.nanoTime();
+            timeElapsed = finish - start;
+
+            totalSeconds = timeElapsed / 1E9;
+            seconds = (int) (totalSeconds % 60);
+            minutes = (int) ((totalSeconds - seconds) / 60);
+
+            System.out.printf("Reload of database into casebase took %d:%d [min:sec]%n%n", minutes, seconds);
+        }
+    }
 
 
 }

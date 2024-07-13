@@ -1,23 +1,19 @@
 package de.uni_trier.wi2.service;
 
-import de.uni_trier.wi2.error.XESnotValidException;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Service;
-import org.xml.sax.SAXException;
+import de.uni_trier.wi2.error.*;
+import org.jetbrains.annotations.*;
+import org.springframework.stereotype.*;
+import org.xml.sax.*;
 
-import javax.xml.XMLConstants;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
-import java.io.IOException;
-import java.io.StringReader;
-import java.net.URL;
+import javax.xml.*;
+import javax.xml.transform.stream.*;
+import javax.xml.validation.*;
+import java.io.*;
+import java.net.*;
 import java.sql.*;
 import java.util.*;
 
-
-import static de.uni_trier.wi2.service.IOUtils.getResourceAsString;
+import static de.uni_trier.wi2.service.IOUtils.*;
 
 
 /**
@@ -45,7 +41,7 @@ public class DatabaseService {
      */
     @NotNull
     public static String connectToDatabase() throws ClassNotFoundException, SQLException {
-     
+
         Class.forName("com.mysql.cj.jdbc.Driver");
         connection = DriverManager.getConnection(url, username, password);
         connection.prepareStatement("SHOW TABLES").execute();
@@ -70,7 +66,7 @@ public class DatabaseService {
      * @throws SAXException
      */
     public static String[] putLog(String xes) throws XESnotValidException, SQLException, IOException, SAXException {
-       
+
 
         // validate the XES
         if (!logIsValid(xes)) throw new XESnotValidException(xes);
@@ -138,7 +134,7 @@ public class DatabaseService {
 
         }
 
-        
+
         return ids;
     }
 
@@ -157,14 +153,14 @@ public class DatabaseService {
      * @throws SQLException if the log does not exist in the database or if there was a problem with the sql query
      */
     public static Map<String, Object> getLog(String logID) throws SQLException {
-        
+
 
         ResultSet resultSet = selectFrom(DATABASE_NAMES.TABLENAME__log,
                 new String[]{DATABASE_NAMES.COLUMNNAME__log__header, DATABASE_NAMES.COLUMNNAME__log__removed},
                 DATABASE_NAMES.COLUMNNAME__log__logID + " = '" + logID + "'");
 
         if (!resultSet.next()) {
-            
+
             throw new SQLException("Log not found in database.");
         }
 
@@ -173,7 +169,7 @@ public class DatabaseService {
         log.put(DATABASE_NAMES.COLUMNNAME__log__header, resultSet.getString(1));
         log.put(DATABASE_NAMES.COLUMNNAME__log__removed, resultSet.getBoolean(2));
 
-        
+
         return log;
     }
 
@@ -185,7 +181,7 @@ public class DatabaseService {
      * @throws SQLException if no row was updated or if there was a problem with the sql query
      */
     public static int removeLog(String logID) throws SQLException {
-        
+
 
         int rowsUpdated = update(
                 DATABASE_NAMES.TABLENAME__log,
@@ -195,7 +191,7 @@ public class DatabaseService {
         );
 
         if (rowsUpdated < 1) {
-            
+
             throw new SQLException("Log not found in database.");
         }
 
@@ -206,7 +202,7 @@ public class DatabaseService {
                 DATABASE_NAMES.COLUMNNAME__trace__logID + " = '" + logID + "'"
         );
 
-        
+
         return rowsUpdated;
     }
 
@@ -226,7 +222,7 @@ public class DatabaseService {
      * @throws SQLException if the trace does not exist in the database or if there was a problem with the sql query
      */
     public static Map<String, Object> getTrace(String traceID) throws SQLException {
-        
+
 
         ResultSet resultSet = selectFrom(
                 DATABASE_NAMES.TABLENAME__trace,
@@ -238,7 +234,7 @@ public class DatabaseService {
                 DATABASE_NAMES.COLUMNNAME__trace__traceID + " = '" + traceID + "'");
 
         if (!resultSet.next()) {
-            
+
             throw new SQLException("Trace not found in database.");
         }
 
@@ -248,7 +244,7 @@ public class DatabaseService {
         trace.put(DATABASE_NAMES.COLUMNNAME__trace__xes, resultSet.getString(2));
         trace.put(DATABASE_NAMES.COLUMNNAME__trace__removed, resultSet.getBoolean(3));
 
-        
+
         return trace;
     }
 
@@ -260,7 +256,7 @@ public class DatabaseService {
      * @throws SQLException if the log does not exist in the database
      */
     public static String[] getTraceIDs(String logID) throws SQLException {
-        
+
 
         ResultSet resultSet = selectFrom(
                 DATABASE_NAMES.TABLENAME__trace,
@@ -268,7 +264,7 @@ public class DatabaseService {
                 DATABASE_NAMES.COLUMNNAME__trace__logID + " = '" + logID + "'");
 
         if (!resultSet.next()) {
-            
+
             return new String[0];
         }
 
@@ -282,7 +278,7 @@ public class DatabaseService {
 
         String[] traceIDsArray = traceIDs.toArray(new String[]{});
 
-        
+
         return traceIDsArray;
     }
 
@@ -294,13 +290,13 @@ public class DatabaseService {
      * @throws SQLException if the log does not exist in the database or if there was a problem with the sql query
      */
     public static List<Map<String, Object>> getTraces(String logID) throws SQLException {
-        
+
 
         String[] traceIDs = getTraceIDs(logID);
         List<Map<String, Object>> traces = new ArrayList<>();
         for (String traceID : traceIDs) traces.add(getTrace(traceID));
 
-        
+
         return traces;
     }
 
@@ -311,7 +307,7 @@ public class DatabaseService {
      * @throws SQLException if there was a problem with the sql query
      */
     public static String[] getLogIDs(boolean includeRemoved) throws SQLException {
-        
+
 
         String condition = "true";
         if (!includeRemoved) condition = DATABASE_NAMES.COLUMNNAME__log__removed + "= false";
@@ -322,7 +318,7 @@ public class DatabaseService {
                 condition);
 
         if (!resultSet.next()) {
-            
+
             return new String[0];
         }
 
@@ -336,7 +332,7 @@ public class DatabaseService {
 
         String[] logIDsArray = logIDs.toArray(new String[]{});
 
-        
+
         return logIDsArray;
     }
 
@@ -354,7 +350,7 @@ public class DatabaseService {
      * @throws SQLException if the trace does not exist in the database or if there was a problem with the sql query
      */
     public static String putTraceMetadata(String traceID, String metadataType, String metadataValue) throws SQLException {
-        
+
 
         // calling this function will throw an exception if the trace does not exist in the database
         getTrace(traceID);
@@ -408,7 +404,6 @@ public class DatabaseService {
                         traceID});
 
 
-        
         return metadataID;
     }
 
@@ -425,7 +420,7 @@ public class DatabaseService {
      * @throws SQLException if the log does not exist in the database or if there was a problem with the sql query
      */
     public static String putLogMetadata(String logID, String metadataType, String metadataValue) throws SQLException {
-        
+
 
         // calling this function will throw an exception if the log does not exist in the database
         getLog(logID);
@@ -478,7 +473,7 @@ public class DatabaseService {
                         metadataID,
                         logID});
 
-        
+
         return metadataID;
     }
 
@@ -493,7 +488,7 @@ public class DatabaseService {
      * @throws SQLException if the trace does not exist in the database or if there was a problem with the sql query
      */
     public static Map<String, String> getTraceMetadata(String traceID) throws SQLException {
-        
+
 
         // calling this function will throw an exception if the trace does not exist in the database
         getTrace(traceID);
@@ -531,7 +526,6 @@ public class DatabaseService {
         }
 
 
-        
         return metadata;
     }
 
@@ -546,7 +540,7 @@ public class DatabaseService {
      * @throws SQLException if the log does not exist in the database or if there was a problem with the sql query
      */
     public static Map<String, String> getLogMetadata(String logID) throws SQLException {
-        
+
 
         // calling this function will throw an exception if the log does not exist in the database
         getLog(logID);
@@ -584,7 +578,6 @@ public class DatabaseService {
         }
 
 
-        
         return metadata;
     }
 
@@ -595,7 +588,7 @@ public class DatabaseService {
     // - standard database operations -
 
     private static ResultSet selectFrom(String tableName, String[] attributeNames, String condition) throws SQLException {
-        
+
 
         assert (tableName != null &&
                 attributeNames != null &&
@@ -608,12 +601,12 @@ public class DatabaseService {
         select.append("\nFROM ").append(tableName).append("\nWHERE ").append(condition).append(";");
         ResultSet resultSet = connection.prepareStatement(select.toString()).executeQuery();
 
-        
+
         return resultSet;
     }
 
     private static ResultSet insertInto(String tableName, String[] attributeNames, Object[] values) throws SQLException {
-        
+
 
         assert (tableName != null &&
                 attributeNames != null &&
@@ -641,24 +634,24 @@ public class DatabaseService {
         insertStatement.executeUpdate();
         ResultSet generatedKeys = insertStatement.getGeneratedKeys();
 
-        
+
         return generatedKeys;
     }
 
     private static int deleteFrom(String tableName, String conditionString) throws SQLException {
-        
+
 
         assert (tableName != null &&
                 conditionString != null);
 
         int rows = connection.prepareStatement("DELETE FROM " + tableName + "\nWHERE " + conditionString + ";").executeUpdate();
 
-        
+
         return rows;
     }
 
     private static int update(String tableName, String[] attributeNames, Object[] values, String condition) throws SQLException {
-        
+
 
         assert (tableName != null &&
                 attributeNames != null &&
@@ -682,7 +675,7 @@ public class DatabaseService {
         }
         int rows = updateStatement.executeUpdate();
 
-        
+
         return rows;
     }
 
@@ -690,22 +683,22 @@ public class DatabaseService {
     // - transaction operations to ensure consistency -
 
     public static void startTransaction() throws SQLException {
-        
+
         connection.prepareStatement("start transaction;").execute();
     }
 
     public static void savepoint(String identifier) throws SQLException {
-        
+
         connection.prepareStatement("savepoint " + identifier + ";").execute();
     }
 
     public static void rollbackTo(String identifier) throws SQLException {
-        
+
         connection.prepareStatement("rollback to savepoint " + identifier + ";").execute();
     }
 
     public static void commit() throws SQLException {
-        
+
         connection.prepareStatement("commit;").execute();
     }
 
@@ -715,7 +708,7 @@ public class DatabaseService {
      */
     @Deprecated
     public static void deleteAll() throws SQLException, IOException {
-        
+
         String sql = getResourceAsString("/sql/deleteAll.sql");
         for (String create : sql.split("--")) {
             connection.prepareStatement(create).execute();
@@ -737,12 +730,11 @@ public class DatabaseService {
      * </ul>
      */
     public static boolean logIsValid(@NotNull String xml) throws SAXException, IOException {
-        
 
 
         // by default, the validator ignores this declaration, but we want to include it
         if (!xml.contains("<?xml")) {
-            
+
             return false;
         }
 
@@ -764,7 +756,7 @@ public class DatabaseService {
 
             // check if the xml contains a log element
             if (!xml.contains("<log")) {
-                
+
                 return false;
             }
 
@@ -774,7 +766,7 @@ public class DatabaseService {
             // check if the xml contains too many log elements (length > 2)
             // or if the cutoff string "<log" was at the end of the xml (length = 1)
             if (split.length != 2) {
-                
+
                 return false;
             }
 
@@ -787,13 +779,13 @@ public class DatabaseService {
                 validator.validate(new StreamSource(new StringReader(xes)));
             } catch (SAXException f) {
                 // neither forms of the xml is valid
-                
+
                 return false;
             }
         }
 
         // one of the forms of the xml is valid
-        
+
         return true;
 
     }
@@ -811,7 +803,7 @@ public class DatabaseService {
      * @throws SAXException
      */
     public static boolean traceIsValid(@NotNull String xml) throws IOException, SAXException {
-        
+
         String prefix = "<?xml version=\"1.0\" encoding=\"utf-8\" ?> <log>";
         String suffix = "</log>";
         return logIsValid(prefix + xml + suffix);

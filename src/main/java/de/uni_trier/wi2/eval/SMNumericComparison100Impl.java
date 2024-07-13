@@ -8,14 +8,13 @@ import de.uni_trier.wi2.procake.similarity.impl.*;
 
 import java.sql.*;
 
-import static de.uni_trier.wi2.eval.Utils.areBothClassOrSubclassOf;
-import static de.uni_trier.wi2.eval.Utils.isClassOrSublassOf;
+import static de.uni_trier.wi2.eval.Utils.*;
 
-public class SMChronologicalOrNumericComparison100Impl extends SimilarityMeasureImpl implements SMChronologicalOrNumericComparison100 {
+public class SMNumericComparison100Impl extends SimilarityMeasureImpl implements SMNumericComparison100 {
     @Override
     public boolean isSimilarityFor(DataClass dataClass, String s) {
         Model model = dataClass.getModel();
-        for (String className : SMChronologicalOrNumericComparison100.applicableClasses) {
+        for (String className : SMNumericComparison100.applicableClasses) {
             if (isClassOrSublassOf(dataClass, className)) return true;
         }
         return false;
@@ -91,7 +90,7 @@ public class SMChronologicalOrNumericComparison100Impl extends SimilarityMeasure
 
     @Override
     public String getSystemName() {
-        return SMChronologicalOrNumericComparison100.NAME;
+        return SMNumericComparison100.NAME;
     }
 
 
