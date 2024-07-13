@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.*;
 import de.uni_trier.wi2.*;
 import de.uni_trier.wi2.extension.similarity.measure.collection.*;
 import de.uni_trier.wi2.model.*;
+import de.uni_trier.wi2.procake.data.object.*;
+import de.uni_trier.wi2.procake.data.object.nest.*;
+import de.uni_trier.wi2.procake.data.objectpool.*;
 import de.uni_trier.wi2.service.*;
 import org.junit.*;
 import org.junit.runner.*;
@@ -31,7 +34,7 @@ public class EvalSepsis {
     final static String[] localWeightFuncs;
 
     static {
-        listSimilarityMeasures = new String[]{SMCollectionIsolatedMappingExt.NAME, SMCollectionMappingExt.NAME, SMListCorrectnessExt.NAME, SMListDTWExt.NAME, SMListSWAExt.NAME, SMListMappingExt.NAME,};
+        listSimilarityMeasures = new String[]{SMCollectionIsolatedMappingExt.NAME, SMListCorrectnessExt.NAME, SMListDTWExt.NAME, SMListSWAExt.NAME, SMListMappingExt.NAME,};// SMCollectionMappingExt.NAME,};
 
         localWeightFuncs = new String[]{null, """
                 <?xml version="1.0" encoding="UTF-8"?>
@@ -233,6 +236,7 @@ public class EvalSepsis {
                 """};
     }
 
+
     final String savepoint = "spt";
     @Autowired
     private MockMvc mvc;
@@ -243,8 +247,8 @@ public class EvalSepsis {
         String log = getResourceAsString("eval/sepsis.xes");
 
         DatabaseService.startTransaction();
-        DatabaseService.deleteAll();
-        DatabaseService.putLog(log);
+        //DatabaseService.deleteAll();
+        //DatabaseService.putLog(log);
         ProCAKEService.setupCake();
         ProCAKEService.loadCasebase();
 
@@ -260,13 +264,15 @@ public class EvalSepsis {
 
     @Test
     public void performRetrieval() throws Exception {
+        long start = System.nanoTime();
 
         int c = 1;
         int max = listSimilarityMeasures.length * listSimilarityMeasures.length * localWeightFuncs.length;
 
-        if (false) performRetrieval(c++, max, listSimilarityMeasures[0], listSimilarityMeasures[1], null);
+        if (true) performRetrieval(c++, max, listSimilarityMeasures[0], listSimilarityMeasures[1], localWeightFuncs[1]);
 
         if (false) {
+
             for (String globalSimilarityMeasure : listSimilarityMeasures) {
                 for (String eventSimilarityMeasure : listSimilarityMeasures) {
                     for (String localWeightFunc : localWeightFuncs) {
@@ -275,6 +281,18 @@ public class EvalSepsis {
                 }
             }
         }
+
+
+        long finish = System.nanoTime();
+        long timeElapsed = finish - start;
+
+        double totalSeconds = timeElapsed / 1E9;
+        int seconds = (int) (totalSeconds % 60);
+        int minutes = (int) ((totalSeconds - seconds) / 60);
+
+
+        System.out.printf("%n--------------------------------------------------------------------------------%n Total Time elapsed: %d:%d [min:sec]%n--------------------------------------------------------------------------------%n", minutes, seconds);
+
     }
 
 

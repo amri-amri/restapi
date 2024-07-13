@@ -17,6 +17,22 @@
         <java.version>17</java.version>
     </properties>
     <dependencies>
+
+        <!-- ProCAKE -->
+        <dependency>
+            <groupId>de.uni-trier.wi2</groupId>
+            <artifactId>procake-extension</artifactId>
+            <version>1.5.21-SNAPSHOT</version>
+        </dependency>
+
+        <!-- CONVERTER -->
+        <dependency>
+            <groupId>de.uni-trier.wi2</groupId>
+            <artifactId>XEStoWorkflowConverter</artifactId>
+            <version>2.2.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -40,13 +56,7 @@
             <groupId>org.springframework.hateoas</groupId>
             <artifactId>spring-hateoas</artifactId>
         </dependency>
-        <!-- ProCAKE -->
-        <dependency>
-            <groupId>de.uni-trier.wi2</groupId>
-            <artifactId>procake-extension</artifactId>
-            <version>1.5.18-SNAPSHOT</version>
-            <!--scope>compile</scope-->
-        </dependency>
+
 
 
 
@@ -62,19 +72,8 @@
             <artifactId>springfox-swagger2</artifactId>
             <version>3.0.0</version>
         </dependency>
-        <!-- CONVERTER -->
-        <dependency>
-            <groupId>de.uni-trier.wi2</groupId>
-            <artifactId>XEStoWorkflowConverter</artifactId>
-            <version>2.2.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.uni-trier.wi2</groupId>
-            <artifactId>XEStoWorkflowConverter</artifactId>
-            <version>2.2.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
+
+
 
         <!-- MySQL -->
         <dependency>
@@ -110,6 +109,14 @@
 
     <!-- build configuration -->
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>logback.xml</exclude>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <!--plugin>
                 <groupId>org.apache.maven.plugins</groupId>
