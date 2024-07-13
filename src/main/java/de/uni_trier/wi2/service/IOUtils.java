@@ -5,14 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import static de.uni_trier.wi2.RestAPILoggingUtils.METHOD_CALL;
-import static de.uni_trier.wi2.RestAPILoggingUtils.maxSubstring;
+
+
 
 public class IOUtils {
 
     public static String getResourceAsString(String nameWithoutPackage) throws IOException {
-        METHOD_CALL.trace("public static String restapi.service.IOUtils.getResourceAsString(String nameWithoutPackage={})...",
-                nameWithoutPackage);
+        
 
         final String packageName = "/de/uni_trier/wi2";
         String nameWithPackage = nameWithoutPackage;
@@ -21,7 +20,7 @@ public class IOUtils {
         InputStream is = IOUtils.class.getResourceAsStream(nameWithPackage);
         String out = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 
-        METHOD_CALL.trace("restapi.service.IOUtils.getResourceAsString(String): return {}", maxSubstring(out));
+        
         return out;
     }
 }
