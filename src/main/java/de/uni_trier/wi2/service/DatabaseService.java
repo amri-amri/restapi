@@ -1,5 +1,6 @@
 package de.uni_trier.wi2.service;
 
+import de.uni_trier.wi2.*;
 import de.uni_trier.wi2.error.*;
 import org.jetbrains.annotations.*;
 import org.springframework.stereotype.*;
@@ -67,6 +68,7 @@ public class DatabaseService {
      */
     public static String[] putLog(String xes) throws XESnotValidException, SQLException, IOException, SAXException {
 
+        HeapSpace.measure();
 
         // validate the XES
         if (!logIsValid(xes)) throw new XESnotValidException(xes);
@@ -87,6 +89,7 @@ public class DatabaseService {
             if (splitTrace.length > 1) {
                 header.append(splitTrace[1]);
             }
+            HeapSpace.measure();
         }
 
         // create logID
@@ -134,6 +137,7 @@ public class DatabaseService {
 
         }
 
+        HeapSpace.measure();
 
         return ids;
     }
@@ -169,6 +173,7 @@ public class DatabaseService {
         log.put(DATABASE_NAMES.COLUMNNAME__log__header, resultSet.getString(1));
         log.put(DATABASE_NAMES.COLUMNNAME__log__removed, resultSet.getBoolean(2));
 
+        HeapSpace.measure();
 
         return log;
     }
@@ -244,6 +249,7 @@ public class DatabaseService {
         trace.put(DATABASE_NAMES.COLUMNNAME__trace__xes, resultSet.getString(2));
         trace.put(DATABASE_NAMES.COLUMNNAME__trace__removed, resultSet.getBoolean(3));
 
+        HeapSpace.measure();
 
         return trace;
     }
@@ -278,6 +284,7 @@ public class DatabaseService {
 
         String[] traceIDsArray = traceIDs.toArray(new String[]{});
 
+        HeapSpace.measure();
 
         return traceIDsArray;
     }
@@ -296,6 +303,7 @@ public class DatabaseService {
         List<Map<String, Object>> traces = new ArrayList<>();
         for (String traceID : traceIDs) traces.add(getTrace(traceID));
 
+        HeapSpace.measure();
 
         return traces;
     }
@@ -332,6 +340,7 @@ public class DatabaseService {
 
         String[] logIDsArray = logIDs.toArray(new String[]{});
 
+        HeapSpace.measure();
 
         return logIDsArray;
     }

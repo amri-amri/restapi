@@ -5,9 +5,9 @@ import de.uni_trier.wi2.*;
 import de.uni_trier.wi2.extension.similarity.measure.collection.*;
 import de.uni_trier.wi2.model.*;
 import de.uni_trier.wi2.service.*;
-import org.junit.Test;
-import org.junit.jupiter.api.*;
+import org.junit.*;
 import org.junit.runner.*;
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.autoconfigure.web.servlet.*;
 import org.springframework.boot.test.context.*;
@@ -30,44 +30,46 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class Evaluation {
     final static String[] listSimilarityMeasures;
     final static String localSimilarityMeasureFunc;
-    final static String localWeightFunc;
+    final static String sepsisWeightFunc;
+    final static String hosbilWeightFunc;
+    final static Logger logger = LoggerFactory.getLogger(Evaluation.class);
+    final static String logFilePath = "target/logs/";
+    final static String logFileName = "eval.log";
 
     static {
         listSimilarityMeasures = new String[]{SMListDTWExt.NAME, SMCollectionMappingExt.NAME};
 
         localSimilarityMeasureFunc = """
-                localSimilarityMeasureFunc = ""\"
-                                <?xml version="1.0" encoding="UTF-8"?>
-                                <!DOCTYPE similarity-measure-function SYSTEM "https://karim-amri.de/dtd/similaritymeasure-function.dtd">
-                                <similarity-measure-function>
-                                    <if>
-                                        <function name="qEventContainsAttribute"/>
-                                        <string value=""\" + "\\"" + similarityMeasure + "\\"" + ""\"
-                                />
-                                    </if>
-                                    <if>
-                                        <function name="qcAttributesHaveSameKeyAndType" arg2="String"/>
-                                        <string value="StringLevenshteinExt"/>
-                                    </if>
-                                    <if>
-                                        <or>
-                                            <function name="qcAttributesHaveSameKeyAndType" arg2="Float"/>
-                                            <function name="qcAttributesHaveSameKeyAndType" arg2="Integer"/>
-                                        </or>
-                                        <string value="ChronologicalOrNumericComparison100"/>
-                                    </if>
-                                    <if>
-                                        <function name="qcAttributesHaveSameKeyAndType" arg2="Boolean"/>
-                                        <string value="BooleanEquivalence"/>
-                                    </if>
-                                    <if>
-                                        <function name="qAttributeHasKeyTypeValue"/>
-                                        <string value="ObjectEqual"/>
-                                    </if>
-                                </similarity-measure-function>
-                                ""\";""";
+                <?xml version="1.0" encoding="UTF-8"?>
+                <!DOCTYPE similarity-measure-function SYSTEM "https://karim-amri.de/dtd/similaritymeasure-function.dtd">
+                <similarity-measure-function>
+                    <if>
+                        <function name="qEventContainsAttribute"/>
+                        <string value="CollectionIsolatedMappingExt"/>
+                    </if>
+                    <if>
+                        <function name="qcAttributesHaveSameKeyAndType" arg2="String"/>
+                        <string value="StringLevenshteinExt"/>
+                    </if>
+                    <if>
+                        <or>
+                            <function name="qcAttributesHaveSameKeyAndType" arg2="Float"/>
+                            <function name="qcAttributesHaveSameKeyAndType" arg2="Integer"/>
+                        </or>
+                        <string value="ChronologicalOrNumericComparison100"/>
+                    </if>
+                    <if>
+                        <function name="qcAttributesHaveSameKeyAndType" arg2="Boolean"/>
+                        <string value="BooleanEquivalence"/>
+                    </if>
+                    <if>
+                        <function name="qAttributeHasKeyTypeValue"/>
+                        <string value="ObjectEqual"/>
+                    </if>
+                </similarity-measure-function>
+                """;
 
-        localWeightFunc = """
+        sepsisWeightFunc = """
                 <?xml version="1.0" encoding="UTF-8"?>
                 <!DOCTYPE weight-function SYSTEM "https://karim-amri.de/dtd/weight-function.dtd">
                 <weight-function>
@@ -263,22 +265,52 @@ public class Evaluation {
                     </if>
                 </weight-function>
                 """;
+
+        hosbilWeightFunc = null;
     }
 
-
-    final String savepoint = "spt";
     @Autowired
     private MockMvc mvc;
 
 
-    @BeforeEach
+    private static void log(String action, String evtLog, int size, String simMeasure, long nanosec) throws IOException {
+        long totalSeconds = (long) (nanosec / 1E9);
+        long seconds = (totalSeconds % 60);
+        long minutes = ((totalSeconds - seconds) / 60);
+        String msg = String.format("%s%s:%s(%d): %d ns = %d:%d min:sec | %.2f GB", action, simMeasure == null ? "" : "(" + simMeasure + ")", evtLog, size, nanosec, minutes, seconds, HeapSpace.getGBandWipe());
+        logger.info(msg);
+        File file = new File(logFilePath + logFileName);
+        file.createNewFile();
+        FileWriter fw = new FileWriter(file, true);
+        fw.write(msg);
+        fw.write("\n");
+        fw.close();
+    }
+
+    private static void logEmpty() throws IOException {
+        File file = new File(logFilePath + logFileName);
+        file.createNewFile();
+        FileWriter fw = new FileWriter(file, true);
+        fw.write("\n");
+        fw.close();
+    }
+
+    @Before
     public void before() throws SQLException, IOException, SAXException {
         DatabaseService.startTransaction();
         DatabaseService.deleteAll();
         ProCAKEService.setupCake();
+
+        new File(logFilePath).mkdirs();
+
+        File file = new File(logFilePath + logFileName);
+        file.createNewFile();
+        FileWriter fw = new FileWriter(file);
+        fw.write("");
+        fw.close();
     }
 
-    @AfterEach
+    @After
     public void after() throws SQLException, IOException {
         DatabaseService.deleteAll();
         DatabaseService.commit();
@@ -286,11 +318,45 @@ public class Evaluation {
     }
 
     @Test
-    public void eval() throws Exception {
+    public void evalEasyToHard() throws Exception {
         long start, finish, timeElapsed;
         double totalSeconds;
         int seconds, minutes;
         String xes, trace;
+
+        // SEPSIS
+        xes = getResourceAsString("eval/sepsis.xes");
+        trace = "<trace" + xes.split("<trace")[1].split("</trace>")[0] + "</trace>"; // first trace
+
+        // Upload of Sepsis
+        start = System.nanoTime();
+        upload(xes);
+        finish = System.nanoTime();
+        timeElapsed = finish - start;
+        log("upload", "sepsis", 1050, null, timeElapsed);
+
+
+        // Reload of Sepsis
+        start = System.nanoTime();
+        reload();
+        finish = System.nanoTime();
+        timeElapsed = finish - start;
+        log("reload", "sepsis", 1050, null, timeElapsed);
+
+
+        // Retrieval of Sepsis
+        for (String similarityMeasure : listSimilarityMeasures) {
+            start = System.nanoTime();
+            retrieve(trace, similarityMeasure, sepsisWeightFunc);
+            finish = System.nanoTime();
+            timeElapsed = finish - start;
+            log("retrieval", "sepsis", 1050, similarityMeasure, timeElapsed);
+            break;
+        }
+
+        // CLEAN
+        logEmpty();
+        DatabaseService.deleteAll();
 
         // HOSPITAL BILLING
         xes = getResourceAsString("eval/hospital_billing.xes");
@@ -299,9 +365,11 @@ public class Evaluation {
         String header = splitLog[splitLog.length - 1];
         trace = splitLog[0]; // first trace
 
-        int[] sizes = new int[]{(int) 10E5, (int) 9E5, (int) 8E5, (int) 7E5, (int) 6E5, (int) 5E5, (int) 4E5, (int) 3E5, (int) 2.5E5, (int) 2E5, (int) 1.5E5, (int) 1E5, (int) 5E4, (int) 3E4, (int) 2.5E4, (int) 2E4, (int) 1.5E4, (int) 1E4,};
+        int[] sizes = new int[]{(int) 10E4, (int) 9E4, (int) 8E4, (int) 7E4, (int) 6E4, (int) 5E4, (int) 4E4, (int) 3E4, (int) 2.5E4, (int) 2E4, (int) 1.5E4, (int) 1E4, (int) 5E3, (int) 3E3, (int) 2.5E3, (int) 2E3, (int) 1.5E3, (int) 1E3,};
 
-        for (int size : sizes) {
+        for (int s = sizes.length - 1; s >= 0; s--) {
+        //for (int s = 0; s < sizes.length; s++) {
+            int size = sizes[s];
             // Downsizing of Hospital Billing
             StringBuilder smallXes = new StringBuilder();
             smallXes.append(header.split("</log>")[0]);
@@ -315,10 +383,7 @@ public class Evaluation {
             upload(smallXes.toString());
             finish = System.nanoTime();
             timeElapsed = finish - start;
-            totalSeconds = timeElapsed / 1E9;
-            seconds = (int) (totalSeconds % 60);
-            minutes = (int) ((totalSeconds - seconds) / 60);
-            System.out.printf("Upload of hospital billing event log with %d traces:%n%d:%d [min:sec]%n%n", size, minutes, seconds);
+            log("upload", "hosBill", size, null, timeElapsed);
 
             // Reload of Hospital Billing
             start = System.nanoTime();
@@ -328,57 +393,27 @@ public class Evaluation {
             totalSeconds = timeElapsed / 1E9;
             seconds = (int) (totalSeconds % 60);
             minutes = (int) ((totalSeconds - seconds) / 60);
-            System.out.printf("Reload of hospital billing event log with %d traces:%n%d:%d [min:sec]%n%n", size, minutes, seconds);
+            log("reload", "hosBill", size, null, timeElapsed);
 
-            // Retrieval of Sepsis
+            // Retrieval of Hospital Billing
             for (String similarityMeasure : listSimilarityMeasures) {
                 start = System.nanoTime();
-                retrieve(trace, similarityMeasure);
+                retrieve(trace, similarityMeasure, hosbilWeightFunc);
                 finish = System.nanoTime();
                 timeElapsed = finish - start;
                 totalSeconds = timeElapsed / 1E9;
                 seconds = (int) (totalSeconds % 60);
                 minutes = (int) ((totalSeconds - seconds) / 60);
-                System.out.printf("Retrieval on hospital billing event log with %d traces and global similarity measure \"%s\":%n%d:%d [min:sec]%n%n", size, similarityMeasure, minutes, seconds);
+                log("retrieval", "hosBill", size, similarityMeasure, timeElapsed);
+
+                System.gc();
             }
+
+            // CLEAN
+            logEmpty();
+            DatabaseService.deleteAll();
         }
 
-
-        // SEPSIS
-        xes = getResourceAsString("eval/sepsis.xes");
-        trace = "<trace" + xes.split("<trace")[1].split("</trace>")[0] + "</trace>"; // first trace
-
-        // Upload of Sepsis
-        start = System.nanoTime();
-        upload(xes);
-        finish = System.nanoTime();
-        timeElapsed = finish - start;
-        totalSeconds = timeElapsed / 1E9;
-        seconds = (int) (totalSeconds % 60);
-        minutes = (int) ((totalSeconds - seconds) / 60);
-        System.out.printf("Upload of sepsis event log:%n%d:%d [min:sec]%n%n", minutes, seconds);
-
-        // Reload of Sepsis
-        start = System.nanoTime();
-        reload();
-        finish = System.nanoTime();
-        timeElapsed = finish - start;
-        totalSeconds = timeElapsed / 1E9;
-        seconds = (int) (totalSeconds % 60);
-        minutes = (int) ((totalSeconds - seconds) / 60);
-        System.out.printf("Reload of sepsis event log:%n%d:%d [min:sec]%n%n", minutes, seconds);
-
-        // Retrieval of Sepsis
-        for (String similarityMeasure : listSimilarityMeasures) {
-            start = System.nanoTime();
-            retrieve(trace, similarityMeasure);
-            finish = System.nanoTime();
-            timeElapsed = finish - start;
-            totalSeconds = timeElapsed / 1E9;
-            seconds = (int) (totalSeconds % 60);
-            minutes = (int) ((totalSeconds - seconds) / 60);
-            System.out.printf("Retrieval on sepsis event log with global similarity measure \"%s\":%n%d:%d [min:sec]%n%n", similarityMeasure, minutes, seconds);
-        }
     }
 
     private void upload(String xes) throws Exception {
@@ -389,7 +424,7 @@ public class Evaluation {
         mvc.perform(get("/procake/reload")).andExpect(status().isOk());
     }
 
-    private void retrieve(String trace, String similarityMeasure) throws Exception {
+    private void retrieve(String trace, String similarityMeasure, String localWeightFunc) throws Exception {
         // define retrieval parameters
         MethodList globalMethodInvokers = new MethodList(new ArrayList<>());
         String localMethodInvokersFunc = null;
@@ -401,177 +436,4 @@ public class Evaluation {
         mvc.perform(put("/retrieval").contentType(MediaType.APPLICATION_JSON).content((new ObjectMapper()).writer().withDefaultPrettyPrinter().writeValueAsString(retrievalParameters))).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
     }
 
-    
-/*
-    @Test
-    public void eval() throws Exception {
-        long start = System.nanoTime();
-
-        uploadAndReload("eval/sepsis.xes");
-
-        System.out.println("SEPSIS");
-        performRetrieval(1, 2, "ListDTWExt", "CollectionIsolatedMappingExt", localWeightFuncs[1]);
-        performRetrieval(2, 2, "CollectionMappingExt", "CollectionIsolatedMappingExt", localWeightFuncs[1]);
-
-        DatabaseService.deleteAll();
-        uploadAndReload("eval/hospital_billing.xes");
-
-        System.out.println("HOSPITAL BILLING");
-        performRetrieval(1, 2, "ListDTWExt", "CollectionIsolatedMappingExt", localWeightFuncs[2]);
-        performRetrieval(2, 2, "CollectionMappingExt", "CollectionIsolatedMappingExt", localWeightFuncs[2]);
-
-        long finish = System.nanoTime();
-        long timeElapsed = finish - start;
-
-        double totalSeconds = timeElapsed / 1E9;
-        int seconds = (int) (totalSeconds % 60);
-        int minutes = (int) ((totalSeconds - seconds) / 60);
-
-
-        System.out.printf("%n--------------------------------------------------------------------------------%n Total Time elapsed: %d:%d [min:sec]%n--------------------------------------------------------------------------------%n", minutes, seconds);
-
-    }
-
-
-    public void uploadAndReload(String path) throws Exception {
-        String log = getResourceAsString(path);
-        mvc.perform(post("/log").content(log))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        mvc.perform(get("/procake/reload"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void performRetrieval() throws Exception {
-        long start = System.nanoTime();
-
-        uploadAndReload(null);
-
-        int c = 1;
-        int max = listSimilarityMeasures.length * listSimilarityMeasures.length * localWeightFuncs.length;
-
-
-        if (false) {
-
-            for (String globalSimilarityMeasure : listSimilarityMeasures) {
-                for (String eventSimilarityMeasure : listSimilarityMeasures) {
-                    for (String localWeightFunc : localWeightFuncs) {
-                        performRetrieval(c++, max, globalSimilarityMeasure, eventSimilarityMeasure, localWeightFunc);
-                    }
-                }
-            }
-        }
-
-        performRetrieval(11, 22, "ListDTWExt", "CollectionIsolatedMappingExt", localWeightFuncs[1]);
-        performRetrieval(21, 22, "CollectionMappingExt", "CollectionIsolatedMappingExt", localWeightFuncs[1]);
-
-
-        long finish = System.nanoTime();
-        long timeElapsed = finish - start;
-
-        double totalSeconds = timeElapsed / 1E9;
-        int seconds = (int) (totalSeconds % 60);
-        int minutes = (int) ((totalSeconds - seconds) / 60);
-
-
-        System.out.printf("%n--------------------------------------------------------------------------------%n Total Time elapsed: %d:%d [min:sec]%n--------------------------------------------------------------------------------%n", minutes, seconds);
-
-    }
-
-
-    public void performRetrieval(int iteration, int maxIterations, String globalSimilarityMeasure, String eventSimilarityMeasure, String localWeightFunc) throws Exception {
-
-        System.out.printf("%n--------------------------------------------------------------------------------%nIteration %d of %d%nTrace Sim: %s%nEvent Sim: %s%nWeightFunc: %s%n", iteration, maxIterations, globalSimilarityMeasure, eventSimilarityMeasure, localWeightFunc == null ? "null" : "complex");
-
-
-        long start = System.nanoTime();
-
-
-        // get all logs
-
-        String result = mvc.perform(get("/log")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-
-        ArrayList<Map<String, Object>> logs = new ObjectMapper().readValue(result, ArrayList.class);
-
-
-        // get first traceID in first log
-
-        String traceID = (String) ((ArrayList<LinkedHashMap>) logs.get(0).get("traces")).get(0).get("traceID");
-        System.out.println(traceID);
-
-
-        // define retrieval parameters
-
-        String xes;
-        MethodList globalMethodInvokers;
-        String localSimilarityMeasureFunc;
-        String localMethodInvokersFunc;
-        FilterParameters filterParameters;
-        int numberOfResults;
-
-        xes = "";
-        globalMethodInvokers = new MethodList(new ArrayList<>());
-        localSimilarityMeasureFunc = """
-                <?xml version="1.0" encoding="UTF-8"?>
-                <!DOCTYPE similarity-measure-function SYSTEM "https://karim-amri.de/dtd/similaritymeasure-function.dtd">
-                <similarity-measure-function>
-                    <if>
-                        <function name="qEventContainsAttribute"/>
-                        <string value=""" + "\"" + eventSimilarityMeasure + "\"" + """
-                />
-                    </if>
-                    <if>
-                        <function name="qcAttributesHaveSameKeyAndType" arg2="String"/>
-                        <string value="StringLevenshteinExt"/>
-                    </if>
-                    <if>
-                        <or>
-                            <function name="qcAttributesHaveSameKeyAndType" arg2="Float"/>
-                            <function name="qcAttributesHaveSameKeyAndType" arg2="Integer"/>
-                        </or>
-                        <string value="ChronologicalOrNumericComparison100"/>
-                    </if>
-                    <if>
-                        <function name="qcAttributesHaveSameKeyAndType" arg2="Boolean"/>
-                        <string value="BooleanEquivalence"/>
-                    </if>
-                    <if>
-                        <function name="qAttributeHasKeyTypeValue"/>
-                        <string value="ObjectEqual"/>
-                    </if>
-                </similarity-measure-function>
-                """;
-
-        localMethodInvokersFunc = null;
-        filterParameters = new FilterParameters();
-        numberOfResults = 11;
-
-        RetrievalParameters retrievalParameters = new RetrievalParameters(xes, globalSimilarityMeasure, globalMethodInvokers, localSimilarityMeasureFunc, localMethodInvokersFunc, localWeightFunc, filterParameters, numberOfResults);
-
-
-        // perform retrieval
-
-        result = mvc.perform(put("/retrieval/" + traceID).contentType(MediaType.APPLICATION_JSON).content((new ObjectMapper()).writer().withDefaultPrettyPrinter().writeValueAsString(retrievalParameters))).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-
-        long finish = System.nanoTime();
-        long timeElapsed = finish - start;
-
-        double totalSeconds = timeElapsed / 1E9;
-        int seconds = (int) (totalSeconds % 60);
-        int minutes = (int) ((totalSeconds - seconds) / 60);
-
-
-        System.out.printf("Time elapsed: %d:%d [min:sec]%n--------------------------------------------------------------------------------%n", minutes, seconds);
-
-        ArrayList<?> retrieval = new ObjectMapper().readValue(result, ArrayList.class);
-
-        for (int i = 0; i < retrieval.size(); i++) {
-            Map<?, ?> map = (Map<?, ?>) retrieval.get(i);
-            String caseID = (String) map.get(DatabaseService.DATABASE_NAMES.COLUMNNAME__trace__traceID);
-            Double simVal = (Double) map.get("similarity");
-            System.out.printf("%d) %s%nsimilarity: %f%n%n", i, caseID, simVal);
-        }
-    }*/
 }

@@ -1,6 +1,7 @@
 package de.uni_trier.wi2.service;
 
 
+import de.uni_trier.wi2.*;
 import de.uni_trier.wi2.conversion.sax.*;
 import de.uni_trier.wi2.eval.*;
 import de.uni_trier.wi2.extension.abstraction.*;
@@ -210,6 +211,8 @@ public class ProCAKEService {
 
                 casebase.storeAll((Collection) converter.convert(completeLog.toString()));
 
+                HeapSpace.measure();
+
             }
 
             return "Casebase loaded successfully!";
@@ -292,6 +295,7 @@ public class ProCAKEService {
             ));
         }
 
+        HeapSpace.measure();
 
         return results;
     }
@@ -308,6 +312,9 @@ public class ProCAKEService {
         converter.configure(false, false, null, null);
         NESTSequentialWorkflowObject workflow = converter.convert(xes).get(0);
         workflow.setId("CONVERTED_WORKFLOW");
+
+        HeapSpace.measure();
+
         return workflow;
     }
 

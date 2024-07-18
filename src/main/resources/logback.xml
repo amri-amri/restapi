@@ -1,6 +1,6 @@
 <configuration>
     <!-- Define the log file and its properties -->
-    <appender name="RESTAPI" class="ch.qos.logback.core.FileAppender">
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>target/logs/restapi.log</file>
         <append>false</append>
         <encoder>
@@ -14,10 +14,8 @@
     </appender>
 
     <!-- Root logger -->
-    <root level="info">
+    <root level="INFO">
         <appender-ref ref="FILE"/>
-    </root>
-    <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
