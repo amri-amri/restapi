@@ -299,7 +299,7 @@ public class Evaluation {
         String header = splitLog[splitLog.length - 1];
         trace = splitLog[0]; // first trace
 
-        int[] sizes = new int[]{(int) 10E5, (int) 9E5, (int) 8E5, (int) 7E5, (int) 6E5, (int) 5E5, (int) 4E5, (int) 3E5, (int) 2.5E5, (int) 2E5, (int) 1.5E5, (int) 1E5, (int) 5E4, (int) 3E4, (int) 2.5E4, (int) 2E4, (int) 1.5E4, (int) 1E4,};
+        int[] sizes = new int[]{(int) 10E4, (int) 9E4, (int) 8E4, (int) 7E4, (int) 6E4, (int) 5E4, (int) 4E4, (int) 3E4, (int) 2.5E4, (int) 2E4, (int) 1.5E4, (int) 1E4, (int) 5E3, (int) 3E3, (int) 2.5E3, (int) 2E3, (int) 1.5E3, (int) 1E3,};
 
         for (int size : sizes) {
             // Downsizing of Hospital Billing
