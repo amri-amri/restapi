@@ -211,7 +211,7 @@ public class ProCAKEService {
 
                 casebase.storeAll((Collection) converter.convert(completeLog.toString()));
 
-                HeapSpace.measure();
+                //HeapSpace.measure();
 
             }
 
@@ -226,7 +226,7 @@ public class ProCAKEService {
      * Performs retrieval.
      *
      * @param numberOfWorkers         number of threads for parallel retrieval
-     * @param xes                     XES log containing (at least) one trace
+     * @param xes                     XES trace or log containing (at least) one trace
      * @param globalSimilarityMeasure similarity measure used on the global level
      * @param globalMethodInvokerList list of methods to be invoked on the global similarity measure
      * @param similarityMeasureFunc   XML representation of {@link SimilarityMeasureFunc}
@@ -295,7 +295,7 @@ public class ProCAKEService {
             ));
         }
 
-        HeapSpace.measure();
+        //HeapSpace.measure();
 
         return results;
     }
@@ -303,17 +303,18 @@ public class ProCAKEService {
     /**
      * Converts a trace to a {@link NESTSequentialWorkflowObject}.
      *
-     * @param xes XES log containing (at least) one trace
+     * @param xes XES trace or log containing (at least) one trace
      * @return trace in form of a NESTSequentialWorkflowObject
      * @throws java.lang.IndexOutOfBoundsException if there are no traces present
      */
     private static NESTSequentialWorkflowObject convertQuery(String xes) throws java.lang.IndexOutOfBoundsException {
+        if (!xes.contains("<log")) return convertQuery("<log>"+xes+"</log>");
         XEStoNESTsAXConverter converter = new XEStoNESTsAXConverter(model);
         converter.configure(false, false, null, null);
         NESTSequentialWorkflowObject workflow = converter.convert(xes).get(0);
         workflow.setId("CONVERTED_WORKFLOW");
 
-        HeapSpace.measure();
+        //HeapSpace.measure();
 
         return workflow;
     }
