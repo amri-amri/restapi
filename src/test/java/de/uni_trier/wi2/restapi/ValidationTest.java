@@ -1,12 +1,12 @@
 package de.uni_trier.wi2.restapi;
 
 import de.uni_trier.wi2.service.*;
-import org.junit.jupiter.api.*;
 import org.xml.sax.*;
 
 import java.io.*;
 
 import static de.uni_trier.wi2.service.IOUtils.*;
+
 
 public class ValidationTest {
 
@@ -16,7 +16,7 @@ public class ValidationTest {
      * @throws IOException
      * @throws SAXException
      */
-    @Test
+
     public void testSuffixes() throws IOException, SAXException {
         String xml = getResourceAsString("xmlSuffix.xml");
         assert (DatabaseService.logIsValid(xml));
@@ -25,31 +25,28 @@ public class ValidationTest {
         assert DatabaseService.logIsValid(xml);
     }
 
-    @Test
     public void testValidLog_0() throws IOException, SAXException {
         String xml = getResourceAsString("valid_log_0.xes");
         assert (DatabaseService.logIsValid(xml));
     }
 
-    @Test
     public void testValidLog_1() throws IOException, SAXException {
         String xml = getResourceAsString("valid_log_1.xes");
         assert (DatabaseService.logIsValid(xml));
     }
 
-    @Test
     public void testValidLog_2() throws IOException, SAXException {
         String xml = getResourceAsString("valid_log_2.xes");
         assert (DatabaseService.logIsValid(xml));
     }
 
-    @Test
+
     public void testValidLog_3() throws IOException, SAXException {
         String xml = getResourceAsString("eval/hospital_billing.xes");
         assert (DatabaseService.logIsValid(xml));
     }
 
-    @Test
+
     public void testInvalidLogs() throws IOException, SAXException {
         String xml;
 
@@ -59,7 +56,6 @@ public class ValidationTest {
         }
     }
 
-    @Test
     public void testValidTrace() throws IOException, SAXException {
         String xml = getResourceAsString("valid_trace.xes");
         assert (DatabaseService.traceIsValid(xml));

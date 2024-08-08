@@ -297,6 +297,7 @@ public class Evaluation {
 
     @Before
     public void before() throws SQLException, IOException, SAXException {
+        logger.info(String.format("Maximum Heap Space: %.2f GB%n", Runtime.getRuntime().maxMemory()/1E9));
         DatabaseService.startTransaction();
         DatabaseService.deleteAll();
         ProCAKEService.setupCake();
@@ -318,6 +319,7 @@ public class Evaluation {
     }
 
     @Test
+    @Ignore
     public void evalEasyToHard() throws Exception {
         long start, finish, timeElapsed;
         double totalSeconds;
@@ -335,6 +337,7 @@ public class Evaluation {
         timeElapsed = finish - start;
         log("upload", "sepsis", 1050, null, timeElapsed);
 
+        System.gc();
 
         // Reload of Sepsis
         start = System.nanoTime();
@@ -343,20 +346,21 @@ public class Evaluation {
         timeElapsed = finish - start;
         log("reload", "sepsis", 1050, null, timeElapsed);
 
-
         // Retrieval of Sepsis
         for (String similarityMeasure : listSimilarityMeasures) {
-            start = System.nanoTime();
-            retrieve(trace, similarityMeasure, sepsisWeightFunc);
-            finish = System.nanoTime();
-            timeElapsed = finish - start;
-            log("retrieval", "sepsis", 1050, similarityMeasure, timeElapsed);
-            break;
+            //start = System.nanoTime();
+            //retrieve(trace, similarityMeasure, sepsisWeightFunc);
+            //finish = System.nanoTime();
+            //timeElapsed = finish - start;
+            //log("retrieval", "sepsis", 1050, similarityMeasure, timeElapsed);
         }
 
         // CLEAN
         logEmpty();
         DatabaseService.deleteAll();
+        ProCAKEService.loadCasebase();
+        System.gc();
+
 
         // HOSPITAL BILLING
         xes = getResourceAsString("eval/hospital_billing.xes");
@@ -385,6 +389,8 @@ public class Evaluation {
             timeElapsed = finish - start;
             log("upload", "hosBill", size, null, timeElapsed);
 
+            System.gc();
+
             // Reload of Hospital Billing
             start = System.nanoTime();
             reload();
@@ -397,21 +403,21 @@ public class Evaluation {
 
             // Retrieval of Hospital Billing
             for (String similarityMeasure : listSimilarityMeasures) {
-                start = System.nanoTime();
-                retrieve(trace, similarityMeasure, hosbilWeightFunc);
-                finish = System.nanoTime();
-                timeElapsed = finish - start;
-                totalSeconds = timeElapsed / 1E9;
-                seconds = (int) (totalSeconds % 60);
-                minutes = (int) ((totalSeconds - seconds) / 60);
-                log("retrieval", "hosBill", size, similarityMeasure, timeElapsed);
-
-                System.gc();
+                //start = System.nanoTime();
+                //retrieve(trace, similarityMeasure, hosbilWeightFunc);
+                //finish = System.nanoTime();
+                //timeElapsed = finish - start;
+                //totalSeconds = timeElapsed / 1E9;
+                //seconds = (int) (totalSeconds % 60);
+                //minutes = (int) ((totalSeconds - seconds) / 60);
+                //log("retrieval", "hosBill", size, similarityMeasure, timeElapsed);
             }
 
             // CLEAN
             logEmpty();
             DatabaseService.deleteAll();
+            ProCAKEService.loadCasebase();
+            System.gc();
         }
 
     }

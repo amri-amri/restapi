@@ -7,6 +7,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.*;
 
+import java.io.*;
 import java.sql.*;
 import java.time.*;
 import java.util.*;
@@ -25,6 +26,9 @@ public class DatabaseController {
     @GetMapping("/log")
     @ResponseBody
     public List<Map<String, Object>> getLog() throws SQLException {
+        try {
+            while (DatabaseService.connection == null) Thread.sleep(100); //todo delete after eval
+        } catch (Exception ignored) {}
 
 
         List<Map<String, Object>> logs = new ArrayList<>();
@@ -120,7 +124,7 @@ public class DatabaseController {
 
     @PostMapping("/log")
     @ResponseBody
-    public Map<String, Object> postLog(@RequestBody @NotNull String xes) throws SQLException {
+    public Map<String, Object> postLog(@RequestBody @NotNull String xes) throws SQLException, IOException {
 
         DatabaseService.startTransaction();
         DatabaseService.savepoint("putLog");
@@ -148,8 +152,20 @@ public class DatabaseController {
             return logInfo;
 
         } catch (Exception e) {
+            //File file = new File("target/logs/eval.log");
+            //file.createNewFile();
+            //FileWriter fw = new FileWriter(file, true);
+            //fw.write(e.getMessage());
+            //fw.write("\n");
+            //fw.close();
             DatabaseService.rollbackTo("putLog");
             DatabaseService.commit();
+
+            //File f = new File("abcdefg12345.txt");
+            //f.createNewFile();
+            //PrintWriter pw = new PrintWriter(f);
+            //pw.write(e.getMessage());
+            //pw.close();
 
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

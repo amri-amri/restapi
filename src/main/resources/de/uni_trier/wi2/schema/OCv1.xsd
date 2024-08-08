@@ -64,7 +64,18 @@
     <xs:complexType name="AttributeBooleanType">
         <xs:complexContent>
             <xs:extension base="AttributeType">
-                <xs:attribute name="value" type="xs:boolean" use="required"/>
+                <xs:attribute name="value" use="required">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="true"/>
+                            <xs:enumeration value="True"/>
+                            <xs:enumeration value="1"/>
+                            <xs:enumeration value="false"/>
+                            <xs:enumeration value="False"/>
+                            <xs:enumeration value="0"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

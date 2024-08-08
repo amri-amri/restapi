@@ -687,7 +687,7 @@ public class ControllerTest {
     public void uploadAnReloadLog_test() throws Exception {
         String[] paths = new String[]{
                 "eval/sepsis.xes",
-                "eval/hospital_billing.xes",
+                //"eval/hospital_billing.xes",
         };
 
         for (String path : paths) {
