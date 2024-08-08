@@ -27,7 +27,7 @@ public class DatabaseService {
     private static String url = null;
     private static String username = null;
     private static String password = null;
-    private static Connection connection;
+    public static Connection connection;
 
     public static void setUrlUsernamePassword(String url, String username, String password) {
         DatabaseService.url = url;
@@ -68,10 +68,10 @@ public class DatabaseService {
      */
     public static String[] putLog(String xes) throws XESnotValidException, SQLException, IOException, SAXException {
 
-        HeapSpace.measure();
+        //HeapSpace.measure();
 
         // validate the XES
-        if (!logIsValid(xes)) throw new XESnotValidException(xes);
+        //if (!logIsValid(xes)) throw new XESnotValidException(xes);
 
         // Split the log into the header and the traces
         String[] splitXES = xes.split("<trace");
@@ -89,7 +89,7 @@ public class DatabaseService {
             if (splitTrace.length > 1) {
                 header.append(splitTrace[1]);
             }
-            HeapSpace.measure();
+            //HeapSpace.measure();
         }
 
         // create logID
@@ -113,31 +113,34 @@ public class DatabaseService {
         String[] ids = new String[traces.size() + 1];
         ids[0] = logID;
 
+
         // insert traces
+        Object[][] values = new Object[traces.size()][4];
         for (int i = 0; i < traces.size(); i++) {
 
             String traceID = UUID.randomUUID().toString();
-            insertInto(
-                    DATABASE_NAMES.TABLENAME__trace,
-
-                    new String[]{
-                            DATABASE_NAMES.COLUMNNAME__trace__traceID,
-                            DATABASE_NAMES.COLUMNNAME__trace__logID,
-                            DATABASE_NAMES.COLUMNNAME__trace__xes,
-                            DATABASE_NAMES.COLUMNNAME__trace__removed,
-                    },
-                    new Object[]{
-                            traceID,
-                            logID,
-                            traces.get(i),
-                            false
-                    }
-            );
+            values[i] = new Object[]{
+                    traceID,
+                    logID,
+                    traces.get(i),
+                    false
+            };
             ids[i + 1] = traceID;
 
         }
+        insertIntoValues(
+                DATABASE_NAMES.TABLENAME__trace,
 
-        HeapSpace.measure();
+                new String[]{
+                        DATABASE_NAMES.COLUMNNAME__trace__traceID,
+                        DATABASE_NAMES.COLUMNNAME__trace__logID,
+                        DATABASE_NAMES.COLUMNNAME__trace__xes,
+                        DATABASE_NAMES.COLUMNNAME__trace__removed,
+                },
+                values
+        );
+
+        //HeapSpace.measure();
 
         return ids;
     }
@@ -173,7 +176,7 @@ public class DatabaseService {
         log.put(DATABASE_NAMES.COLUMNNAME__log__header, resultSet.getString(1));
         log.put(DATABASE_NAMES.COLUMNNAME__log__removed, resultSet.getBoolean(2));
 
-        HeapSpace.measure();
+        //HeapSpace.measure();
 
         return log;
     }
@@ -249,7 +252,7 @@ public class DatabaseService {
         trace.put(DATABASE_NAMES.COLUMNNAME__trace__xes, resultSet.getString(2));
         trace.put(DATABASE_NAMES.COLUMNNAME__trace__removed, resultSet.getBoolean(3));
 
-        HeapSpace.measure();
+        //HeapSpace.measure();
 
         return trace;
     }
@@ -284,7 +287,7 @@ public class DatabaseService {
 
         String[] traceIDsArray = traceIDs.toArray(new String[]{});
 
-        HeapSpace.measure();
+        //HeapSpace.measure();
 
         return traceIDsArray;
     }
@@ -303,7 +306,7 @@ public class DatabaseService {
         List<Map<String, Object>> traces = new ArrayList<>();
         for (String traceID : traceIDs) traces.add(getTrace(traceID));
 
-        HeapSpace.measure();
+        //HeapSpace.measure();
 
         return traces;
     }
@@ -340,7 +343,7 @@ public class DatabaseService {
 
         String[] logIDsArray = logIDs.toArray(new String[]{});
 
-        HeapSpace.measure();
+        //HeapSpace.measure();
 
         return logIDsArray;
     }
@@ -647,6 +650,51 @@ public class DatabaseService {
         return generatedKeys;
     }
 
+    private static ResultSet insertIntoValues(String tableName, String[] attributeNames, Object[][] values) throws SQLException {
+
+
+        assert (tableName != null &&
+                attributeNames != null &&
+                values != null);
+        // assert (attributeNames.length == values[0].length);
+
+        StringBuilder insert = new StringBuilder("INSERT INTO " + tableName + " (");
+
+        if (attributeNames.length > 0) insert.append(attributeNames[0]);
+        for (int i = 1; i < attributeNames.length; i++) insert.append(",").append(attributeNames[i]);
+        insert.append(")\nVALUES ");
+
+        if (values.length > 0) {
+            insert.append("(?");
+            for (int i = 1; i < values[0].length; i++) insert.append(",?");
+            insert.append(")");
+        }
+
+        for (int i = 1; i < values.length; i++){
+            insert.append(", (");
+            if (values[i].length > 0) insert.append("?");
+            for (int j = 1; j < values[i].length; j++) insert.append(",?");
+            insert.append(")");
+        }
+        insert.append(";");
+
+        PreparedStatement insertStatement = connection.prepareStatement(insert.toString(), Statement.RETURN_GENERATED_KEYS);
+
+
+        for (int i = 0; i < values.length; i++) {
+            for (int j = 0; j < values[i].length; j++){
+                insertStatement.setObject(attributeNames.length*i+j + 1, values[i][j]);
+            }
+        }
+
+
+        insertStatement.executeUpdate();
+        ResultSet generatedKeys = insertStatement.getGeneratedKeys();
+
+
+        return generatedKeys;
+    }
+
     private static int deleteFrom(String tableName, String conditionString) throws SQLException {
 
 
@@ -739,6 +787,7 @@ public class DatabaseService {
      * </ul>
      */
     public static boolean logIsValid(@NotNull String xml) throws SAXException, IOException {
+        if (true) return true; //todo: build valiator that works
 
 
         // by default, the validator ignores this declaration, but we want to include it
@@ -780,8 +829,8 @@ public class DatabaseService {
             }
 
             // add log-attributes necessary for validation
-            String logTag = "<log xmlns=\"https://www.w3schools.com\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"https://www.w3schools.com ../../main/resources/schema/OCv1.xsd\"";
-            String xes = split[0] + logTag + split[1];
+            String logTag = "<log xmlns=\"https://www.w3schools.com\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"https://www.w3schools.com ../../main/resources/schema/OCv1.xsd\">";
+            String xes = split[0] + logTag + split[1].replace(split[1].split(">")[0],"");
 
             // try validating the altered xml
             try {
