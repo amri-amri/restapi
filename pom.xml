@@ -84,7 +84,7 @@
             <version>8.0.33</version>
         </dependency>
 
-        <dependency>
+        <!--dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
@@ -99,7 +99,7 @@
                     <artifactId>hamcrest-core</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency-->
 
         <!-- LOGGING -->
         <dependency>

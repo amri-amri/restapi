@@ -26,31 +26,6 @@ to access the database.
 Additionally, you can add the argument `--server.port=xxxx` where
 `xxxx` is the port ID you want to use.
 
-In order to run the tests in your IDE, an additional database
-should be created on your MySQL Server. Use the same
-SQL commands you used to create the main one. Also,
-the URL, username, and password have to be provided in the file
-`src/test/resources/de/uni_trier/wi2/databaseTestInfo.txt`.
-##Write the URL in the first, the username in the second and
-the password in the third line! **Do not use whitespace in these
-lines!**## Everything beyond those first three lines will be ignored.
-Additionally, you have to provide that information in
-`RESTAPITest.java` and `ControllerTest.java` in the
-`SpringBootTest` annotation.
-
-Example:
-[source,java]
-----
-@SpringBootTest(
-    classes = RESTAPI.class,
-    args = {
-        "jdbc:mysql://localhost:3306/onkocase_test",
-        "root",
-        "pw1234"
-    }
-)
-----
-
 == Database Controller
 This controller can be used to interact with the MySQL database.
 It provides GET, POST & DELETE endpoints.
